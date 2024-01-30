@@ -44,6 +44,7 @@ class AppState extends Singleton{
 
   public cfgStore: null | ElectronStore = null;
   public mainWindow: null | BrowserWindow = null;
+  public framelessWindow : null | BrowserWindow = null;
   public tray: null | Tray = null;
   public willExitApp: boolean = false;
 

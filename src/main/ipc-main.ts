@@ -3,6 +3,7 @@ import { appState } from "./app-state";
 import * as fd from "./util/file-download";
 import * as fdTypes from "../shared/file-download-types";
 import { GetErrorMessage } from "../shared/error-utils";
+import { CreateFramelessWindow } from "./frameless-window";
 
 function RegisterIPCHandler(){
   ipcMain.on("message", (event, message) => {
@@ -10,21 +11,10 @@ function RegisterIPCHandler(){
   });
 
   ipcMain.on("show-frameless-sample-window", () => {
-    const win = new BrowserWindow({
-      width: 800,
-      height: 600,
-      webPreferences: {
-        // preload: path.join(__dirname, "preload.js"),
-        nodeIntegration: false,
-        contextIsolation: true,
-      },
-    });
-  
-    if(process.env.NODE_ENV === "development"){
-      const rendererPort = process.argv[2];
-      win.loadURL(`http://localhost:${rendererPort}/frameless-window`);
+    if(appState.framelessWindow){
+      appState.framelessWindow.show();
     }else{
-      // win.loadFile(path.join(app.getAppPath(), "build/renderer/index.html"));
+      appState.framelessWindow = CreateFramelessWindow();
     }
   });
   

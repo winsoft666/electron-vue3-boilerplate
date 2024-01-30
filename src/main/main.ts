@@ -15,7 +15,7 @@ if(!gotLock && appState.onlyAllowSingleInstance){
       return;
     }
 
-    log.info("App init OK");
+    log.info("App initialize ok");
     appState.mainWindow = CreateMainWindow();
     appState.tray = CreateAppTray();
 
