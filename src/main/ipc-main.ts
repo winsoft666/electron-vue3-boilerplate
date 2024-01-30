@@ -11,7 +11,7 @@ function RegisterIPCHandler(){
   });
 
   ipcMain.on("show-frameless-sample-window", () => {
-    if(appState.framelessWindow){
+    if(appState.framelessWindow && !appState.framelessWindow.isDestroyed()){
       appState.framelessWindow.show();
     }else{
       appState.framelessWindow = CreateFramelessWindow();
@@ -52,6 +52,27 @@ function RegisterIPCHandler(){
     if(uuid){
       fd.Cancel(uuid);
     }
+  });
+
+  ipcMain.on("open-dev-tools", () => {
+    appState.framelessWindow?.webContents.openDevTools();
+  });
+
+  ipcMain.on("minimize-window", () => {
+    appState.framelessWindow?.minimize();
+  });
+
+  ipcMain.on("restore-window", () => {
+    if(appState.framelessWindow){
+      if(appState.framelessWindow.isMaximized())
+        appState.framelessWindow.restore();
+      else
+        appState.framelessWindow.maximize();
+    }
+  });
+
+  ipcMain.on("close-window", () => {
+    appState.framelessWindow?.close();
   });
 }
 
