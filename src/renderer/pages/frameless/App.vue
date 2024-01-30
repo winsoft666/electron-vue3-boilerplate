@@ -13,7 +13,7 @@
       </div>
     </div>
   </div>
-  <div class="content">
+  <div class="contents">
     <a-button @click="onOpenDevTools">
       Open DevTools
     </a-button>
