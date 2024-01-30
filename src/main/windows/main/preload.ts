@@ -1,5 +1,5 @@
 import { contextBridge, ipcRenderer } from "electron";
-import { Options } from "../shared/file-download-types";
+import { Options } from "../../../shared/file-download-types";
 
 contextBridge.exposeInMainWorld("electronAPI", {
   sendMessage: (message: string) => ipcRenderer.send("message", message),

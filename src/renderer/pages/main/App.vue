@@ -77,7 +77,7 @@ import { ref, reactive } from "vue";
 import log from "electron-log/renderer";
 import HelloWorld from "./components/hello-world.vue";
 import { message } from "ant-design-vue";
-import * as fd from "../shared/file-download-types";
+import * as fd from "../../../shared/file-download-types";
 
 const showExitAppMsgbox = ref<boolean>(false);
 const isExitingApp = ref<boolean>(false);

@@ -2,21 +2,29 @@ import path from "path";
 import { BrowserWindow, Tray, app, dialog } from "electron";
 import log from "electron-log/main";
 import ElectronStore from "electron-store";
-import { Singleton } from "./util/singleton";
+import { Singleton } from "./utils/singleton";
 import { RegisterIPCHandler } from "./ipc-main";
 
 class AppState extends Singleton{
   public initialize(): boolean{
     if(process.env.NODE_ENV === "development"){
+      const packageJSON = require(path.join(app.getAppPath(), "../../package.json"));
+      this.appVersion = packageJSON.version;
+
       // In development mode, appPath is ./build/main
       this._mainStaticPath = path.join(app.getAppPath(), "static");
     }else{
+      const packageJSON = require(path.join(app.getAppPath(), "package.json"));
+      this.appVersion = packageJSON.version;
+
       this._mainStaticPath = path.join(app.getAppPath(), "build/main/static");
     }
 
     if(!this.initLogger()){
       return false;
     }
+
+    log.info(`Version: ${this.appVersion}`);
 
     if(!this.initConfigFile()){
       log.warn("Init config file failed");
@@ -42,6 +50,7 @@ class AppState extends Singleton{
     return this._mainStaticPath;
   }
 
+  public appVersion: string = "";
   public cfgStore: null | ElectronStore = null;
   public mainWindow: null | BrowserWindow = null;
   public framelessWindow : null | BrowserWindow = null;
@@ -86,17 +95,16 @@ class AppState extends Singleton{
         if(processType === "renderer")
           return;
 
-        dialog
-          .showMessageBox({
-            title: "An error occurred",
-            message: error.message,
-            detail: error.stack,
-            type: "error",
-            buttons: [ "Ignore", "Report", "Exit" ],
-          })
+        dialog.showMessageBox({
+          title: "An error occurred",
+          message: error.message,
+          detail: error.stack,
+          type: "error",
+          buttons: [ "Ignore", "Report", "Exit" ],
+        })
           .then((result) => {
             if(result.response === 1){
-              createIssue("https://github.com/my-acc/my-app/issues/new", {
+              createIssue("https://github.com/winsoft666/electron-vue3-template/issues/new", {
                 title: `Error report for ${versions.app}`,
                 body: `Error:\n\`\`\`${error.stack}\n\`\`\`\n` + `OS: ${versions.os}`,
               });

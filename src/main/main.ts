@@ -1,6 +1,6 @@
 import { BrowserWindow, app, dialog, session } from "electron";
 import log from "electron-log/main";
-import { CreateMainWindow } from "./main-window";
+import { CreateMainWindow } from "./windows/main";
 import { CreateAppTray } from "./tray";
 import { appState } from "./app-state";
 

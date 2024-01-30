@@ -4,7 +4,6 @@ const path = require("node:path")
 
 module.exports = {
   packagerConfig: {
-    appVersion: "1.0.0.0",
     name: "Electron-Vue3-Template",
     appCopyright: "Copyright (C) 2024",
     icon: "./setup/exe.ico",

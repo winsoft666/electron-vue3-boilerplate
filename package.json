@@ -12,6 +12,7 @@
     "dev": "node scripts/dev-server.js",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
+    "new:page": "node scripts/create-page.js",
     "build": "node scripts/build.js && electron-forge make",
     "build:win32": "node scripts/build.js && electron-forge make --platform=win32 --arch=ia32",
     "build:win64": "node scripts/build.js && electron-forge make --platform=win32 --arch=x64",

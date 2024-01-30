@@ -1,6 +1,6 @@
 import path from "node:path";
 import { BrowserWindow, app } from "electron";
-import { appState } from "./app-state";
+import { appState } from "../../app-state";
 
 function CreateMainWindow() : BrowserWindow{
   const mainWindow = new BrowserWindow({
@@ -31,9 +31,9 @@ function CreateMainWindow() : BrowserWindow{
 
   if(process.env.NODE_ENV === "development"){
     const rendererPort = process.argv[2];
-    mainWindow.loadURL(`http://localhost:${rendererPort}`);
+    mainWindow.loadURL(`http://localhost:${rendererPort}/pages/main/index.html`);
   }else{
-    mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/index.html"));
+    mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/main/index.html"));
   }
 
   return mainWindow;

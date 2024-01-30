@@ -1,9 +1,9 @@
 import { app, BrowserWindow, ipcMain } from "electron";
 import { appState } from "./app-state";
-import * as fd from "./util/file-download";
+import * as fd from "./utils/file-download";
 import * as fdTypes from "../shared/file-download-types";
 import { GetErrorMessage } from "../shared/error-utils";
-import { CreateFramelessWindow } from "./frameless-window";
+import { CreateFramelessWindow } from "./windows/frameless";
 
 function RegisterIPCHandler(){
   ipcMain.on("message", (event, message) => {
