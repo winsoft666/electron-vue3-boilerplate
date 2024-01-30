@@ -1,0 +1,10 @@
+.vscode
+node_modules
+.vscode
+out
+build
+dist
+babel.config.js
+**/jquery-*.min.js
+.eslintrc.js
+**/typings

@@ -1,0 +1,52 @@
+{
+  "name": "electron-vue3-template",
+  "version": "1.0.0",
+  "description": "A Electron + Vue3 template.",
+  "author": {
+    "name": "winsoft666",
+    "url": "https://github.com/winsoft666"
+  },
+  "repository": "https://github.com/winsoft666/electron-vue3-template",
+  "main": "build/main/main.js",
+  "scripts": {
+    "dev": "node scripts/dev-server.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "build": "node scripts/build.js && electron-forge make",
+    "build:win32": "node scripts/build.js && electron-forge make --platform=win32 --arch=ia32",
+    "build:win64": "node scripts/build.js && electron-forge make --platform=win32 --arch=x64",
+    "build:mac": "node scripts/build.js && electron-forge make --platform=darwin",
+    "build:linux": "node scripts/build.js && electron-forge make --platform=linux"
+  },
+  "dependencies": {
+    "electron-log": "^5.1.0",
+    "electron-store": "^8.1.0",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-dmg": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@fortawesome/fontawesome-svg-core": "^6.5.1",
+    "@fortawesome/free-brands-svg-icons": "^6.5.1",
+    "@fortawesome/free-regular-svg-icons": "^6.5.1",
+    "@fortawesome/free-solid-svg-icons": "^6.5.1",
+    "@fortawesome/vue-fontawesome": "^3.0.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "@vitejs/plugin-vue": "^4.4.1",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "ant-design-vue": "^4.1.1",
+    "chalk": "^4.1.2",
+    "chokidar": "^3.5.3",
+    "electron": "^27.1.0",
+    "eslint": "^8.56.0",
+    "eslint-plugin-vue": "^9.20.1",
+    "typescript": "^5.3.3",
+    "unplugin-vue-components": "^0.26.0",
+    "vite": "^4.5.0",
+    "vue": "^3.4.15",
+    "vue-eslint-parser": "^9.4.2"
+  }
+}
