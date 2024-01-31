@@ -8,9 +8,10 @@
 
 模板包含如下功能和特性：
 - 支持Vue3多页面，提供页面创建指令
+- 支持Electron窗口创建指令，可隔离窗口事件
 - 主进程和渲染进程支持热加载
 - 集成AntDesign Vue、FontAwesome图标等常用组件
-- 日志文件（主进程和渲染进程均可使用）
+- 日志文件（主进程和渲染进程均可直接使用）
 - 配置文件
 - 文件下载（支持哈希校验、进度反馈）
 - 功能完善的无边框窗口
@@ -58,12 +59,15 @@ yarn run build:win32 # 构建Windows平台 32位应用
 yarn run build:win64 # 构建Windows平台 64位应用
 yarn run build:mac # 构建macOS平台应用
 yarn run build:linux # 构建Linux平台应用
+
+yarn run new:page  # 创建新的Vue页面
+yarn run new:window # 创建新的Electron窗口
 ```
 
 更多的可选配置项可以参考 [Electron Forge CLI docs](https://www.electronforge.io/cli)。
 
-### 1.2.5 NSIS安装包
-需要手动下载和安装NSIS：
+### 1.2.5 NSIS安装包 🪟
+需要先手动下载和安装NSIS：
 [https://nsis.sourceforge.io/Download](https://nsis.sourceforge.io/Download)
 
 使用如下命令构建Windows平台 32位应用（如需构建64位应用，则需要手动修改`win-setup-x86.nsi`脚本）：
@@ -77,8 +81,10 @@ yarn run build:win32
 
 最后，执行`Recompile`命令即可编译生成安装包。
 
+![NSIS Setup UI](./screenshot/nsis-setup-1.jpg)
+
 # 2. 项目介绍
-## 2.1 工程结构
+## 2.1 工程结构 🌳
 
 ```yaml
 - scripts/          # 该目录中的脚本用构建应用程序和驱动前端页面
@@ -89,7 +95,7 @@ yarn run build:win32
   - main/           # 主进程的代码 (Electron)
     - static/       # 静态资源
     - utils/        # 常用方法
-    - windows/     # 多窗口文件夹 (通常每个子目录表示一个窗口，但非强制约定)
+    - windows/     # 多窗口文件夹 (每个子目录表示一个窗口)
   - renderer/      # 渲染进程的代码 (VueJS)
     - public       # 静态资源
     - pages/       # 多页面目录 (强制约定：每个子目录代表一个页面)
@@ -125,9 +131,50 @@ appState.mainWindow?.show();
 
 ## 2.4 创建Vue页面
 
-执行如下命令，输入页面名称后将自动在`renderer/pages`目录创建子页面：
+执行如下命令，输入页面名称后将自动在`renderer/pages`目录创建子页面，每个子页面的相关代码位于单独的目录中，目录名为我们指定的页面名称（小写）。
+
 ```bash
 yarn run new:page
+```
+
+创建的子页面在代码中通过以下方式访问：
+```javascript
+// 开发环境
+const rendererPort = process.argv[2];
+mainWindow.loadURL(`http://localhost:${rendererPort}/pages/<PAGE-NAME>/index.html`);
+
+// 非开发环境
+mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/<PAGE-NAME>/index.html"));
+```
+
+## 2.5 创建Electron窗口
+虽然直接构造Electron的BrowerWindow对象就可以创建新的Electron窗口，但为了方便代码管理和ipcMain消息隔离，本模板中的每个窗口都继承自`WindowBase`对象，每个窗口的相关代码位于`src\main\windows\`的不同子目录中，目录名为我们指定的窗口名称（小写）。
+
+```bash
+yarn run new:window
+```
+
+创建的子窗口默认会访问同名的子页面，可以手动修改代码指定其他页面：
+```javascript
+if(process.env.NODE_ENV === "development"){
+  const rendererPort = process.argv[2];
+  mainWindow.loadURL(`http://localhost:${rendererPort}/pages/main/index.html`);
+}else{
+  mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/main/index.html"));
+}
+```
+
+在`registerIpcMainHandler`方法中注册该窗口的ipcMain事件及处理函数。
+
+当多个窗口注册了同名的事件时，渲染进程发送该名称的事件到主进程，所有窗口对象都会收到该事件，我们可以在事件处理函数中使用`isIpcMainEventBelongMe`方法过滤非本窗口的事件。
+
+```javascript
+ipcMain.on("message", (event, message) => {
+  if(!this.isIpcMainEventBelongMe(event))
+    return;
+
+  console.log(message);
+});
 ```
 
 # 3. 代码规范

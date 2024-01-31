@@ -1,9 +1,10 @@
 import path from "path";
-import { BrowserWindow, Tray, app, dialog } from "electron";
+import { Tray, app, dialog } from "electron";
+import MainWindow from "./windows/main";
+import FramelessWindow from "./windows/frameless";
 import log from "electron-log/main";
 import ElectronStore from "electron-store";
 import { Singleton } from "./utils/singleton";
-import { RegisterIPCHandler } from "./ipc-main";
 
 class AppState extends Singleton{
   public initialize(): boolean{
@@ -31,8 +32,6 @@ class AppState extends Singleton{
       return false;
     }
 
-    RegisterIPCHandler();
-
     this._isInit = true;
     return true;
   }
@@ -52,8 +51,8 @@ class AppState extends Singleton{
 
   public appVersion: string = "";
   public cfgStore: null | ElectronStore = null;
-  public mainWindow: null | BrowserWindow = null;
-  public framelessWindow : null | BrowserWindow = null;
+  public mainWindow: null | MainWindow = null;
+  public framelessWindow : null | FramelessWindow = null;
   public tray: null | Tray = null;
   public willExitApp: boolean = false;
 

@@ -7,7 +7,7 @@ function CreateAppTray() : Tray{
   const tray = new Tray(iconPath);
 
   tray.on("click", () => {
-    appState.mainWindow?.show();
+    appState.mainWindow?.browserWindow?.show();
   });
 
   const contextMenu = Menu.buildFromTemplate([
@@ -17,7 +17,7 @@ function CreateAppTray() : Tray{
       accelerator: "Alt+O",
       registerAccelerator: true,
       click: () => {
-        appState.mainWindow?.show();
+        appState.mainWindow?.browserWindow?.show();
       },
     },
     {
@@ -25,8 +25,8 @@ function CreateAppTray() : Tray{
       type: "normal",
       click: () => {
         if(appState.mainWindow){
-          appState.mainWindow.show();
-          appState.mainWindow.webContents.send("show-exit-app-msgbox");
+          appState.mainWindow.browserWindow?.show();
+          appState.mainWindow.browserWindow?.webContents.send("show-exit-app-msgbox");
         }
       },
     },
@@ -41,7 +41,7 @@ function CreateAppTray() : Tray{
         accelerator: "Alt+D",
         registerAccelerator: true,
         click: () => {
-          appState.mainWindow?.webContents.openDevTools();
+          appState.mainWindow?.browserWindow?.webContents.openDevTools();
         },
       }),
     );

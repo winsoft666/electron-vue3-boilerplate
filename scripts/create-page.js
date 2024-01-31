@@ -12,7 +12,7 @@ outputTips("Input page name:");
 
 process.stdin.on("data", async(chunk) => {
   // Input page name
-  pageName = String(chunk).trim().toString();
+  pageName = String(chunk).trim().toString().toLowerCase();
   if(!pageName){
     outputError("Name is empty!");
     return;
@@ -27,7 +27,7 @@ process.stdin.on("data", async(chunk) => {
   }
 
   fs.mkdirSync(targetPath);
-  const sourcePath = path.join(__dirname, "template-ts");
+  const sourcePath = path.join(__dirname, "template-ts/renderer-page");
   copyFile(sourcePath, targetPath);
   process.stdin.emit("end");
 });
