@@ -4,8 +4,9 @@ import MainWindow from "./windows/main";
 import FramelessWindow from "./windows/frameless";
 import log from "electron-log/main";
 import ElectronStore from "electron-store";
-import { Singleton } from "../lib/util/singleton";
+import { Singleton } from "../lib/utils/shared";
 import fd from "../lib/file-download/main";
+import utils from "../lib/utils/main";
 
 class AppState extends Singleton{
   public initialize(): boolean{
@@ -34,6 +35,7 @@ class AppState extends Singleton{
     }
 
     fd.initialize();
+    utils.initialize();
 
     this._isInit = true;
     return true;

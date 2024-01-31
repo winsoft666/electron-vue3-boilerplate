@@ -86,6 +86,7 @@ import HelloWorld from "./components/hello-world.vue";
 import { message } from "ant-design-vue";
 import fd from "../../../lib/file-download/renderer";
 import * as fdTypes from "../../../lib/file-download/shared";
+import utils from "../../../lib/utils/renderer";
 
 const activeKey = ref<number>(1);
 const showExitAppMsgbox = ref<boolean>(false);
@@ -122,7 +123,7 @@ function onShowFramelessWindow(){
 }
 
 function onOpenHomepage(){
-  window.electronAPI.openExternalLink("https://github.com/winsoft666/electron-vue3-template");
+  utils.openExternalLink("https://github.com/winsoft666/electron-vue3-template");
 }
 
 function onClearAppConfiguration(){

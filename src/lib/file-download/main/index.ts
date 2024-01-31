@@ -1,8 +1,8 @@
 import { app, session, BrowserWindow, ipcMain } from "electron";
 import fs from "fs";
 import path from "path";
-import { IsPathExist, GetFileMd5, GetFileSize, CreateDirectories } from "../../util/file-util";
-import { GetErrorMessage } from "../../util/error-utils";
+import { IsPathExist, GetFileMd5, GetFileSize, CreateDirectories } from "../../utils/file-util";
+import { GetErrorMessage } from "../../utils/shared";
 import * as fdTypes from "../shared";
 
 class FileDownload{
