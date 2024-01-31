@@ -1,5 +1,6 @@
 import { app, session, BrowserWindow, ipcMain, shell } from "electron";
 import path from "path";
+import * as FileUtils from "./file-util";
 
 class Utils{
   public initialize(){
@@ -21,7 +22,7 @@ class Utils{
 
 const utils = new Utils();
 
-ipcMain.on("__electron-utils-open-dev-tools", (event) => {
+ipcMain.on("__electron-utils-open-dev-tools", () => {
   const win = BrowserWindow.getFocusedWindow();
   win?.webContents.openDevTools();
 });
@@ -32,4 +33,15 @@ ipcMain.on("__electron-utils-open-external-url", (event, url) => {
   }
 });
 
+ipcMain.on("__electron-utils-check-path-exist", (event, path) => {
+  let exist = false;
+  if(path){
+    exist = FileUtils.IsPathExist(path);
+  }
+  event.returnValue = exist;
+});
+
 export default utils;
+export {
+  FileUtils
+};

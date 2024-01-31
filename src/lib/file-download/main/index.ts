@@ -1,7 +1,7 @@
 import { app, session, BrowserWindow, ipcMain } from "electron";
 import fs from "fs";
 import path from "path";
-import { IsPathExist, GetFileMd5, GetFileSize, CreateDirectories } from "../../utils/file-util";
+import { FileUtils } from "../../utils/main";
 import { GetErrorMessage } from "../../utils/shared";
 import * as fdTypes from "../shared";
 
@@ -33,7 +33,7 @@ class FileDownload{
   
     if(await this.checkWhetherHasDownloaded(options)){
       result.success = true;
-      result.fileSize = GetFileSize(options.savePath);
+      result.fileSize = FileUtils.GetFileSize(options.savePath);
       if(options.feedbackProgressToRenderer && browserWindow){
         browserWindow.webContents.send("file-download-progress-feedback", options.uuid, result.fileSize, result.fileSize);
       }
@@ -41,8 +41,8 @@ class FileDownload{
     }
   
     const dir = path.dirname(options.savePath);
-    if(dir && !IsPathExist(dir)){
-      if(!CreateDirectories(dir)){
+    if(dir && !FileUtils.IsPathExist(dir)){
+      if(!FileUtils.CreateDirectories(dir)){
         throw Error(`Unable to create directory ${dir}`);
       }
     }
@@ -74,7 +74,7 @@ class FileDownload{
   
     if(options.verifyMd5 && options.md5){
       try {
-        const actualMd5 = await GetFileMd5(options.savePath);
+        const actualMd5 = await FileUtils.GetFileMd5(options.savePath);
         if(actualMd5.toLowerCase() != options.md5.toLowerCase()){
           throw Error(`${actualMd5} is not equal to ${options.md5}`);
         }
@@ -84,7 +84,7 @@ class FileDownload{
     }
   
     result.success = true;
-    result.fileSize = GetFileSize(options.savePath);
+    result.fileSize = FileUtils.GetFileSize(options.savePath);
     return result;
   }
 
@@ -118,15 +118,15 @@ class FileDownload{
   
   protected async checkWhetherHasDownloaded(options: fdTypes.Options) : Promise<boolean>{
     if(options.skipWhenFileExist){
-      if(IsPathExist(options.savePath)){
+      if(FileUtils.IsPathExist(options.savePath)){
         return true;
       }
     }
           
     if(options.skipWhenMd5Same && options.md5){
-      if(IsPathExist(options.savePath)){
+      if(FileUtils.IsPathExist(options.savePath)){
         try {
-          const curMd5 = await GetFileMd5(options.savePath);
+          const curMd5 = await FileUtils.GetFileMd5(options.savePath);
           if(curMd5.toLowerCase() == options.md5.toLowerCase()){
             return true;
           }
