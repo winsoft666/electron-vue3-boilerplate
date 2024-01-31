@@ -60,8 +60,13 @@ interface Result{
   fileSize: number;
 }
 
+interface ProgressCallback {
+  (uuid: string, bytesDone: number, bytesTotal: number): void;
+}
+
 export {
   CancelError,
   Options,
-  Result
+  Result,
+  ProgressCallback,
 };

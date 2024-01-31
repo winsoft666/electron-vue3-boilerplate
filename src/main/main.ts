@@ -4,6 +4,9 @@ import MainWindow from "./windows/main";
 import { CreateAppTray } from "./tray";
 import { appState } from "./app-state";
 
+// Disable sandbox
+// app.commandLine.appendSwitch("no-sandbox");
+
 const gotLock = app.requestSingleInstanceLock();
 if(!gotLock && appState.onlyAllowSingleInstance){
   app.quit();
@@ -16,6 +19,7 @@ if(!gotLock && appState.onlyAllowSingleInstance){
     }
 
     log.info("App initialize ok");
+
     appState.mainWindow = new MainWindow();
     appState.tray = CreateAppTray();
 

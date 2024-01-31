@@ -7,9 +7,9 @@
 使用Electron官方推荐的[Electron Forge](https://www.electronforge.io/)进行客户端的构建和打包，该模板还支持使用NSIS进行打包 😎
 
 模板包含如下功能和特性：
-- 支持Vue3多页面，提供页面创建指令
-- 支持Electron窗口创建指令，可隔离窗口事件
-- 主进程和渲染进程支持热加载
+- 支持Vue3多页面，提供页面创建指令 💖
+- 支持Electron窗口创建指令，可隔离窗口事件 💖
+- 主进程和渲染进程支持热加载 ⚡
 - 集成AntDesign Vue、FontAwesome图标等常用组件
 - 日志文件（主进程和渲染进程均可直接使用）
 - 配置文件
@@ -92,15 +92,15 @@ yarn run build:win32
 - setup/            # 存储编译和构建相关文件
   - NSIS/           # NSIS安装包脚本
 - src/
+  - lib/            # 公共库，为了方便修改，未做成独立的包
+    - file-download/  # 文件下载库
   - main/           # 主进程的代码 (Electron)
     - static/       # 静态资源
-    - utils/        # 常用方法
     - windows/     # 多窗口文件夹 (每个子目录表示一个窗口)
   - renderer/      # 渲染进程的代码 (VueJS)
     - public       # 静态资源
     - pages/       # 多页面目录 (强制约定：每个子目录代表一个页面)
     - typings/     # ts声明文件
-  - shared/        # 可以同时在主进程和渲染进程使用的代码
 ```
 
 ## 2.2 使用静态文件
@@ -190,7 +190,7 @@ ipcMain.on("message", (event, message) => {
 
 [在线演示](https://prettier.io/playground/#N4Igxg9gdgLgprEAuc0DOMAEBXNcBOamAvJgNoA6UmmwOe+AkgCZKYCMANPQVAIYBbOGwogAggBsAZgEs4mAMJ98QiTJh9RmAL6cqNOrgIs2AJm5H8-ISJABxGf0wAlCGgAWfKFt37aPJlZMAGYLBmthTFEAZXdsAHNMADk+ACNsHz1qf0sTTAAWMN5BSNFnPncBL0wAMXw+Bky-QwY8gFYiqxLbABU3d3kAGQBPbFSEJuyW4yCANk6I22iCeJkIZJkJCCllSYBdAG4qEE4QCAAHGDWoNGRQZXwIAHcABWUEW5Q+CSe+YdvTql6mAANZwGDREqDRxwZA7CR4QHAsEQ858MCOeLIGD4bBwU5wATjZjMODMQZeeLYPjxOA1CAqPgwK5QLFfbAwCAnEDuGACCQAdXc6jgaDRYDgyxu6hkADd1MNkOA0ACQI4GDAXvV4lU4d9ESAAFZoAAe0UxEjgAEVsBB4HqEfiQGjCAQlak0nAJNzzvhHDABTJmDB3Mh8uZnY88AL6uclb7RQRZbDTgBHW3wLUXT4gBoAWigcDJZO5+Dg6ZkZa1NN1SHhBrwAhk2NxTrQFutGdhdf1To0qUDwdDSAjOL4m0xCggAlrIFFbW5Rh6aU+9adsrxjCgpNg0TAfsuYm30Rgw0tDrw2m0QA)
 
-# 4. dependencies和devDependencies的区别
+# 4. dependencies和devDependencies的区别 🎈
 由于Electron Forge会将`dependencies`中的所有依赖项都进行打包，因此为了减少安装包的体积，我们只将主进程需要使用的依赖安装到`dependencies`项下，而其他的依赖均安装到`devDependencies`。
 
 如将vue作为开发依赖进行安装：
@@ -202,7 +202,7 @@ yarn add -D vue
 # 5. 客户端版本号
 使用`package.json`文件的`version`字段标识客户端的版本号，在主进程内可以通过`appState.appVersion`属性获取。
 
-不需要设置`forge.config.js`文件的`appVersion`字段。
+💡 不需要设置`forge.config.js`文件的`appVersion`字段。
 
 # 6. 依赖包说明
 ## unplugin-vue-components

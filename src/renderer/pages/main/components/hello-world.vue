@@ -1,12 +1,11 @@
 <template>
-  <h1>{{ msg }}</h1>
+  <h1 class="msg">
+    {{ msg }}
+  </h1>
 
   <div class="card">
-    <p>Edit any code to test HMR</p>
+    <p>Edit any code to test HMR and read <code>README.md</code> to learn more.</p>
   </div>
-  <p class="read-the-docs">
-    Read <code>README.md</code> to learn more
-  </p>
 </template>
 
 <script setup lang="ts">
@@ -18,9 +17,14 @@ defineProps({
 </script>
 
 <style scoped>
-
-.read-the-docs {
+.msg {
+  margin: 10px;
+  text-align: center;
+}
+.card {
+  margin: 10px;
   font-size: 16px;
-  color: #df1212;
+  color: #303841;
+  text-align: center;
 }
 </style>

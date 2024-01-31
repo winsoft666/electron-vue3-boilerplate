@@ -1,6 +1,5 @@
 import crypto from "crypto";
 import fs from "fs";
-import fsPromises from "fs/promises";
 
 // Synchronous check file or directory exist.
 function IsPathExist(path: string) : boolean{

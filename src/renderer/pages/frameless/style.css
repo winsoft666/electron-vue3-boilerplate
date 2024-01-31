@@ -1,18 +1,15 @@
-a {
-  color: #646cff;
-  text-decoration: inherit;
-}
-
-a:hover {
-  color: #535bf2;
-}
-
-body {
-  margin: 0;
-}
-
+html,
+body,
 #app {
-  width:100%;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  color: #141547;
+  font-size: 14px;
+}
+
+* {
   padding: 0;
   margin: 0;
 }

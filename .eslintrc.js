@@ -89,6 +89,7 @@ module.exports = {
     "no-else-return": "error",
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-unused-vars": "warn",
+    "@typescript-eslint/no-explicit-any": "error",
     // vue单行语句中每行最多允许100个属性，多行属性中每行一个属性
     "vue/max-attributes-per-line": ["error", {
       "singleline": {
@@ -99,6 +100,6 @@ module.exports = {
       }
     }],
     // 一行中最多允许4个链式调用
-    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 4 }]
+    "newline-per-chained-call": ["error", { "ignoreChainWithDepth": 4 }],
   }
 }

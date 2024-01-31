@@ -4,7 +4,8 @@ import MainWindow from "./windows/main";
 import FramelessWindow from "./windows/frameless";
 import log from "electron-log/main";
 import ElectronStore from "electron-store";
-import { Singleton } from "./utils/singleton";
+import { Singleton } from "../lib/util/singleton";
+import fd from "../lib/file-download/main";
 
 class AppState extends Singleton{
   public initialize(): boolean{
@@ -31,6 +32,8 @@ class AppState extends Singleton{
       log.warn("Init config file failed");
       return false;
     }
+
+    fd.initialize();
 
     this._isInit = true;
     return true;
@@ -123,6 +126,7 @@ class AppState extends Singleton{
       name: "AppConfig",
       fileExtension: "json",
     });
+    ElectronStore.initRenderer();
     console.log(`Config file path: ${this.cfgStore.path}`);
     return true;
   }
