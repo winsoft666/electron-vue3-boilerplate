@@ -24,7 +24,7 @@
 - 支持NSIS安装包 😎
 - ......
 
-## 1.2 快速开始
+## 1.2 快速开始 🌈
 
 点击右上角绿色的 **Use this template** 按钮，使用该模板创建一个新的仓库并克隆到本地。
 
@@ -88,7 +88,7 @@ yarn run build:win32
 ## 2.1 工程结构 🌳
 
 ```yaml
-- scripts/          # 该目录中的脚本用构建应用程序和驱动前端页面
+- scripts/         # 该目录中的脚本用构建应用程序和驱动前端页面
 - screenshots      # 本文档中用到的截图
 - setup/            # 存储编译和构建相关文件
   - NSIS/                # NSIS安装包脚本
@@ -97,7 +97,7 @@ yarn run build:win32
   - uninstall.ico      # NSIS卸载程序图标
 - src/
   - lib/            # 公共库，为了方便修改，未做成独立的包
-    - file-download/  # 文件下载库
+    - file-download/    # 文件下载库
       - main                 # 仅供主进程使用
       - renderer            # 仅供渲染进程使用
       - shared               # 主进程和渲染进程都可以使用
@@ -128,7 +128,7 @@ yarn run build:win32
 // 假设 src/main/static/tray.ico 文件存在
 // 使用 appState.mainStaticPath 属性获取主进程的静态文件存储目录
 import path from "path";
-import { appState } from "./app-state";
+import appState from "./app-state";
 
 const iconPath = path.join(appState.mainStaticPath, "tray.ico");
 ```
@@ -138,7 +138,7 @@ const iconPath = path.join(appState.mainStaticPath, "tray.ico");
 
 使用方法如下：
 ```javascript
-import { appState } from "./app-state";
+import appState from "./app-state";
 
 appState.mainWindow?.show();
 ```
@@ -238,5 +238,7 @@ import utils from "../../../lib/utils/renderer";
 console.log(utils.getAppVersion());
 ```
 
-# 6. 期待你的反馈
+# 6. 期待你的反馈 🥳
 个人能力有限，代码不免有错误和不足之处，欢迎提交issue和PR。
+
+如果你觉得这个项目对你有帮助，无需捐款，点个右上角Star ⭐就可以了。
