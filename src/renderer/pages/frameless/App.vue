@@ -21,6 +21,8 @@
 </template>
 
 <script setup lang="ts">
+import utils from "../../../lib/utils/renderer";
+
 function onMinimizeWindow(){
   window.electronAPI.minimizeWindow();
 }
@@ -34,7 +36,7 @@ function onCloseWindow(){
 }
 
 function onOpenDevTools(){
-  window.electronAPI.openDevTools();
+  utils.openDevTools();
 }
 </script>
 
@@ -65,6 +67,7 @@ function onOpenDevTools(){
 .contents {
   display: flex;
   justify-content: center;
+  padding-top: 50px;
 }
 .button {
   width: 36px;

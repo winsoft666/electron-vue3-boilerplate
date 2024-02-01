@@ -3,6 +3,8 @@
 
 真正做到开箱即用，完全面向线上跨平台客户端产品而设计。
 
+![Main UI](./screenshot/main.jpg)
+
 ## 1.1 特性
 使用[ViteJS](https://vitejs.dev)构建和驱动前端页面，支持热加载（HMR），使开发和调试变得更加高效 ⚡
 
@@ -195,7 +197,7 @@ ipcMain.on("message", (event, message) => {
 # 3. 代码规范
 本项目使用ESLint进行代码检查和格式化，没有使用Prettier进行代码格式化。
 
-具体原因大体如下：
+原因大体如下：
 1. 需要额外的配置来避免ESLint和Prettier的部分规则冲突。
 
 2. Prettier的`printWidth`配置项会损害代码和Git Diff的可读性。

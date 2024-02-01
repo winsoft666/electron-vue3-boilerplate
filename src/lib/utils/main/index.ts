@@ -9,7 +9,7 @@ import appState from "../../../main/app-state";
 class Utils{
   public initialize(){
     this._preloadFilePath = path.join(__dirname, "utils-preload.js");
-    console.log("Utils preload path: " + this._preloadFilePath);
+    // console.log("Utils preload path: " + this._preloadFilePath);
     this.setPreload(session.defaultSession);
 
     app.on("session-created", (session) => {

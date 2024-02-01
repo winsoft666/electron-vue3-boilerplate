@@ -12,7 +12,7 @@ import * as fdTypes from "../shared";
 class FileDownload{
   public initialize(){
     this._preloadFilePath = path.join(__dirname, "file-download-preload.js");
-    console.log("File download preload path: " + this._preloadFilePath);
+    // console.log("File download preload path: " + this._preloadFilePath);
     this.setPreload(session.defaultSession);
 
     app.on("session-created", (session) => {

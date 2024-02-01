@@ -1,6 +1,6 @@
 <template>
   <div class="logo">
-    <a href="https://vuejs.org/" target="_blank">
+    <a href="https://www.electronjs.org/" target="_blank">
       <img src="/electron.svg" class="logo electron" alt="Electron logo">
     </a>
     <a href="https://vuejs.org/" target="_blank">
@@ -214,8 +214,8 @@ async function onExitApp(){
 
 <style scoped>
 .logo {
-  height: 68px;
-  padding: 20px 50px;
+  height: 90px;
+  padding: 20px 30px;
   margin-bottom: 20px;
   will-change: filter;
   transition: filter 300ms;
