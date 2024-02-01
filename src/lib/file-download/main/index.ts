@@ -1,3 +1,7 @@
+/*
+* This code can only be used in the main process.
+*/
+
 import { app, session, BrowserWindow, ipcMain } from "electron";
 import fs from "fs";
 import path from "path";
@@ -154,7 +158,7 @@ class FileDownload{
       const result = await reader.read(new Uint8Array());
       if(result.done){
         if(options.feedbackProgressToRenderer && browserWindow){
-          browserWindow.webContents.send("__electron-download-file-progress-feedback", options.uuid, bytesDone, finalLength);
+          browserWindow.webContents.send("electron-file-download-download-file-progress-feedback", options.uuid, bytesDone, finalLength);
         }
   
         if(this._cancelFlagMap.get(options.uuid)){
@@ -175,7 +179,7 @@ class FileDownload{
         writer.write(Buffer.from(chunk));
         if(options.feedbackProgressToRenderer && browserWindow){
           bytesDone += chunk.byteLength;
-          browserWindow.webContents.send("__electron-download-file-progress-feedback", options.uuid, bytesDone, finalLength);
+          browserWindow.webContents.send("electron-file-download-download-file-progress-feedback", options.uuid, bytesDone, finalLength);
         }
       }
     }
@@ -195,7 +199,7 @@ const fd = new FileDownload();
 // According to bug https://github.com/electron/electron/issues/25196
 // Electron can not pass rejected promise to renderer correctly.
 // So we do not throw exception in handle function.
-ipcMain.handle("__electron-async-download-file", async(event, options: fdTypes.Options) => {
+ipcMain.handle("electron-file-download-async-download-file", async(event, options: fdTypes.Options) => {
   const win = BrowserWindow.getFocusedWindow();
   try {
     const result = await fd.download(options, win);
@@ -212,7 +216,7 @@ ipcMain.handle("__electron-async-download-file", async(event, options: fdTypes.O
   }
 });
 
-ipcMain.on("__electron-cancel-download-file", (event, uuid) => {
+ipcMain.on("electron-file-download-cancel-download-file", (event, uuid) => {
   if(uuid){
     fd.cancel(uuid);
   }

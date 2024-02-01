@@ -1,7 +1,7 @@
 import path from "node:path";
-import { BrowserWindow, app, ipcMain, shell } from "electron";
-import { appState } from "../../app-state";
-import { WindowBase } from "../window-base";
+import { BrowserWindow, app, ipcMain } from "electron";
+import appState from "../../app-state";
+import WindowBase from "../window-base";
 import FramelessWindow from "../frameless";
 
 class MainWindow extends WindowBase{
@@ -59,12 +59,6 @@ class MainWindow extends WindowBase{
       }else{
         appState.framelessWindow = new FramelessWindow();
       }
-    });
-
-    ipcMain.on("open-external-link", (event, url) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
-      shell.openExternal(url);
     });
 
     ipcMain.on("clear-app-configuration", (event) => {

@@ -1,6 +1,6 @@
 import path from "path";
 import { Menu, MenuItem, Tray } from "electron";
-import { appState } from "./app-state";
+import appState from "./app-state";
 
 function CreateAppTray() : Tray{
   const iconPath = path.join(appState.mainStaticPath, "tray.ico");

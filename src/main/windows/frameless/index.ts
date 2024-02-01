@@ -1,6 +1,6 @@
 import path from "path";
 import { BrowserWindow, app, ipcMain } from "electron";
-import { WindowBase } from "../window-base";
+import WindowBase from "../window-base";
 
 class FramelessWindow extends WindowBase{
   protected createWindow() : BrowserWindow | null{
@@ -25,14 +25,7 @@ class FramelessWindow extends WindowBase{
     return win;
   }
 
-  protected registerIpcMainHandler(): void{
-    ipcMain.on("open-dev-tools", (event) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
-
-      this._browserWindow?.webContents.openDevTools();
-    });
-  
+  protected registerIpcMainHandler(): void{  
     ipcMain.on("minimize-window", (event) => {
       if(!this.isIpcMainEventBelongMe(event))
         return;

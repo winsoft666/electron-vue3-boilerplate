@@ -1,6 +1,10 @@
-import { app, session, BrowserWindow, ipcMain, shell } from "electron";
+/*
+* This code can only be used in the main process.
+*/
+import { app, session, BrowserWindow, ipcMain, shell, dialog, OpenDialogOptions } from "electron";
 import path from "path";
 import * as FileUtils from "./file-util";
+import appState from "../../../main/app-state";
 
 class Utils{
   public initialize(){
@@ -22,23 +26,37 @@ class Utils{
 
 const utils = new Utils();
 
-ipcMain.on("__electron-utils-open-dev-tools", () => {
+ipcMain.on("electron-utils-open-dev-tools", () => {
   const win = BrowserWindow.getFocusedWindow();
-  win?.webContents.openDevTools();
+  if(win){
+    win.webContents.openDevTools();
+  }
 });
 
-ipcMain.on("__electron-utils-open-external-url", (event, url) => {
+ipcMain.on("electron-utils-open-external-url", (event, url) => {
   if(url){
     shell.openExternal(url);
   }
 });
 
-ipcMain.on("__electron-utils-check-path-exist", (event, path) => {
+ipcMain.handle("electron-utils-show-open-dialog", async(event, options: OpenDialogOptions) => {
+  return await dialog.showOpenDialog(options);
+});
+
+ipcMain.on("electron-utils-check-path-exist", (event, path) => {
   let exist = false;
   if(path){
     exist = FileUtils.IsPathExist(path);
   }
   event.returnValue = exist;
+});
+
+ipcMain.handle("electron-utils-get-file-md5", async(event, filePath) => {
+  return await FileUtils.GetFileMd5(filePath);
+});
+
+ipcMain.on("electron-utils-get-app-version", (event) => {
+  event.returnValue = appState.appVersion;
 });
 
 export default utils;

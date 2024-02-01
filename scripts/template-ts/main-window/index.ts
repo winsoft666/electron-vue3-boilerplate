@@ -1,12 +1,12 @@
 import path from "path";
 import { BrowserWindow, app, ipcMain } from "electron";
-import { WindowBase } from "../window-base";
+import WindowBase from "../window-base";
 
 class XXXWindow extends WindowBase{
   protected createWindow() : BrowserWindow | null{
     const win = new BrowserWindow({
       width: 600,
-      height: 800,
+      height: 300,
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
         nodeIntegration: false,
@@ -25,10 +25,11 @@ class XXXWindow extends WindowBase{
   }
 
   protected registerIpcMainHandler(): void{
-    ipcMain.on("open-dev-tools", (event) => {
+    // A simple sample
+    ipcMain.on("send-message", (event, message) => {
       if(!this.isIpcMainEventBelongMe(event))
         return;
-      this._browserWindow?.webContents.openDevTools();
+      console.log(message);
     });
 
     // Add more ipcMain handler...

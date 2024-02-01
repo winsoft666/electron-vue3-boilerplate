@@ -1,4 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+/*
+* This code can only be used in the renderer process.
+*/
 import { Options, ProgressCallback } from "../shared";
 
 class FileDownload{

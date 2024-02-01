@@ -29,6 +29,9 @@ process.stdin.on("data", async(chunk) => {
   fs.mkdirSync(targetPath);
   const sourcePath = path.join(__dirname, "template-ts/renderer-page");
   copyFile(sourcePath, targetPath);
+
+  handleVueFile(targetPath);
+  
   process.stdin.emit("end");
 });
 
@@ -42,6 +45,15 @@ const createDirectories = (path) => {
     fs.mkdirSync(path);
   }
 };
+
+function handleVueFile(targetPath){
+  const filePath = path.join(targetPath, "App.vue");
+  let code = fs.readFileSync(filePath, { encoding: "utf-8" });
+
+  code = code.replaceAll("%renderer_page_name%", pageName);
+
+  fs.writeFileSync(filePath, code, { encoding: "utf-8" });
+}
 
 const copyFile = (sourcePath, targetPath) => {
   const sourceFile = fs.readdirSync(sourcePath, { withFileTypes: true });

@@ -35,4 +35,4 @@ abstract class WindowBase{
   }
 }
 
-export { WindowBase };
+export default WindowBase;

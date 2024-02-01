@@ -9,9 +9,9 @@ function initialize(){
   if(contextBridge && process.contextIsolated){
     try {
       contextBridge.exposeInMainWorld("__ElectronFileDownload__", {
-        asyncDownloadFile: (options: Options) => ipcRenderer.invoke("__electron-async-download-file", options),
-        cancelDownloadFile: (uuid: string) => ipcRenderer.send("__electron-cancel-download-file", uuid),
-        onDownloadFilePrgressFeedback: (callback) => ipcRenderer.on("__electron-download-file-progress-feedback", (_event, uuid: string, bytesDone: number, bytesTotal: number) => {
+        asyncDownloadFile: (options: Options) => ipcRenderer.invoke("electron-file-download-async-download-file", options),
+        cancelDownloadFile: (uuid: string) => ipcRenderer.send("electron-file-download-cancel-download-file", uuid),
+        onDownloadFilePrgressFeedback: (callback) => ipcRenderer.on("electron-file-download-download-file-progress-feedback", (_event, uuid: string, bytesDone: number, bytesTotal: number) => {
           callback(uuid, bytesDone, bytesTotal);
         }),
       });

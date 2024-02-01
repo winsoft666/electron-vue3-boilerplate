@@ -2,7 +2,7 @@ import { BrowserWindow, app, dialog, session } from "electron";
 import log from "electron-log/main";
 import MainWindow from "./windows/main";
 import { CreateAppTray } from "./tray";
-import { appState } from "./app-state";
+import appState from "./app-state";
 
 // Disable sandbox
 // app.commandLine.appendSwitch("no-sandbox");
@@ -33,7 +33,7 @@ if(!gotLock && appState.onlyAllowSingleInstance){
     });
   });
 
-  app.on("second-instance", (event, commandLine, workingDirectory, additionalData) => {
+  app.on("second-instance", () => {
     appState.mainWindow?.browserWindow?.show();
   });
 

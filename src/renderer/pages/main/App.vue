@@ -1,22 +1,34 @@
 <template>
   <div class="logo">
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo">
+    <a href="https://vuejs.org/" target="_blank">
+      <img src="/electron.svg" class="logo electron" alt="Electron logo">
     </a>
     <a href="https://vuejs.org/" target="_blank">
       <img src="/vue.svg" class="logo vue" alt="Vue logo">
     </a>
+    <a href="https://vitejs.dev" target="_blank">
+      <img src="/vite.svg" class="logo vite" alt="Vite logo">
+    </a>
   </div>
-  <HelloWorld msg="Electron + Vue3" />
+  <HelloWorld msg="Electron + Vue3 + Vite" />
 
   <a-collapse v-model:activeKey="activeKey" class="collapse">
-    <a-collapse-panel key="1" header="Functional Display">
+    <a-collapse-panel key="1" header="Utils">
       <a-space>
         <a-button @click="onShowFramelessWindow">
           Frameless Window
         </a-button>
         <a-button @click="onOpenHomepage">
           Homepage
+        </a-button>
+        <a-button @click="onOpenDevTools">
+          DevTools
+        </a-button>
+        <a-button @click="onGetAppVersion">
+          App Version
+        </a-button>
+        <a-button @click="onGetFileMd5">
+          File MD5
         </a-button>
       </a-space>
     </a-collapse-panel>
@@ -30,7 +42,7 @@
         </a-button>
       </a-space>
     </a-collapse-panel>
-    <a-collapse-panel key="3" header="File Download Sample">
+    <a-collapse-panel key="3" header="File Download">
       <a-form
         :model="fdState" 
         :label-col="{ span: 3 }" 
@@ -60,7 +72,6 @@
     </a-collapse-panel>
   </a-collapse>
 
-
   <a-modal
     :open="showExitAppMsgbox"
     :confirm-loading="isExitingApp"
@@ -87,6 +98,7 @@ import { message } from "ant-design-vue";
 import fd from "../../../lib/file-download/renderer";
 import * as fdTypes from "../../../lib/file-download/shared";
 import utils from "../../../lib/utils/renderer";
+import { GetErrorMessage } from "../../../lib/utils/shared";
 
 const activeKey = ref<number>(1);
 const showExitAppMsgbox = ref<boolean>(false);
@@ -102,9 +114,9 @@ interface FileDownloadState {
 }
 
 const fdState = reactive<FileDownloadState>({
-  url: "https://static.deskdiy.com/package/2024/01/25IV790M/DeskDIY_008_5.7.6.1.exe", 
-  savePath: "E:\\test.exe", 
-  md5: "614C78D842C4AD778326A20E04FDB01D", 
+  url: "https://dldir1.qq.com/qqfile/qq/QQNT/bc30fb5d/QQ9.9.7.21217_x86.exe", 
+  savePath: "QQ9.9.7.21217_x86.exe", 
+  md5: "BC30FB5DB716D56012C8F0ECEE65CA20", 
   downloading: false, 
   uuid: "", 
   percent: 0
@@ -124,6 +136,32 @@ function onShowFramelessWindow(){
 
 function onOpenHomepage(){
   utils.openExternalLink("https://github.com/winsoft666/electron-vue3-template");
+}
+
+function onOpenDevTools(){
+  utils.openDevTools();
+}
+
+function onGetAppVersion(){
+  message.success(utils.getAppVersion());
+}
+
+async function onGetFileMd5(){
+  const result = await utils.showOpenDialog({
+    properties: [ "openFile" ],
+    filters: [
+      { name: "All Files", extensions: [ "*" ] }
+    ]
+  });
+
+  if(result.filePaths.length > 0){
+    utils.getFileMd5(result.filePaths[0])
+      .then((md5) => {
+        message.success(md5);
+      }).catch((e) => {
+        message.error(GetErrorMessage(e));
+      });
+  }
 }
 
 function onClearAppConfiguration(){
@@ -177,14 +215,19 @@ async function onExitApp(){
 <style scoped>
 .logo {
   height: 68px;
-  padding: 10px 50px;
+  padding: 20px 50px;
+  margin-bottom: 20px;
   will-change: filter;
   transition: filter 300ms;
   text-align: center;
 }
 
-.logo:hover {
+.logo.vite:hover {
   filter: drop-shadow(0 0 32px #646cffaa);
+}
+
+.logo.electron:hover {
+  filter: drop-shadow(0 0 32px #2C2E39);
 }
 
 .logo.vue:hover {
@@ -197,7 +240,7 @@ async function onExitApp(){
 }
 
 .collapse {
-  margin: 20px;
+  margin: 40px 20px 0px 20px;
   text-align: left;
 }
 .download-buttons {

@@ -140,6 +140,4 @@ function getAppState(): AppState{
 
 const appState = getAppState();
 
-export { 
-  appState
-};
+export default appState;
