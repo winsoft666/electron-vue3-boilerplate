@@ -14,6 +14,7 @@ function initialize(){
         checkPathExist: (path: string) => ipcRenderer.sendSync("electron-utils-check-path-exist", path),
         getFileMd5: (filePath: string) => ipcRenderer.invoke("electron-utils-get-file-md5", filePath),
         getAppVersion: () => ipcRenderer.sendSync("electron-utils-get-app-version"),
+        // === FALG LINE (DO NOT MODIFY/REMOVE) ===
       });
     } catch {
       // Sometimes this files can be included twice

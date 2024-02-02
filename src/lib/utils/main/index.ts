@@ -22,6 +22,8 @@ class Utils{
   }
 
   protected _preloadFilePath : string = "";
+
+  // === PUBLIC METHOD FALG LINE (DO NOT MODIFY/REMOVE) ===
 }
 
 const utils = new Utils();
@@ -58,6 +60,8 @@ ipcMain.handle("electron-utils-get-file-md5", async(event, filePath) => {
 ipcMain.on("electron-utils-get-app-version", (event) => {
   event.returnValue = appState.appVersion;
 });
+
+// === FALG LINE (DO NOT MODIFY/REMOVE) ===
 
 export default utils;
 export {

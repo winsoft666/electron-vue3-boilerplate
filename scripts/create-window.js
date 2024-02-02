@@ -15,6 +15,7 @@ process.stdin.on("data", async(chunk) => {
   windowName = String(chunk).trim().toString().toLowerCase();
   if(!windowName){
     outputError("Window name is empty!");
+    outputTips("\nInput window name:");
     return;
   }
 
@@ -23,6 +24,7 @@ process.stdin.on("data", async(chunk) => {
   const pageExists = fs.existsSync(targetPath);
   if(pageExists){
     outputError(`Window ${windowName} has already exist!`);
+    outputTips("\nInput window name:");
     return;
   }
 

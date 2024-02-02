@@ -15,6 +15,7 @@ process.stdin.on("data", async(chunk) => {
   pageName = String(chunk).trim().toString().toLowerCase();
   if(!pageName){
     outputError("Name is empty!");
+    outputTips("\nInput page name:");
     return;
   }
 
@@ -23,6 +24,7 @@ process.stdin.on("data", async(chunk) => {
   const pageExists = fs.existsSync(targetPath);
   if(pageExists){
     outputError(`Page ${pageName} has already exist!`);
+    outputTips("\nInput page name:");
     return;
   }
 

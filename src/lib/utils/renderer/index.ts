@@ -30,6 +30,8 @@ class Utils{
   public getAppVersion() : string{
     return (window as any).__ElectronUtils__.getAppVersion() as string;
   }
+
+  // === FALG LINE (DO NOT MODIFY/REMOVE) ===
 }
 
 const utils = new Utils();
