@@ -1,7 +1,7 @@
 # 1. electron-vue3-template
 基于**Vue3** + **Electron** + **TypeScript**的客户端程序模板，使用**Vite**和**Electron Forge**构建和打包。
 
-真正做到开箱即用，面向跨平台客户端而设计、产品级的项目模板。
+真正做到开箱即用，面向跨平台客户端设计，产品级的项目模板。
 
 ![Main UI](./screenshot/main.jpg)
 
@@ -10,10 +10,11 @@
 - 使用[ViteJS](https://vitejs.dev)构建和驱动前端页面，支持热加载（HMR），使开发和调试变得更加高效 ⚡
 - 支持Vue3多页面，提供页面创建指令，适合客户端开发场景 💖
 - 支持Electron窗口创建指令，并且可隔离不同窗口的IPC事件 💖
-- 封装并简化了IPC的调用方式，主进程与渲染进程间的调用从未如此简单 👍
+- 封装并简化了IPC的调用方式，主进程与渲染进程的相互调用从未如此简单 👍
 - 主进程和渲染进程支持热加载 ⚡
-- 集成AntDesign Vue、FontAwesome图标等常用组件
-- 日志文件（主进程和渲染进程均可直接调用）
+- 精选依赖包，提升项目稳定性
+- 代码简洁，易掌控，可定制性强
+- 日志文件，主进程和渲染进程可以直接写文件日志
 - 配置文件
 - 文件下载（含哈希校验、进度反馈），渲染进程可直接异步调用 👍
 - 功能完善的无边框窗口
@@ -204,7 +205,16 @@ ipcMain.on("message", (event, message) => {
 
 [在线演示](https://prettier.io/playground/#N4Igxg9gdgLgprEAuc0DOMAEBXNcBOamAvJgNoA6UmmwOe+AkgCZKYCMANPQVAIYBbOGwogAggBsAZgEs4mAMJ98QiTJh9RmAL6cqNOrgIs2AJm5H8-ISJABxGf0wAlCGgAWfKFt37aPJlZMAGYLBmthTFEAZXdsAHNMADk+ACNsHz1qf0sTTAAWMN5BSNFnPncBL0wAMXw+Bky-QwY8gFYiqxLbABU3d3kAGQBPbFSEJuyW4yCANk6I22iCeJkIZJkJCCllSYBdAG4qEE4QCAAHGDWoNGRQZXwIAHcABWUEW5Q+CSe+YdvTql6mAANZwGDREqDRxwZA7CR4QHAsEQ858MCOeLIGD4bBwU5wATjZjMODMQZeeLYPjxOA1CAqPgwK5QLFfbAwCAnEDuGACCQAdXc6jgaDRYDgyxu6hkADd1MNkOA0ACQI4GDAXvV4lU4d9ESAAFZoAAe0UxEjgAEVsBB4HqEfiQGjCAQlak0nAJNzzvhHDABTJmDB3Mh8uZnY88AL6uclb7RQRZbDTgBHW3wLUXT4gBoAWigcDJZO5+Dg6ZkZa1NN1SHhBrwAhk2NxTrQFutGdhdf1To0qUDwdDSAjOL4m0xCggAlrIFFbW5Rh6aU+9adsrxjCgpNg0TAfsuYm30Rgw0tDrw2m0QA)
 
-# 4. dependencies和devDependencies的区别 🎈
+# 4. 依赖包 🎈
+## 4.1 基本原则
+
+> 一个构建在众多不稳定性因素下的项目，是没有稳定性可言的。
+
+为了保证项目的稳定性，本模板项目只使用具有知名度、稳定性强的依赖包（库），如`electron-log`等。
+
+对于作者自己写的库（如`file-download`等），统一以源码形式提供在`src\lib\`目录，方便模板使用者进行bug修复和功能扩充，在使用时直接采用相对路径进行导入即可。
+
+## 4.2 dependencies和devDependencies的区别
 由于Electron Forge会将`dependencies`中的所有依赖项都进行打包，因此为了减少安装包的体积，我们只将主进程需要使用的依赖安装到`dependencies`项下，而其他的依赖均安装到`devDependencies`。
 
 如将vue作为开发依赖进行安装：
@@ -213,9 +223,12 @@ ipcMain.on("message", (event, message) => {
 yarn add -D vue
 ```
 
-## 依赖包说明
+## 4.3 依赖包说明
+
+> 作为开发者，应知晓每个依赖包的用途，避免node_modules黑洞的产生。
+
 - unplugin-vue-components
-使用`unplugin-vue-components`包实现自动按需引入AntDesign-Vue组件。
+实现自动按需引入AntDesign-Vue组件。
 
 - electron-log
 提供本地日志文件的打印和输出。
@@ -225,6 +238,18 @@ yarn add -D vue
 
 - @fortawesome-*
 提供对FontAwesome图标字体的支持。
+
+- uuid
+使用uuid字符串，在file-download库中使用。
+
+- chalk
+用于在命令行终端输出带颜色样式的字符串，仅在`scripts\*.js`中使用。
+
+- chokidar
+轻量级的文件监控组件，用于实现热加载，仅在`scripts\*.js`中使用。
+
+- @electron-forge/*
+与Electron Forge构建和打包相关的依赖包，除了`@electron-forge/cli`是必须的，其他的可以根据`forge.config.js -> makers`的配置按需引用。
 
 # 5. 客户端版本号
 使用`package.json`文件的`version`字段标识客户端的版本号，在主进程内可以通过`appState.appVersion`属性获取。
@@ -241,4 +266,4 @@ console.log(utils.getAppVersion());
 # 6. 期待你的反馈 🥳
 个人能力有限，代码不免有错误和不足之处，欢迎提交issue和PR。
 
-如果你觉得这个项目对你有帮助，无需捐款，点个右上角Star ⭐就可以了。
+如果这个项目对你有帮助，无需捐助，点击右上角Star ⭐让我知道就可以了。
