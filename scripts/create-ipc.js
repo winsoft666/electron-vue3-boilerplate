@@ -1,3 +1,4 @@
+/* eslint-disable */
 const chalk = require("chalk");
 const path = require("path");
 const fs = require("fs");
@@ -13,9 +14,9 @@ let humpFuncName = "";
 
 function outputUsage(){
   outputTips("Create syntax: CallWay,FunctionName,FunctionType");
-  outputTips("Call Way:\n\tmr = Main process call Renderer process\n\trm = Renderer process call Main process");
+  outputTips("Call Way:\n\trm = Renderer process call the function of main process\n\tmr = Main process call the function of renderer process (Ignore FunctionType)");
   outputTips("Function Name:\n\txxx-xxx-xxx");
-  outputTips("Function Type:\n\ta = Asynchronous call without result\n\tap = Asynchronous call with promise result\n\ts = Synchronous call");
+  outputTips("Function Type:\n\ta = Asynchronous call without result\n\tap = Asynchronous call with promise result\n\ts = Synchronous call with result");
 }
 
 outputUsage();
@@ -24,7 +25,7 @@ outputTips("Input:");
 process.stdin.on("data", async(chunk) => {
   const inputStr = String(chunk).trim().toString().toLowerCase();
   const values = inputStr.split(",");
-  if(values.length != 3){
+  if(values.length < 2){
     outputError("Syntax error!");
     outputTips("\nInput:");
     return;
@@ -32,7 +33,9 @@ process.stdin.on("data", async(chunk) => {
 
   callWay = values.at(0);
   funcName = values.at(1);
-  funcType = values.at(2);
+  if(values.length > 2)
+    funcType = values.at(2);
+
   if(callWay != "rm" && callWay != "mr"){
     outputError("Call way type error!");
     outputTips("\nInput:");
@@ -45,10 +48,12 @@ process.stdin.on("data", async(chunk) => {
     return;
   }
 
-  if(funcType != "a" && funcType != "ap" && funcType != "s"){
-    outputError("Function type error!");
-    outputTips("\nInput:");
-    return;
+  if(callWay == "rm"){
+    if(funcType != "a" && funcType != "ap" && funcType != "s"){
+      outputError("Function type error!");
+      outputTips("\nInput:");
+      return;
+    }
   }
 
   humpFuncName = toHumpFunctionName(funcName);
@@ -83,6 +88,7 @@ function toHumpFunctionName(funcName){
     funcNameCopy = funcNameCopy.substring(pos + 1);
   }
   humpFuncName = humpFuncName.charAt(0).toLowerCase() + humpFuncName.substring(1);
+  return humpFuncName;
 }
 
 function handleMainIndex_rm(){
@@ -156,21 +162,10 @@ function handleMainIndex_mr(){
   const filePath = path.join(__dirname, "../src/lib/utils/main/index.ts");
   let code = fs.readFileSync(filePath, { encoding: "utf-8" });
     
-  let funcFlag = "";
-  if(funcType == "ap"){
-    funcFlag = " async";
-  }
-
-  let callFlag = "";
-  if(funcType == "ap"){
-    callFlag = " await";
-  }
-  
-  const generateCode = `  public${funcFlag} ${humpFuncName}(browserWindow: BrowserWindow){
-    if(!browserWindow){
-      return null;
+  const generateCode = `  public ${humpFuncName}(browserWindow: BrowserWindow | null){
+    if(browserWindow){
+      browserWindow.webContents.send("electron-utils-${funcName}");
     }
-    return ${callFlag} browserWindow.webContents.send("electron-utils-");
   }
   // === PUBLIC METHOD FALG LINE (DO NOT MODIFY/REMOVE) ===`;
     
@@ -182,17 +177,10 @@ function handleMainIndex_mr(){
 function handleProload_mr(){
   const filePath = path.join(__dirname, "../src/lib/utils/main/utils-preload.ts");
   let code = fs.readFileSync(filePath, { encoding: "utf-8" });
-  
-  let ipcRendererFuncName = "";
-  if(funcType == "ap"){
-    ipcRendererFuncName = "handle";
-  }else{
-    ipcRendererFuncName = "on";
-  }
 
   const humpFuncNameUpper = humpFuncName.charAt(0).toUpperCase() + humpFuncName.substring(1);
   
-  const generateCode = `        on${humpFuncNameUpper}: (callback) => ipcRenderer.${ipcRendererFuncName}("electron-utils-${funcName}", () => {
+  const generateCode = `        on${humpFuncNameUpper}: (callback) => ipcRenderer.on("electron-utils-${funcName}", (event) => {
           callback();
         }),
         // === FALG LINE (DO NOT MODIFY/REMOVE) ===`;
@@ -220,10 +208,10 @@ function handleRendererIndex_mr(){
 
 process.stdin.on("end", () => {
   if(callWay == "mr"){
-    outputSuccess(`Create IPC (Main -> Renderer) function successful!\nRenderer process: utils.${humpFuncName}`);
+    const humpFuncNameUpper = humpFuncName.charAt(0).toUpperCase() + humpFuncName.substring(1);
+    outputSuccess(`Create IPC (Main -> Renderer) function successful!\n\n[Usage]\n  Main process:\n\tutils.${humpFuncName}(...)\n  Renderer process:\n\tutils.on${humpFuncNameUpper}(...)`);
   }else if(callWay == "rm"){
-    outputSuccess(`Create IPC (Renderer -> Main) function successful!\nMain process: utils.${humpFuncName}`);
+    outputSuccess(`Create IPC (Renderer -> Main) function successful!\n\n[Usage]\n  Renderer process:\n\tutils.${humpFuncName}(...)`);
   }
   process.exit();
 });
-
