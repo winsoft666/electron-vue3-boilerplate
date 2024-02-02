@@ -34,9 +34,9 @@ class MainWindow extends WindowBase{
   
     if(process.env.NODE_ENV === "development"){
       const rendererPort = process.argv[2];
-      mainWindow.loadURL(`http://localhost:${rendererPort}/pages/main/index.html`);
+      mainWindow.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
     }else{
-      mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/main/index.html"));
+      mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
     }
   
     return mainWindow;

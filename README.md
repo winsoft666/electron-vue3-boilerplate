@@ -10,7 +10,7 @@
 - 使用[ViteJS](https://vitejs.dev)构建和驱动前端页面，支持热加载（HMR），使开发和调试变得更加高效 ⚡
 - 支持Vue3多页面，提供页面创建指令，适合客户端开发场景 💖
 - 支持Electron窗口创建指令，并且可隔离不同窗口的IPC事件 💖
-- 封装并简化了IPC的调用方式，主进程与渲染进程的相互调用从未如此简单 👍
+- 封装简化了IPC的调用方式，并提供了IPC函数快速创建指令，主进程与渲染进程的相互调用从未如此简单 👍
 - 主进程和渲染进程支持热加载 ⚡
 - 精选依赖包，提升项目稳定性
 - 代码简洁，易掌控，可定制性强
@@ -106,13 +106,13 @@ yarn run build:win32
   - main/           # 主进程的代码 (Electron)
     - static/          # 静态资源
     - windows/         # 多窗口文件夹 (每个子目录表示一个窗口)
-      - main/              # 主窗口（客户端通常都会有一个主窗口）
+      - primary/          # 主窗口（客户端通常都会有一个主窗口）
       - frameless/        # 无边框示例窗口
       - ...
   - renderer/      # 渲染进程的代码 (VueJS)
     - public           # 静态资源
     - pages/           # 多页面目录 (强制约定：每个子目录代表一个页面)
-      - main/              # 主窗口页面
+      - primary/          # 主窗口页面
       - frameless/        # 无边框示例窗口的页面
       - ...
     - typings/         # ts声明文件
@@ -135,16 +135,16 @@ const iconPath = path.join(appState.mainStaticPath, "tray.ico");
 ```
 
 ## 2.3 AppState对象
-为了方便在主进程中跨模块访问某些对象（如`mainWindow`、`tray`、`cfgStore`等）和应用配置（如`onlyAllowSingleInstance`等），我们定义了单实例对象AppState来存储这些数据。
+为了方便在主进程中跨模块访问某些对象（如`primaryWindow`、`tray`、`cfgStore`等）和应用配置（如`onlyAllowSingleInstance`等），我们定义了单实例对象AppState来存储这些数据。
 
 使用方法如下：
 ```javascript
 import appState from "./app-state";
 
-appState.mainWindow?.show();
+appState.primaryWindow?.show();
 ```
 
-## 2.4 创建Vue页面
+## 2.4 快速创建Vue页面
 
 执行如下命令，输入页面名称后将自动在`renderer/pages`目录创建子页面，每个子页面的相关代码位于单独的目录中，目录名为我们指定的页面名称（小写）。
 
@@ -156,13 +156,13 @@ yarn run new:page
 ```javascript
 // 开发环境
 const rendererPort = process.argv[2];
-mainWindow.loadURL(`http://localhost:${rendererPort}/pages/<PAGE-NAME>/index.html`);
+primaryWindow.loadURL(`http://localhost:${rendererPort}/pages/<PAGE-NAME>/index.html`);
 
 // 非开发环境
-mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/<PAGE-NAME>/index.html"));
+primaryWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/<PAGE-NAME>/index.html"));
 ```
 
-## 2.5 创建Electron窗口
+## 2.5 快速创建Electron窗口
 虽然直接构造Electron的BrowerWindow对象就可以创建新的Electron窗口，但为了方便代码管理和ipcMain消息隔离，本模板中的每个窗口都继承自`WindowBase`对象，每个窗口的相关代码位于`src\main\windows\`的不同子目录中，目录名为我们指定的窗口名称（小写）。
 
 ```bash
@@ -173,9 +173,9 @@ yarn run new:window
 ```javascript
 if(process.env.NODE_ENV === "development"){
   const rendererPort = process.argv[2];
-  mainWindow.loadURL(`http://localhost:${rendererPort}/pages/main/index.html`);
+  primaryWindow.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
 }else{
-  mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/main/index.html"));
+  primaryWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
 }
 ```
 
@@ -189,6 +189,111 @@ ipcMain.on("message", (event, message) => {
     return;
 
   console.log(message);
+});
+```
+
+## 2.6 快速创建IPC函数
+在`src\renderer\pages\primary\App.vue`中获取文件MD5的代码如下：
+```javascript
+async function onGetFileMd5(){
+  const result = await utils.showOpenDialog({
+    properties: [ "openFile" ],
+    filters: [
+      { name: "All Files", extensions: [ "*" ] }
+    ]
+  });
+
+  if(result.filePaths.length > 0){
+    utils.getFileMd5(result.filePaths[0])
+      .then((md5) => {
+        message.success(md5);
+      }).catch((e) => {
+        message.error(GetErrorMessage(e));
+      });
+  }
+}
+```
+
+上述代码通过调用Utils库的`showOpenDialog`、`getFileMd5`函数轻松实现了通知主进程选择文件、计算文件MD5并获取相应结果的操作，代码非常简洁。
+
+但是Utils只预置了部分常用的功能，预置功能肯定无法满足我们产品开发的所有需求。在此情况下，我们可以向Utils库中添加自定义的功能函数，该如何添加了？
+
+不用担心，本模板已经提供了IPC函数快速创建指令：
+```bash
+yarn run new:ipc
+```
+
+执行上面指令后，会出现如下提示：
+```txt
+Create syntax: CallWay,FunctionName,FunctionType
+Call Way:
+        rm = Renderer process call the function of main process
+        mr = Main process call the function of renderer process (Ignore FunctionType)
+Function Name:
+        xxx-xxx-xxx
+Function Type:
+        a = Asynchronous call without result
+        ap = Asynchronous call with promise result
+        s = Synchronous call with result
+```
+
+参数1（CallWay）表示函数调用方向：
+- rm 表示渲染进程调用主进程的函数，可以支持同步调用、异步调用，并且可以返回Promise结果。
+- mr 表示主进程调用渲染进程的函数，该方向只能是异步调用，而且不支持返回结果，会忽略第三个参数（FunctionType）。
+
+参数2（FunctionName）表示函数名称，函数名称的单词间使用`-`分隔，如`GetFileSha256`需要指定为`get-file-sha256`。
+
+参数3（FunctionType）函数类型：
+- a 表示不返回结果的异步函数
+- ap 表示返回Promise结果的异步函数
+- s 表示同步函数
+
+
+### 示例
+依次输入如下命令：
+```bash
+yarn run new:ipc
+
+Input:
+rm,get-file-sha256,ap
+```
+
+命令执行成功后，会自动在`src\lib\utils\renderer\index.ts`生成`Utils.getFileSha256`函数：
+
+```javascript
+public async getFileSha256(){
+  return await (window as any).__ElectronUtils__.getFileSha256();
+}
+```
+
+自动生成的函数都没有指定参数和返回值，需要我们手动添加，如修改后的函数如下：
+
+```javascript
+public async getFileSha256(filePath: string) : string {
+  return await (window as any).__ElectronUtils__.getFileSha256(filePath) as string;
+}
+```
+
+在渲染进程中（如App.vue）中可以直接调用该函数：
+```javascript
+import utils from "../../../lib/utils/renderer";
+
+const sha256 = await utils.getFileSha256("file-path.txt");
+```
+
+IPC函数创建指令只会创建函数骨架，不会为我们实现具体的功能，我们还需要在主进程ipcMain处理函数中实现计算文件SHA256的具体功能。
+
+自动生成的主进程ipcMain处理函数如下：
+
+```javascript
+ipcMain.handle("electron-utils-get-file-sha256", async(event) => {
+});
+```
+
+手动添加参数、返回值，及具体的功能代码（此处省略）：
+```javascript
+ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) : Promise<string> => {
+  // .....
 });
 ```
 

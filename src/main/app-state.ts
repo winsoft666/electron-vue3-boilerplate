@@ -1,6 +1,6 @@
 import path from "path";
 import { Tray, app, dialog } from "electron";
-import MainWindow from "./windows/main";
+import PrimaryWindow from "./windows/primary";
 import FramelessWindow from "./windows/frameless";
 import log from "electron-log/main";
 import ElectronStore from "electron-store";
@@ -56,7 +56,7 @@ class AppState extends Singleton{
 
   public appVersion: string = "";
   public cfgStore: null | ElectronStore = null;
-  public mainWindow: null | MainWindow = null;
+  public primaryWindow: null | PrimaryWindow = null;
   public framelessWindow : null | FramelessWindow = null;
   public tray: null | Tray = null;
   public willExitApp: boolean = false;
