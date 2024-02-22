@@ -1,8 +1,9 @@
 import path from "node:path";
-import { BrowserWindow, app, ipcMain } from "electron";
+import { BrowserWindow, app, dialog, ipcMain } from "electron";
 import appState from "../../app-state";
 import WindowBase from "../window-base";
 import FramelessWindow from "../frameless";
+import axiosInst from "../../../lib/axios-inst/main";
 
 class MainWindow extends WindowBase{
   protected createWindow() : BrowserWindow | null{
@@ -78,6 +79,24 @@ class MainWindow extends WindowBase{
       await delay(1500);
       appState.willExitApp = true;
       app.quit();
+    });
+
+    ipcMain.on("http-get-request", (event, url) => {
+      if(!this.isIpcMainEventBelongMe(event))
+        return;
+      axiosInst.get(url)
+        .then((rsp) => {
+          dialog.showMessageBox(this._browserWindow!, {
+            message: `Request ${url} in main process success! Status: ${rsp.status}`,
+            type: "info"
+          });
+        })
+        .catch((err) => {
+          dialog.showMessageBox(this._browserWindow!, {
+            message: `Request ${url} in main process failed! Message: ${err.message}`,
+            type: "error"
+          });
+        });
     });
   }
 }

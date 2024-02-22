@@ -12,4 +12,5 @@ contextBridge.exposeInMainWorld("electronAPI", {
     callback();
   }),
   asyncExitApp: () => ipcRenderer.invoke("async-exit-app"),
+  httpGetRequest: (url:string) => ipcRenderer.send("http-get-request", url),
 });

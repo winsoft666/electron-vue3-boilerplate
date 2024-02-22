@@ -70,6 +70,16 @@
         </a-form-item>
       </a-form>
     </a-collapse-panel>
+    <a-collapse-panel key="4" header="Network Request">
+      <a-space>
+        <a-button @click="onHttpGetInMainProcess">
+          HTTP Get in main process
+        </a-button>
+        <a-button @click="onHttpGetInRendererProcess">
+          HTTP Get in renderer process
+        </a-button>
+      </a-space>
+    </a-collapse-panel>
   </a-collapse>
 
   <a-modal
@@ -99,6 +109,7 @@ import fd from "../../../lib/file-download/renderer";
 import * as fdTypes from "../../../lib/file-download/shared";
 import utils from "../../../lib/utils/renderer";
 import { GetErrorMessage } from "../../../lib/utils/shared";
+import axiosInst from "../../../lib/axios-inst/renderer";
 
 const activeKey = ref<number>(1);
 const showExitAppMsgbox = ref<boolean>(false);
@@ -202,6 +213,21 @@ async function onStartDownloadFile(){
 
 async function onCancelDownloadFile(){
   fd.cancel(fdState.uuid);
+}
+
+function onHttpGetInMainProcess(){
+  window.electronAPI.httpGetRequest("https://baidu.com");
+}
+
+function onHttpGetInRendererProcess(){
+  const url = "https://baidu.com";
+  axiosInst.get(url)
+    .then((rsp) => {
+      message.info(`Request ${url} in renderer process success! Status: ${rsp.status}`);
+    })
+    .catch((err) => {
+      message.error(`Request ${url} in renderer process failed! Message: ${err.message}`);
+    });
 }
 
 async function onExitApp(){
