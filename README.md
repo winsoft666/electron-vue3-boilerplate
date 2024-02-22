@@ -16,6 +16,7 @@
 - 代码简洁，易掌控，可定制性强
 - 日志文件，主进程和渲染进程可以直接写文件日志
 - 配置文件
+- 主进程和渲染进程均支持axios HTTP请求
 - 文件下载（含哈希校验、进度反馈），渲染进程可直接异步调用 👍
 - 功能完善的无边框窗口
 - 托盘图标和右键菜单，窗口关闭时程序最小化到托盘
@@ -355,6 +356,9 @@ yarn add -D vue
 
 - @electron-forge/*
 与Electron Forge构建和打包相关的依赖包，除了`@electron-forge/cli`是必须的，其他的可以根据`forge.config.js -> makers`的配置按需引用。
+
+- axios
+异步HTTP网络请求组件
 
 # 5. 客户端版本号
 使用`package.json`文件的`version`字段标识客户端的版本号，在主进程内可以通过`appState.appVersion`属性获取。
