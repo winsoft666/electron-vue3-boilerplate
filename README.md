@@ -70,6 +70,10 @@ yarn run new:window # 创建新的Electron窗口
 更多的可选配置项可以参考 [Electron Forge CLI docs](https://www.electronforge.io/cli)。
 
 ### NSIS安装包 🪟
+> 这一步是可选的。
+> 
+> NSIS只能生成Windows平台安装包，如果您不需要使用生成NSIS安装包，可以跳过该节。
+
 需要先手动下载和安装NSIS：
 [https://nsis.sourceforge.io/Download](https://nsis.sourceforge.io/Download)
 
@@ -256,7 +260,7 @@ yarn run new:ipc
 ```bash
 yarn run new:ipc
 
-Input:
+输入指令:
 rm,get-file-sha256,ap
 ```
 
