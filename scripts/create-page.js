@@ -1,3 +1,7 @@
+/**
+ * @file 实现创建Vue页面的快捷指令
+ */
+
 const chalk = require("chalk");
 const path = require("path");
 const fs = require("fs");
@@ -8,14 +12,14 @@ const outputError = (error) => console.log(chalk.red(`${error}`));
 
 let pageName = "";
 
-outputTips("Input page name:");
+outputTips("输入页面名称:");
 
 process.stdin.on("data", async(chunk) => {
   // Input page name
   pageName = String(chunk).trim().toString().toLowerCase();
   if(!pageName){
-    outputError("Name is empty!");
-    outputTips("\nInput page name:");
+    outputError("页面名称不能为空!");
+    outputTips("\n输入页面名称:");
     return;
   }
 
@@ -23,8 +27,8 @@ process.stdin.on("data", async(chunk) => {
   // Check whether page is exist or not
   const pageExists = fs.existsSync(targetPath);
   if(pageExists){
-    outputError(`Page ${pageName} has already exist!`);
-    outputTips("\nInput page name:");
+    outputError(`页面 ${pageName} 已经存在!`);
+    outputTips("\n输入页面名称:");
     return;
   }
 
@@ -38,7 +42,7 @@ process.stdin.on("data", async(chunk) => {
 });
 
 process.stdin.on("end", () => {
-  outputSuccess(`Create ${pageName} page successful!`);
+  outputSuccess(`创建 ${pageName} 页面成功!`);
   process.exit();
 });
 

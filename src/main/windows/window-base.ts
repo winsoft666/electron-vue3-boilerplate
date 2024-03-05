@@ -1,5 +1,9 @@
 import { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent } from "electron";
 
+/**
+ * 窗口基类，所有的窗口都继承自该类，如MainWindow、FramelessWindow
+ * @class
+ */
 abstract class WindowBase{
   constructor(){
     this._browserWindow = this.createWindow();

@@ -226,25 +226,26 @@ yarn run new:ipc
 
 执行上面指令后，会出现如下提示：
 ```txt
-Create syntax: CallWay,FunctionName,FunctionType
-Call Way:
-        rm = Renderer process call the function of main process
-        mr = Main process call the function of renderer process (Ignore FunctionType)
-Function Name:
+创建语法: 调用方向,函数名称,函数类型
+调用方向:
+        rm = 渲染进程调用主进程的函数
+        mr = 主进程调用渲染进程的函数（忽略函数类型）
+函数名称:
         xxx-xxx-xxx
-Function Type:
-        a = Asynchronous call without result
-        ap = Asynchronous call with promise result
-        s = Synchronous call with result
+函数类型:
+        a = 异步调用, 不带返回值
+        ap = 异步调用, 带Promise类型的返回值
+        s = 同步调用, 带返回值
+输入指令:
 ```
 
-参数1（CallWay）表示函数调用方向：
+参数1（调用方向）表示函数调用方向：
 - rm 表示渲染进程调用主进程的函数，可以支持同步调用、异步调用，并且可以返回Promise结果。
-- mr 表示主进程调用渲染进程的函数，该方向只能是异步调用，而且不支持返回结果，会忽略第三个参数（FunctionType）。
+- mr 表示主进程调用渲染进程的函数，该方向只能是异步调用，而且不支持返回结果，会忽略第三个参数（函数类型）。
 
-参数2（FunctionName）表示函数名称，函数名称的单词间使用`-`分隔，如`GetFileSha256`需要指定为`get-file-sha256`。
+参数2（函数名称），函数名称的单词间使用`-`分隔，如`GetFileSha256`需要指定为`get-file-sha256`。
 
-参数3（FunctionType）函数类型：
+参数3（函数类型）：
 - a 表示不返回结果的异步函数
 - ap 表示返回Promise结果的异步函数
 - s 表示同步函数

@@ -1,6 +1,6 @@
-/*
-* This code can only be used in the main process.
-*/
+/**
+ * @file 当前目录的代码只能被主进程所使用
+ */
 import { app, session, BrowserWindow, ipcMain, shell, dialog, OpenDialogOptions } from "electron";
 import path from "path";
 import * as FileUtils from "./file-util";

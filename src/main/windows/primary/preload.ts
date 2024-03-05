@@ -1,7 +1,7 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 /*
-The preload for MainWindow
+暴露primary窗口主进程的方法到primary窗口的渲染进程
 */
 contextBridge.exposeInMainWorld("electronAPI", {
   sendMessage: (message: string) => ipcRenderer.send("message", message),

@@ -1,3 +1,7 @@
+/**
+ * @file 实现创建Electron窗口的快捷指令
+ */
+
 const chalk = require("chalk");
 const path = require("path");
 const fs = require("fs");
@@ -8,14 +12,14 @@ const outputError = (error) => console.log(chalk.red(`${error}`));
 
 let windowName = "";
 
-outputTips("Input window name:");
+outputTips("输入窗口名称:");
 
 process.stdin.on("data", async(chunk) => {
   // Input page name
   windowName = String(chunk).trim().toString().toLowerCase();
   if(!windowName){
-    outputError("Window name is empty!");
-    outputTips("\nInput window name:");
+    outputError("窗口名称不能为空!");
+    outputTips("\n输入窗口名称:");
     return;
   }
 
@@ -23,8 +27,8 @@ process.stdin.on("data", async(chunk) => {
   // Check whether page is exist or not
   const pageExists = fs.existsSync(targetPath);
   if(pageExists){
-    outputError(`Window ${windowName} has already exist!`);
-    outputTips("\nInput window name:");
+    outputError(`窗口 ${windowName} 已经存在!`);
+    outputTips("\n输入窗口名称:");
     return;
   }
 

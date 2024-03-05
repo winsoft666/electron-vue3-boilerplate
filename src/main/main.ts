@@ -4,10 +4,11 @@ import PrimaryWindow from "./windows/primary";
 import { CreateAppTray } from "./tray";
 import appState from "./app-state";
 
-// Disable sandbox
+// 禁用沙盒
+// 在某些系统环境上，不禁用沙盒会导致界面花屏
 // app.commandLine.appendSwitch("no-sandbox");
 
-// Remove default menu
+// 移除默认菜单栏
 Menu.setApplicationMenu(null);
 
 const gotLock = app.requestSingleInstanceLock();

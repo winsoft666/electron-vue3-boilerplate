@@ -1,7 +1,12 @@
+/**
+ * @file 与系统托盘的相关的功能
+ */
+
 import path from "path";
 import { Menu, MenuItem, Tray } from "electron";
 import appState from "./app-state";
 
+// 创建系统托盘
 function CreateAppTray() : Tray{
   const iconPath = path.join(appState.mainStaticPath, "tray.ico");
   const tray = new Tray(iconPath);

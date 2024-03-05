@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-/*
-* This code can only be used in the renderer process.
-*/
+/**
+ * @file 当前目录的代码只能被渲染进程所使用
+ */
 
 import { OpenDialogOptions, OpenDialogReturnValue } from "electron";
 

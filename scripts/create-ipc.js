@@ -1,3 +1,7 @@
+/**
+ * @file 实现创建IPC函数的快捷指令
+ */
+
 /* eslint-disable */
 const chalk = require("chalk");
 const path = require("path");
@@ -13,21 +17,21 @@ let funcType = "";
 let humpFuncName = "";
 
 function outputUsage(){
-  outputTips("Create syntax: CallWay,FunctionName,FunctionType");
-  outputTips("Call Way:\n\trm = Renderer process call the function of main process\n\tmr = Main process call the function of renderer process (Ignore FunctionType)");
-  outputTips("Function Name:\n\txxx-xxx-xxx");
-  outputTips("Function Type:\n\ta = Asynchronous call without result\n\tap = Asynchronous call with promise result\n\ts = Synchronous call with result");
+  outputTips("创建语法: 调用方向,函数名称,函数类型");
+  outputTips("调用方向:\n\trm = 渲染进程调用主进程的函数\n\tmr = 主进程调用渲染进程的函数（忽略函数类型）");
+  outputTips("函数名称:\n\txxx-xxx-xxx");
+  outputTips("函数类型:\n\ta = 异步调用, 不带返回值\n\tap = 异步调用, 带Promise类型的返回值\n\ts = 同步调用, 带返回值");
 }
 
 outputUsage();
-outputTips("Input:");
+outputTips("输入指令:");
 
 process.stdin.on("data", async(chunk) => {
   const inputStr = String(chunk).trim().toString().toLowerCase();
   const values = inputStr.split(",");
   if(values.length < 2){
-    outputError("Syntax error!");
-    outputTips("\nInput:");
+    outputError("语法错误!");
+    outputTips("\n输入指令:");
     return;
   }
 
@@ -37,21 +41,21 @@ process.stdin.on("data", async(chunk) => {
     funcType = values.at(2);
 
   if(callWay != "rm" && callWay != "mr"){
-    outputError("Call way type error!");
-    outputTips("\nInput:");
+    outputError("调用方向类型错误!");
+    outputTips("\n输入指令:");
     return;
   }
 
   if(!funcName){
-    outputError("Function name can not be empty!");
-    outputTips("\nInput:");
+    outputError("函数名称不能为空!");
+    outputTips("\n输入指令:");
     return;
   }
 
   if(callWay == "rm"){
     if(funcType != "a" && funcType != "ap" && funcType != "s"){
-      outputError("Function type error!");
-      outputTips("\nInput:");
+      outputError("函数类型不能为空!");
+      outputTips("\n输入指令:");
       return;
     }
   }

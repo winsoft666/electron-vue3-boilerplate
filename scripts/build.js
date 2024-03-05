@@ -23,8 +23,8 @@ function copyStaticFiles(){
 }
 
 /*
-The working dir of Electron is build/main instead of src/main because of TS.
-tsc does not copy static files, so copy them over manually for dev server.
+注意：Electron的工作目录是 build/main 而不是 src/main
+tsc不能复制编译后的JS静态文件，所以需要手动复制编译后的文件到build/main
 */
 function copyMainSubFiles(subPath){
   return fsPromises.cp(path.join(__dirname, "..", "src", "main", subPath), path.join(__dirname, "..", "build", "main", subPath), { recursive: true });
