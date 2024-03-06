@@ -89,6 +89,7 @@ yarn run build:nsis-win64
 生成的安装包位于`setup\NSIS\`目录。
 
 NSIS安装界面截图：
+
 ![NSIS Setup UI](./screenshot/nsis-setup-1.jpg)
 
 # 2. 项目介绍
