@@ -76,6 +76,8 @@ yarn run new:window # 创建新的Electron窗口
 > 
 > 更多NSIS介绍，可以查看我的NSIS教程：[《打包狂魔之NSIS教程》](https://jiangxueqiao.com/post/4015642655.html)
 
+**首先需要将`setup\NSIS\nsis-3.08.zip`文件解压到当前目录，即将文件释放到nsis-3.08目录。**
+
 运行如下命令构建Windows平台 32位应用并使用NSIS生成安装包：
 ```bash
 yarn run build:nsis-win32
