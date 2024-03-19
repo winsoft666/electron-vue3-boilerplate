@@ -178,7 +178,9 @@ primaryWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/<PAGE-N
 yarn run new:window
 ```
 
-创建的子窗口默认会访问同名的子页面，可以手动修改代码访问其他页面：
+建议窗口名称和上一步创建的Vue页面名称保持一致，因为创建的子窗口默认会加载同名的子页面。
+
+当然我们也可以手动修改代码使其访问其他的页面：
 ```javascript
 if(process.env.NODE_ENV === "development"){
   const rendererPort = process.argv[2];
@@ -190,16 +192,14 @@ if(process.env.NODE_ENV === "development"){
 
 创建窗口后，需要在`registerIpcMainHandler`方法中注册该窗口的ipcMain事件及处理函数。
 
-如果多个窗口注册了同名的事件，当渲染进程发送该名称的事件到主进程时，所有窗口对象都会收到该事件，为了避免这种情况，我们可以在事件处理函数中使用`isIpcMainEventBelongMe`方法来过滤非本窗口的事件。
-
+每个窗口暴露到渲染进程的apiKey都不一样，如 primaryWindow：
 ```javascript
-ipcMain.on("message", (event, message) => {
-  if(!this.isIpcMainEventBelongMe(event))
-    return;
-
-  console.log(message);
-});
+contextBridge.exposeInMainWorld("primaryWindowAPI", {
+  ...
+}
 ```
+
+这样就不用担心多个窗口注册了同名的事件时，渲染进程发送该名称的事件到主进程，所有窗口对象都收到该事件通知。
 
 ## 2.6 快速创建IPC函数
 在`src\renderer\pages\primary\App.vue`中获取文件MD5的代码如下：

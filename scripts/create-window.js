@@ -5,12 +5,14 @@
 const chalk = require("chalk");
 const path = require("path");
 const fs = require("fs");
+const { ToCamelName } = require("./utils");
 
 const outputTips = (message) => console.log(chalk.blue(`${message}`));
 const outputSuccess = (message) => console.log(chalk.green(`${message}`));
 const outputError = (error) => console.log(chalk.red(`${error}`));
 
 let windowName = "";
+let className = "";
 
 outputTips("输入窗口名称:");
 
@@ -22,6 +24,8 @@ process.stdin.on("data", async(chunk) => {
     outputTips("\n输入窗口名称:");
     return;
   }
+
+  className = ToCamelName(windowName);
 
   const targetPath = path.join(__dirname, "../src/main/windows", windowName);
   // Check whether page is exist or not
@@ -46,11 +50,8 @@ function handleIndexTsFile(targetPath){
   const indexTsPath = path.join(targetPath, "index.ts");
   let code = fs.readFileSync(indexTsPath, { encoding: "utf-8" });
 
-  const className = windowName.charAt(0).toUpperCase() + windowName.substring(1) + "Window";
-  const rendererPageName = windowName.toLowerCase();
-
-  code = code.replaceAll("XXXWindow", className);
-  code = code.replaceAll("%renderer_page_name%", rendererPageName);
+  code = code.replaceAll("XXXWindow", className + "Window");
+  code = code.replaceAll("%renderer_page_name%", windowName);
 
   fs.writeFileSync(indexTsPath, code, { encoding: "utf-8" });
 }
@@ -59,9 +60,7 @@ function handlePreloadTsFile(targetPath){
   const preloadTsPath = path.join(targetPath, "preload.ts");
   let code = fs.readFileSync(preloadTsPath, { encoding: "utf-8" });
 
-  const className = windowName.charAt(0).toUpperCase() + windowName.substring(1) + "Window";
-
-  code = code.replaceAll("XXXWindow", className);
+  code = code.replaceAll("XXXWindow", className + "Window");
 
   fs.writeFileSync(preloadTsPath, code, { encoding: "utf-8" });
 }

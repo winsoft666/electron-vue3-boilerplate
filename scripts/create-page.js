@@ -5,6 +5,7 @@
 const chalk = require("chalk");
 const path = require("path");
 const fs = require("fs");
+const { ToCamelName } = require("./utils");
 
 const outputTips = (message) => console.log(chalk.blue(`${message}`));
 const outputSuccess = (message) => console.log(chalk.green(`${message}`));
@@ -57,6 +58,8 @@ function handleVueFile(targetPath){
   let code = fs.readFileSync(filePath, { encoding: "utf-8" });
 
   code = code.replaceAll("%renderer_page_name%", pageName);
+
+  code = code.replaceAll("XXXWindowAPI", ToCamelName(pageName) + "WindowAPI");
 
   fs.writeFileSync(filePath, code, { encoding: "utf-8" });
 }
