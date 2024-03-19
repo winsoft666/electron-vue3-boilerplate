@@ -8,7 +8,10 @@ import appState from "./app-state";
 
 // 创建系统托盘
 function CreateAppTray() : Tray{
-  const iconPath = path.join(appState.mainStaticPath, "tray.ico");
+  const iconPath = process.platform === "win32" ? 
+    path.join(appState.mainStaticPath, "tray.ico") : 
+    path.join(appState.mainStaticPath, "tray.png");
+
   const tray = new Tray(iconPath);
 
   tray.on("click", () => {
