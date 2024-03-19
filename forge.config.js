@@ -1,6 +1,6 @@
 /* eslint-disable */
-const fsPromises = require("node:fs/promises")
-const path = require("node:path")
+const fsPromises = require("fs/promises")
+const path = require("path")
 
 module.exports = {
   packagerConfig: {
@@ -32,6 +32,7 @@ module.exports = {
       ProductName: "electron-vue-template",
       CompanyName: "",
       FileDescription: "A Electron + Vue3 template",
+      // 如果安装包需要以管理员权限运行，请打开下面的注释
       // "requested-execution-level": "requireAdministrator",
     },
     asar: true,

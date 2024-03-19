@@ -5,7 +5,7 @@
 const chalk = require("chalk");
 const path = require("path");
 const fs = require("fs");
-const { ToCamelName } = require("./utils");
+const { ToCamelName } = require("./private/utils");
 
 const outputTips = (message) => console.log(chalk.blue(`${message}`));
 const outputSuccess = (message) => console.log(chalk.green(`${message}`));

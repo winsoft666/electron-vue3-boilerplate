@@ -1,4 +1,4 @@
-exports.ToCamelName = function(name){
+function ToCamelName(name){
   const lowerName = name.toLowerCase();
   const arr = lowerName.split("-");
   let result = arr[0];
@@ -8,4 +8,8 @@ exports.ToCamelName = function(name){
   }
     
   return result;
+}
+
+module.exports = { 
+  ToCamelName 
 };
