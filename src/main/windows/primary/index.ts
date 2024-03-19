@@ -5,9 +5,9 @@ import WindowBase from "../window-base";
 import FramelessWindow from "../frameless";
 import axiosInst from "../../../lib/axios-inst/main";
 
-class MainWindow extends WindowBase{
+class PrimaryWindow extends WindowBase{
   protected createWindow() : BrowserWindow | null{
-    const mainWindow = new BrowserWindow({
+    const win = new BrowserWindow({
       width: 800,
       height: 600,
       webPreferences: {
@@ -17,30 +17,22 @@ class MainWindow extends WindowBase{
       },
     });
   
-    mainWindow.on("close", (e) => {
-      if(!appState.willExitApp && appState.minToTrayWhenClose){
-        mainWindow.hide();
-        if(!appState.cfgStore?.get("TrayBalloonDisplayed", false) as boolean){
-          appState.cfgStore?.set("TrayBalloonDisplayed", true);
-          if(appState.tray){
-            appState.tray.displayBalloon({
-              title: "electron-vue-template",
-              content: "The program has been minimized to the system tray.\n\nThis balloon will only be displayed once!"
-            });
-          }
-        }
+    // 拦截close事件
+    win.on("close", (e) => {
+      if(!appState.willExitApp){
+        win.webContents.send("show-close-primary-win-msgbox");
         e.preventDefault();
       }
     });
   
     if(process.env.NODE_ENV === "development"){
       const rendererPort = process.argv[2];
-      mainWindow.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
+      win.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
     }else{
-      mainWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
+      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
     }
   
-    return mainWindow;
+    return win;
   }
 
   protected registerIpcMainHandler(): void{
@@ -71,6 +63,22 @@ class MainWindow extends WindowBase{
     function delay(time){
       return new Promise(resolve => setTimeout(resolve, time));
     }
+
+    ipcMain.on("min-to-tray", (event) => {
+      if(!this.isIpcMainEventBelongMe(event))
+        return;
+
+      this.browserWindow?.hide();
+      if(!appState.cfgStore?.get("TrayBalloonDisplayed", false) as boolean){
+        appState.cfgStore?.set("TrayBalloonDisplayed", true);
+        if(appState.tray){
+          appState.tray.displayBalloon({
+            title: "electron-vue-template",
+            content: "The program has been minimized to the system tray.\n\nThis balloon will only be displayed once!"
+          });
+        }
+      }
+    });
     
     ipcMain.handle("async-exit-app", async(event) => {
       if(!this.isIpcMainEventBelongMe(event))
@@ -101,4 +109,4 @@ class MainWindow extends WindowBase{
   }
 }
 
-export default MainWindow;
+export default PrimaryWindow;

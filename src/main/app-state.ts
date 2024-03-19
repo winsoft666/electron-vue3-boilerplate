@@ -87,9 +87,6 @@ class AppState extends Singleton{
   // 当前应用程序仅允许运行一个实例
   public onlyAllowSingleInstance : boolean = true;
 
-  // 用户点击关闭时最小化到系统托盘，而不是退出程序
-  public minToTrayWhenClose: boolean = true;
-
   protected _isInit: boolean = false;
 
   // 主进程静态资源目录的路径

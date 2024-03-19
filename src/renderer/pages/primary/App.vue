@@ -98,6 +98,23 @@
     </div>
     <p>{{ isExitingApp ? "Exiting App..." : "Are you sure to exit app?" }}</p>
   </a-modal>
+
+  <a-modal
+    :open="showClosePrimaryWinMsgbox"
+    title="Important Choices"
+    @ok="onMinPrimaryWinToTray"
+    @cancel="showClosePrimaryWinMsgbox = false"
+  >
+    <template #footer>
+      <a-button key="minimize" type="primary" @click="onMinPrimaryWinToTray">
+        Minimize to Tray
+      </a-button>
+      <a-button key="exit-app" :loading="isExitingApp" @click="onExitApp">
+        Exit App
+      </a-button>
+    </template>
+    <p>Exiting the software will make the function unavailable, it is recommended to minimize it to the system tray!</p>
+  </a-modal>
 </template>
 
 <script setup lang="ts">
@@ -113,6 +130,7 @@ import axiosInst from "../../../lib/axios-inst/renderer";
 
 const activeKey = ref<number>(1);
 const showExitAppMsgbox = ref<boolean>(false);
+const showClosePrimaryWinMsgbox = ref<boolean>(false);
 const isExitingApp = ref<boolean>(false);
 
 interface FileDownloadState {
@@ -137,6 +155,10 @@ window.electronAPI.sendMessage("Hello from App.vue!");
 
 window.electronAPI.onShowExitAppMsgbox(() => {
   showExitAppMsgbox.value = true;
+});
+
+window.electronAPI.onShowClosePrimaryWinMsgbox(() => {
+  showClosePrimaryWinMsgbox.value = true;
 });
 
 log.info("Log from the renderer process(App.vue)!");
@@ -235,6 +257,10 @@ async function onExitApp(){
   await window.electronAPI.asyncExitApp();
   isExitingApp.value = false;
   showExitAppMsgbox.value = false;
+}
+
+function onMinPrimaryWinToTray(){
+  window.electronAPI.minToTray();
 }
 </script>
 

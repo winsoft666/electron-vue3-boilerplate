@@ -11,6 +11,10 @@ contextBridge.exposeInMainWorld("electronAPI", {
   onShowExitAppMsgbox: (callback) => ipcRenderer.on("show-exit-app-msgbox", () => {
     callback();
   }),
+  onShowClosePrimaryWinMsgbox: (callback) => ipcRenderer.on("show-close-primary-win-msgbox", () => {
+    callback();
+  }),
   asyncExitApp: () => ipcRenderer.invoke("async-exit-app"),
+  minToTray: () => ipcRenderer.send("min-to-tray"),
   httpGetRequest: (url:string) => ipcRenderer.send("http-get-request", url),
 });
