@@ -27,8 +27,6 @@ class XXXWindow extends WindowBase{
   protected registerIpcMainHandler(): void{
     // A simple sample
     ipcMain.on("send-message", (event, message) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
       console.log(message);
     });
 

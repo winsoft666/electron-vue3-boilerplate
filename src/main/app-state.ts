@@ -61,6 +61,7 @@ class AppState extends Singleton{
     return this._isInit;
   }
 
+  // 主进程静态资源目录
   public get mainStaticPath(){
     return this._mainStaticPath;
   }

@@ -23,16 +23,21 @@
 <script setup lang="ts">
 import utils from "../../../lib/utils/renderer";
 
+function getElectronApi(){
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (window as any).framelessWindowAPI;
+}
+
 function onMinimizeWindow(){
-  window.electronAPI.minimizeWindow();
+  getElectronApi().minimizeWindow();
 }
 
 function onRestoreWindow(){
-  window.electronAPI.restoreWindow();
+  getElectronApi().restoreWindow();
 }
 
 function onCloseWindow(){
-  window.electronAPI.closeWindow();
+  getElectronApi().closeWindow();
 }
 
 function onOpenDevTools(){

@@ -133,6 +133,11 @@ const showExitAppMsgbox = ref<boolean>(false);
 const showClosePrimaryWinMsgbox = ref<boolean>(false);
 const isExitingApp = ref<boolean>(false);
 
+function getElectronApi(){
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (window as any).primaryWindowAPI;
+}
+
 interface FileDownloadState {
   url : string;
   savePath: string;
@@ -151,20 +156,20 @@ const fdState = reactive<FileDownloadState>({
   percent: 0
 });
 
-window.electronAPI.sendMessage("Hello from App.vue!");
+getElectronApi().sendMessage("Hello from App.vue!");
 
-window.electronAPI.onShowExitAppMsgbox(() => {
+getElectronApi().onShowExitAppMsgbox(() => {
   showExitAppMsgbox.value = true;
 });
 
-window.electronAPI.onShowClosePrimaryWinMsgbox(() => {
+getElectronApi().onShowClosePrimaryWinMsgbox(() => {
   showClosePrimaryWinMsgbox.value = true;
 });
 
 log.info("Log from the renderer process(App.vue)!");
 
 function onShowFramelessWindow(){
-  window.electronAPI.showFramelessSampleWindow();
+  getElectronApi().showFramelessSampleWindow();
 }
 
 function onOpenHomepage(){
@@ -198,7 +203,7 @@ async function onGetFileMd5(){
 }
 
 function onClearAppConfiguration(){
-  window.electronAPI.clearAppConfiguration();
+  getElectronApi().clearAppConfiguration();
   message.success("Clear successful!");
 }
 
@@ -238,7 +243,7 @@ async function onCancelDownloadFile(){
 }
 
 function onHttpGetInMainProcess(){
-  window.electronAPI.httpGetRequest("https://baidu.com");
+  getElectronApi().httpGetRequest("https://baidu.com");
 }
 
 function onHttpGetInRendererProcess(){
@@ -254,13 +259,14 @@ function onHttpGetInRendererProcess(){
 
 async function onExitApp(){
   isExitingApp.value = true;
-  await window.electronAPI.asyncExitApp();
+  await getElectronApi().asyncExitApp();
   isExitingApp.value = false;
   showExitAppMsgbox.value = false;
 }
 
 function onMinPrimaryWinToTray(){
-  window.electronAPI.minToTray();
+  showClosePrimaryWinMsgbox.value = false;
+  getElectronApi().electronAPI.minToTray();
 }
 </script>
 

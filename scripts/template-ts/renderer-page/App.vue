@@ -9,7 +9,12 @@ import { ref } from "vue";
 
 const pageName = ref<string>("%renderer_page_name%");
 
-window.electronAPI.sendMessage(`Page ${pageName.value} created successfully!`);
+function getElectronApi(){
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (window as any).XXXWindowAPI;
+}
+
+getElectronApi().sendMessage(`Page ${pageName.value} created successfully!`);
 </script>
 
 <style scoped>

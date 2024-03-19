@@ -3,7 +3,7 @@ import { contextBridge, ipcRenderer } from "electron";
 /*
 The preload for XXXWindow
 */
-contextBridge.exposeInMainWorld("electronAPI", {
+contextBridge.exposeInMainWorld("XXXWindowAPI", {
   // A simple sample
   sendMessage: (message) => ipcRenderer.send("send-message", message),
 

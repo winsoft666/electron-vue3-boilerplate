@@ -3,7 +3,7 @@ import { contextBridge, ipcRenderer } from "electron";
 /*
 暴露primary窗口主进程的方法到primary窗口的渲染进程
 */
-contextBridge.exposeInMainWorld("electronAPI", {
+contextBridge.exposeInMainWorld("primaryWindowAPI", {
   sendMessage: (message: string) => ipcRenderer.send("message", message),
   showFramelessSampleWindow: () => ipcRenderer.send("show-frameless-sample-window"),
   openExternalLink: (url: string) => ipcRenderer.send("open-external-link", url),
