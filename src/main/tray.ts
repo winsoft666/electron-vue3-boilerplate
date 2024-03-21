@@ -3,7 +3,7 @@
  */
 
 import path from "path";
-import { Menu, MenuItem, Tray } from "electron";
+import { Menu, MenuItem, Tray, app } from "electron";
 import appState from "./app-state";
 
 // 创建系统托盘
