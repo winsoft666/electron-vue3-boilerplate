@@ -35,6 +35,7 @@ function CreateAppTray() : Tray{
         if(appState.primaryWindow){
           appState.primaryWindow.browserWindow?.show();
           appState.primaryWindow.browserWindow?.webContents.send("show-exit-app-msgbox");
+          app.exit();
         }
       },
     },
