@@ -3,7 +3,7 @@
 
 真正做到开箱即用，面向跨平台客户端设计，产品级的项目模板。
 
-![Main UI](./screenshot/main.jpg)
+![Main UI](./screenshot/main.png)
 
 ## 1.1 特性
 
@@ -384,4 +384,4 @@ console.log(utils.getAppVersion());
 # 6. 期待你的反馈 🥳
 个人能力有限，代码不免有错误和不足之处，欢迎提交issue和PR。
 
-如果这个项目对你有帮助，无需捐助，点击右上角Star ⭐让我知道就可以了。
+如果这个项目对你有帮助，请点击右上角Star ⭐或Fork该项目，为项目增加一丝热度，让更多的人发现该项目。
