@@ -266,7 +266,7 @@ async function onExitApp(){
 
 function onMinPrimaryWinToTray(){
   showClosePrimaryWinMsgbox.value = false;
-  getElectronApi().electronAPI.minToTray();
+  getElectronApi().minToTray();
 }
 </script>
 

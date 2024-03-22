@@ -44,19 +44,26 @@ class PrimaryWindow extends WindowBase{
     });
   
     ipcMain.on("show-frameless-sample-window", (event) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
-
-      if(appState.framelessWindow?.valid){
-        appState.framelessWindow?.browserWindow?.show();
-      }else{
+      if(!appState.framelessWindow?.valid){
         appState.framelessWindow = new FramelessWindow();
+      }
+      
+      const win = appState.framelessWindow?.browserWindow;
+      if(win){
+        // 居中到父窗体中
+        const parent = win.getParentWindow();
+        if(parent){
+          const parentBounds = parent.getBounds();
+          const x = Math.round(parentBounds.x + (parentBounds.width - win.getSize()[0]) / 2);
+          const y = Math.round(parentBounds.y + (parentBounds.height - win.getSize()[1]) / 2);
+
+          win.setPosition(x, y, false);
+        }
+        win.show();
       }
     });
 
     ipcMain.on("clear-app-configuration", (event) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
       appState.cfgStore?.clear();
     });
     
@@ -81,17 +88,12 @@ class PrimaryWindow extends WindowBase{
     });
     
     ipcMain.handle("async-exit-app", async(event) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
-
       await delay(1500);
       appState.willExitApp = true;
       app.quit();
     });
 
     ipcMain.on("http-get-request", (event, url) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
       axiosInst.get(url)
         .then((rsp) => {
           dialog.showMessageBox(this._browserWindow!, {

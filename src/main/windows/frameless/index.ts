@@ -1,6 +1,7 @@
 import path from "path";
 import { BrowserWindow, app, ipcMain } from "electron";
 import WindowBase from "../window-base";
+import appState from "../../app-state";
 
 class FramelessWindow extends WindowBase{
   protected createWindow() : BrowserWindow | null{
@@ -13,6 +14,8 @@ class FramelessWindow extends WindowBase{
         nodeIntegration: false,
         contextIsolation: true,
       },
+      // 设置父窗口
+      parent: appState.primaryWindow?.browserWindow as BrowserWindow,
     });
 
     if(process.env.NODE_ENV === "development"){
