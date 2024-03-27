@@ -1,20 +1,20 @@
-# 写在前面
+# 1. 写在前面
 已经有了那么多的Electron项目模板，为什么还要再造一个？是重复造轮子吗？
 
-我相信大多数人选择使用Electron开发客户端时，或多或少都看上了Web开发的高效率，但Web开发人员大多缺少客户端和系统编程方面的经验，而且Electron和前端框架（如Vue）结合起来也不是那么的轻而易举，开发人员可能会选择基于模板来上手搭建Electron项目。
+我相信大多数人选择使用Electron开发客户端时，或多或少都看上了Web开发的高效率，但Web开发人员在客户端和系统编程方面的经验相对缺乏，又加上Electron和前端框架（如Vue）结合起来也不是那么的轻而易举，开发人员大多会选择基于模板来快速上手搭建Electron项目。
 
-目前，Electron的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)，这个模板的优点是功能完善，但缺点也在于功能太完善，代码过于复杂，甚至超过了很多Electron客户端项目本身的代码量，不适合新手上手修改，一旦出现问题也难以维护。而有的模板又年久失修，使用的技术已被淘汰，也不适合用来开发线上产品。
+目前，Electron的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)，这个模板的优点是功能完善，但缺点也在于功能过于完善，代码太复杂，甚至超过了很多Electron客户端项目本身的代码量，需要花很多时间来熟悉项目模板，不适合新手快速上手和修改，一旦出现问题也难以维护。而有的模板又年久失修，使用的技术已被淘汰，也不适合用来开发线上产品。
 
 基于上述原因，我开发了这个Electron项目模板，在开发过程中，我一直遵循稳定、易于维护的初衷。
 
-# 1. electron-vue3-template
+# 2. electron-vue3-boilerplate
 基于**Vue3** + **Electron** + **TypeScript**的客户端程序模板，使用**Vite**和**Electron Forge**构建和打包。
 
 真正做到开箱即用，面向跨平台客户端设计，产品级的项目模板。
 
 ![Main UI](./screenshot/main.png)
 
-## 1.1 特性
+## 2.1 特性
 
 - 使用[ViteJS](https://vitejs.dev)构建和驱动前端页面，支持热加载（HMR），使开发和调试变得更加高效 ⚡
 - 支持Vue3多页面，提供页面创建指令，适合客户端开发场景 💖
@@ -35,7 +35,7 @@
 - 支持NSIS安装包 😎
 - ......
 
-## 1.2 快速开始 🌈
+## 2.2 快速开始 🌈
 
 点击右上角绿色的 **Use this template** 按钮，使用该模板创建一个新的仓库并克隆到本地。
 
@@ -43,24 +43,24 @@
 
 直接克隆该项目: `git clone https://github.com/winsoft666/electron-vue3-template.git`
 
-### Visual Studio Code
+### 2.2.1 Visual Studio Code
 推荐使用`Visual Studio Code`进行项目开发，并安装如下插件：
 - ESLint
 - Vue Language Features (Volar)
 
-### 安装依赖 ⏬
+### 2.2.2 安装依赖 ⏬
 
 ```bash
 yarn install
 ```
 
-### 开发 ⚒️
+### 2.2.3 开发 ⚒️
 
 ```bash
 yarn run dev
 ```
 
-### 其他命令
+### 2.2.4 其他命令
 
 ```bash
 yarn run dev # 启动应用并支持热加载
@@ -78,7 +78,7 @@ yarn run new:window # 创建新的Electron窗口
 
 更多的可选配置项可以参考 [Electron Forge CLI docs](https://www.electronforge.io/cli)。
 
-### NSIS安装包 🪟
+### 2.2.5 NSIS安装包 🪟
 > 这一步是可选的。
 > 
 > NSIS只支持生成Windows平台安装包，如果您不需要使用生成NSIS安装包，可以跳过该节。
@@ -103,8 +103,8 @@ NSIS安装界面截图：
 
 ![NSIS Setup UI](./screenshot/nsis-setup-1.jpg)
 
-# 2. 项目介绍
-## 2.1 工程结构 🌳
+# 3. 项目介绍
+## 3.1 工程结构 🌳
 
 ```yaml
 - scripts/         # 该目录中的脚本用构建应用程序和驱动前端页面
@@ -136,7 +136,7 @@ NSIS安装界面截图：
     - typings/         # ts声明文件
 ```
 
-## 2.2 使用静态文件
+## 3.2 使用静态文件
 
 - `src/main/static`目录存放主进程使用的静态文件。
 - `src/renderer/public`目录存放渲染进程使用的静态文件。
@@ -152,7 +152,7 @@ import appState from "./app-state";
 const iconPath = path.join(appState.mainStaticPath, "tray.ico");
 ```
 
-## 2.3 AppState对象
+## 3.3 AppState对象
 为了方便在主进程中跨模块访问某些对象（如`primaryWindow`、`tray`、`cfgStore`等）和应用配置（如`onlyAllowSingleInstance`等），我们定义了单实例对象AppState来存储这些数据。
 
 使用方法如下：
@@ -162,7 +162,7 @@ import appState from "./app-state";
 appState.primaryWindow?.show();
 ```
 
-## 2.4 快速创建Vue页面
+## 3.4 快速创建Vue页面
 
 执行如下命令，输入页面名称后将自动在`renderer/pages`目录创建子页面，每个子页面的相关代码位于单独的目录中，目录名为我们指定的页面名称（小写）。
 
@@ -180,7 +180,7 @@ primaryWindow.loadURL(`http://localhost:${rendererPort}/pages/<PAGE-NAME>/index.
 primaryWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/<PAGE-NAME>/index.html"));
 ```
 
-## 2.5 快速创建Electron窗口
+## 3.5 快速创建Electron窗口
 虽然直接构造Electron的BrowerWindow对象就可以创建新的Electron窗口，但为了方便代码管理和ipcMain消息隔离，本模板中的每个窗口都继承自`WindowBase`对象，每个窗口的相关代码位于`src\main\windows\`的不同子目录中，目录名为我们指定的窗口名称（小写）。
 
 ```bash
@@ -210,7 +210,7 @@ contextBridge.exposeInMainWorld("primaryWindowAPI", {
 
 这样就不用担心多个窗口注册了同名的事件时，渲染进程发送该名称的事件到主进程，所有窗口对象都收到该事件通知。
 
-## 2.6 快速创建IPC函数
+## 3.6 快速创建IPC函数
 在`src\renderer\pages\primary\App.vue`中获取文件MD5的代码如下：
 ```javascript
 async function onGetFileMd5(){
@@ -316,7 +316,7 @@ ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) 
 });
 ```
 
-# 3. 代码规范
+# 4. 代码规范
 本项目使用ESLint进行代码检查和格式化，没有使用Prettier进行代码格式化。
 
 原因大体如下：
@@ -329,8 +329,8 @@ ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) 
 
 [在线演示](https://prettier.io/playground/#N4Igxg9gdgLgprEAuc0DOMAEBXNcBOamAvJgNoA6UmmwOe+AkgCZKYCMANPQVAIYBbOGwogAggBsAZgEs4mAMJ98QiTJh9RmAL6cqNOrgIs2AJm5H8-ISJABxGf0wAlCGgAWfKFt37aPJlZMAGYLBmthTFEAZXdsAHNMADk+ACNsHz1qf0sTTAAWMN5BSNFnPncBL0wAMXw+Bky-QwY8gFYiqxLbABU3d3kAGQBPbFSEJuyW4yCANk6I22iCeJkIZJkJCCllSYBdAG4qEE4QCAAHGDWoNGRQZXwIAHcABWUEW5Q+CSe+YdvTql6mAANZwGDREqDRxwZA7CR4QHAsEQ858MCOeLIGD4bBwU5wATjZjMODMQZeeLYPjxOA1CAqPgwK5QLFfbAwCAnEDuGACCQAdXc6jgaDRYDgyxu6hkADd1MNkOA0ACQI4GDAXvV4lU4d9ESAAFZoAAe0UxEjgAEVsBB4HqEfiQGjCAQlak0nAJNzzvhHDABTJmDB3Mh8uZnY88AL6uclb7RQRZbDTgBHW3wLUXT4gBoAWigcDJZO5+Dg6ZkZa1NN1SHhBrwAhk2NxTrQFutGdhdf1To0qUDwdDSAjOL4m0xCggAlrIFFbW5Rh6aU+9adsrxjCgpNg0TAfsuYm30Rgw0tDrw2m0QA)
 
-# 4. 依赖包 🎈
-## 4.1 基本原则
+# 5. 依赖包 🎈
+## 5.1 基本原则
 
 > 一个构建在众多不稳定性因素下的项目，是没有稳定性可言的。
 
@@ -338,7 +338,7 @@ ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) 
 
 对于作者自己写的库（如`file-download`等），统一以源码形式提供在`src\lib\`目录，方便模板使用者进行bug修复和功能扩充，在使用时直接采用相对路径进行导入即可。
 
-## 4.2 dependencies和devDependencies的区别
+## 5.2 dependencies和devDependencies的区别
 由于Electron Forge会将`dependencies`中的所有依赖项都进行打包，因此为了减少安装包的体积，我们只将主进程需要使用的依赖安装到`dependencies`项下，而其他的依赖均安装到`devDependencies`。
 
 如将vue作为开发依赖进行安装：
@@ -347,7 +347,7 @@ ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) 
 yarn add -D vue
 ```
 
-## 4.3 依赖包说明
+## 5.3 依赖包说明
 
 > 作为开发者，应知晓每个依赖包的用途，避免node_modules黑洞的产生。
 
@@ -378,7 +378,7 @@ yarn add -D vue
 - axios
 异步HTTP网络请求组件
 
-# 5. 客户端版本号
+# 6. 客户端版本号
 使用`package.json`文件的`version`字段标识客户端的版本号，在主进程内可以通过`appState.appVersion`属性获取。
 
 💡 不需要设置`forge.config.js`文件的`appVersion`字段。
@@ -390,7 +390,7 @@ import utils from "../../../lib/utils/renderer";
 console.log(utils.getAppVersion());
 ```
 
-# 6. 期待你的反馈 🥳
+# 7. 期待你的反馈 🥳
 个人能力有限，代码不免有错误和不足之处，欢迎提交issue和PR。
 
 如果这个项目对你有帮助，请点击右上角Star ⭐或Fork该项目，为项目增加一丝热度，让更多的人发现该项目。
