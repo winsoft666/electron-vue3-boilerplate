@@ -20,8 +20,8 @@
     "build:win64": "node scripts/build.js && electron-forge make --platform=win32 --arch=x64",
     "build:mac": "node scripts/build.js && electron-forge make --platform=darwin",
     "build:linux": "node scripts/build.js && electron-forge make --platform=linux",
-    "build:nsis-win32": "node scripts/build.js && electron-forge package --platform=win32 --arch=ia32 && setup/NSIS/nsis-3.08/makensis.exe setup/NSIS/win-setup-x86.nsi",
-    "build:nsis-win64": "node scripts/build.js && electron-forge package --platform=win32 --arch=x64 && setup/NSIS/nsis-3.08/makensis.exe setup/NSIS/win-setup-x64.nsi"
+    "build:nsis-win32": "node scripts/build.js && electron-forge package --platform=win32 --arch=ia32 && ./setup/NSIS/nsis-3.08/makensis.exe ./setup/NSIS/win-setup-x86.nsi",
+    "build:nsis-win64": "node scripts/build.js && electron-forge package --platform=win32 --arch=x64 && ./setup/NSIS/nsis-3.08/makensis.exe ./setup/NSIS/win-setup-x64.nsi"
   },
   "dependencies": {
     "axios": "^1.6.7",
