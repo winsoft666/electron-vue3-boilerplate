@@ -12,6 +12,8 @@ import appState from "./app-state";
 Menu.setApplicationMenu(null);
 
 const gotLock = app.requestSingleInstanceLock();
+
+// 如果程序只允许启动一个实例时，第二个实例启动后直接退出
 if(!gotLock && appState.onlyAllowSingleInstance){
   app.quit();
 }else{
@@ -37,6 +39,7 @@ if(!gotLock && appState.onlyAllowSingleInstance){
     });
   });
 
+  // 当程序的第二个实例启动时，显示第一个实例的主窗口
   app.on("second-instance", () => {
     appState.primaryWindow?.browserWindow?.show();
   });

@@ -76,6 +76,8 @@ class PrimaryWindow extends WindowBase{
         return;
 
       this.browserWindow?.hide();
+
+      // 托盘气泡消息只显示一次，用配置文件记录是否已经显示
       if(!appState.cfgStore?.get("TrayBalloonDisplayed", false) as boolean){
         appState.cfgStore?.set("TrayBalloonDisplayed", true);
         if(appState.tray){
@@ -88,6 +90,7 @@ class PrimaryWindow extends WindowBase{
     });
     
     ipcMain.handle("async-exit-app", async(event) => {
+      // 暂停1500毫秒，模拟退出程序时的清理操作
       await delay(1500);
       appState.willExitApp = true;
       app.quit();

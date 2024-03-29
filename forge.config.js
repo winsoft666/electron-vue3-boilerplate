@@ -7,8 +7,9 @@ module.exports = {
     name: "Electron-Vue3-Template",
     appCopyright: "Copyright (C) 2024",
     icon: "./setup/exe.ico",
-    // ElectronForge默认会将项目根目录下的所有文件打包到resources
-    // 在这里忽略不需要打入到安装包的文件和目录
+    // ElectronForge默认会将项目根目录下的所有文件及目录打包到resources
+    // 因此需要在这里忽略不需要打入到安装包的文件和目录
+    // 对于node_modules目录，只会打包dependencies依赖项
     // 不支持正则表达式
     ignore: [
       ".vscode",
@@ -31,7 +32,6 @@ module.exports = {
       "^(\/setup$)",
       "^(\/screenshot$)",
     ],
-    // 
     win32metadata: {
       ProductName: "electron-vue-template",
       CompanyName: "",

@@ -18,6 +18,7 @@ function CreateAppTray() : Tray{
     appState.primaryWindow?.browserWindow?.show();
   });
 
+  // 创建托盘右键菜单
   const contextMenu = Menu.buildFromTemplate([
     {
       label: "Open",
@@ -40,6 +41,7 @@ function CreateAppTray() : Tray{
     },
   ]);
 
+  // 在开发环境下，添加一个打开调试工具菜单，方便调试
   if(process.env.NODE_ENV === "development"){
     contextMenu.insert(
       0,

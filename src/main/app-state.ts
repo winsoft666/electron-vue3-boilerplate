@@ -1,5 +1,5 @@
 /**
- * @file 存储应用是状态数据
+ * @file 存储应用的状态数据
  */
 
 import path from "path";
