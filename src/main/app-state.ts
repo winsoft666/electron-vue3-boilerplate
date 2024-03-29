@@ -44,7 +44,10 @@ class AppState extends Singleton{
       return false;
     }
 
+    // 初始化文件下载组件
     fd.initialize();
+
+    // 初始化Utils组件
     utils.initialize();
 
     this._isInit = true;
@@ -75,7 +78,7 @@ class AppState extends Singleton{
   // 主窗口对象
   public primaryWindow: null | PrimaryWindow = null;
 
-  // 无边框示例窗口对象
+  // 无边框示例窗口的对象
   public framelessWindow : null | FramelessWindow = null;
 
   // 系统托盘
@@ -88,6 +91,7 @@ class AppState extends Singleton{
   // 当前应用程序仅允许运行一个实例
   public onlyAllowSingleInstance : boolean = true;
 
+  // 应用程序是否已初始化
   protected _isInit: boolean = false;
 
   // 主进程静态资源目录的路径

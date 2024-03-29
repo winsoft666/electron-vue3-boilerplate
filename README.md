@@ -85,14 +85,18 @@ yarn run new:window # 创建新的Electron窗口
 > 
 > 更多NSIS介绍，可以查看我的NSIS教程：[《打包狂魔之NSIS教程》](https://jiangxueqiao.com/post/4015642655.html)
 
-**首先需要将`setup\NSIS\nsis-3.08.zip`文件解压到当前目录，即将文件释放到nsis-3.08目录。**
+**首先需要将`setup\NSIS\nsis-3.08.zip`文件解压到当前目录，即将文件释放到nsis-3.08目录，解压后的nsis-3.08目录结构如下：**
+
+![scrennshot-after-nsis-zip-comoressed](./screenshot/after-nsis-zip-compress.png)
 
 运行如下命令构建Windows平台 32位应用并使用NSIS生成安装包：
+
 ```bash
 yarn run build:nsis-win32
 ```
 
 运行如下命令构建Windows平台 64位应用并使用NSIS生成安装包：
+
 ```bash
 yarn run build:nsis-win64
 ```
@@ -102,6 +106,8 @@ yarn run build:nsis-win64
 NSIS安装界面截图：
 
 ![NSIS Setup UI](./screenshot/nsis-setup-1.jpg)
+
+NSIS安装包支持完全定制化，如需定制，可以修改`setup\NSIS\win-setup-*.nsi`文件，但请注意NSIS脚本文件需要以ANSI编码格式保存。
 
 # 3. 项目介绍
 ## 3.1 工程结构 🌳
@@ -156,11 +162,14 @@ const iconPath = path.join(appState.mainStaticPath, "tray.ico");
 为了方便在主进程中跨模块访问某些对象（如`primaryWindow`、`tray`、`cfgStore`等）和应用配置（如`onlyAllowSingleInstance`等），我们定义了单实例对象AppState来存储这些数据。
 
 使用方法如下：
+
 ```javascript
 import appState from "./app-state";
 
 appState.primaryWindow?.show();
 ```
+
+更多与应用有关的对象和配置，请查看 [app-state.ts](./src/main/app-state.ts)
 
 ## 3.4 快速创建Vue页面
 
@@ -171,6 +180,7 @@ yarn run new:page
 ```
 
 创建的子页面在代码中通过以下方式访问：
+
 ```javascript
 // 开发环境
 const rendererPort = process.argv[2];
@@ -190,6 +200,7 @@ yarn run new:window
 建议窗口名称和上一步创建的Vue页面名称保持一致，因为创建的子窗口默认会加载同名的子页面。
 
 当然我们也可以手动修改代码使其访问其他的页面：
+
 ```javascript
 if(process.env.NODE_ENV === "development"){
   const rendererPort = process.argv[2];
@@ -202,6 +213,7 @@ if(process.env.NODE_ENV === "development"){
 创建窗口后，需要在`registerIpcMainHandler`方法中注册该窗口的ipcMain事件及处理函数。
 
 每个窗口暴露到渲染进程的apiKey都不一样，如 primaryWindow：
+
 ```javascript
 contextBridge.exposeInMainWorld("primaryWindowAPI", {
   ...
@@ -211,7 +223,8 @@ contextBridge.exposeInMainWorld("primaryWindowAPI", {
 这样就不用担心多个窗口注册了同名的事件时，渲染进程发送该名称的事件到主进程，所有窗口对象都收到该事件通知。
 
 ## 3.6 快速创建IPC函数
-在`src\renderer\pages\primary\App.vue`中获取文件MD5的代码如下：
+在`src\renderer\pages\primary\App.vue`中获取文件 MD5 的代码如下：
+
 ```javascript
 async function onGetFileMd5(){
   const result = await utils.showOpenDialog({
@@ -237,6 +250,7 @@ async function onGetFileMd5(){
 但是Utils只预置了部分常用的功能，预置功能肯定无法满足我们产品开发的所有需求。在此情况下，我们可以向Utils库中添加自定义的功能函数，该如何添加了？
 
 不用担心，本模板已经提供了IPC函数快速创建指令：
+
 ```bash
 yarn run new:ipc
 ```
@@ -294,6 +308,7 @@ public async getFileSha256(filePath: string) : string {
 ```
 
 在渲染进程中（如App.vue）中可以直接调用该函数：
+
 ```javascript
 import utils from "../../../lib/utils/renderer";
 
@@ -310,6 +325,7 @@ ipcMain.handle("electron-utils-get-file-sha256", async(event) => {
 ```
 
 手动添加参数、返回值，及具体的功能代码（此处省略）：
+
 ```javascript
 ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) : Promise<string> => {
   // .....
@@ -376,7 +392,7 @@ yarn add -D vue
 与Electron Forge构建和打包相关的依赖包，除了`@electron-forge/cli`是必须的，其他的可以根据`forge.config.js -> makers`的配置按需引用。
 
 - axios
-异步HTTP网络请求组件
+异步HTTP网络请求组件，在主进程和渲染进程中使用。
 
 # 6. 客户端版本号
 使用`package.json`文件的`version`字段标识客户端的版本号，在主进程内可以通过`appState.appVersion`属性获取。
@@ -384,6 +400,7 @@ yarn add -D vue
 💡 不需要设置`forge.config.js`文件的`appVersion`字段。
 
 在渲染进程可以直接使用`utils.getAppVersion()`获取版本号。
+
 ```javascript
 import utils from "../../../lib/utils/renderer";
 
