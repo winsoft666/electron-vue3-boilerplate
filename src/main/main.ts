@@ -13,7 +13,7 @@ Menu.setApplicationMenu(null);
 
 const gotLock = app.requestSingleInstanceLock();
 
-// 如果程序只允许启动一个实例时，第二个实例启动后直接退出
+// 如果程序只允许启动一个实例时，第二个实例启动后会直接退出
 if(!gotLock && appState.onlyAllowSingleInstance){
   app.quit();
 }else{
