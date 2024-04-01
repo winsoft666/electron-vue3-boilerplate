@@ -28,7 +28,7 @@ class AppState extends Singleton{
   constructor(){
     super();
     let envStr = "";
-    if(process.argv.length >= 2){
+    if(process.argv.length > 2){
       envStr = process.argv[2].toLowerCase();
     }
 
