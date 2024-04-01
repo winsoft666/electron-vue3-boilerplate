@@ -14,11 +14,11 @@ class XXXWindow extends WindowBase{
       },
     });
 
-    if(process.env.NODE_ENV === "development"){
+    if(app.isPackaged){
+      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/%renderer_page_name%/index.html"));
+    }else{
       const rendererPort = process.argv[2];
       win.loadURL(`http://localhost:${rendererPort}/pages/%renderer_page_name%/index.html`);
-    }else{
-      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/%renderer_page_name%/index.html"));
     }
     
     return win;

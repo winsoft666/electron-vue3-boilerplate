@@ -1,15 +1,17 @@
 {
-  "name": "electron-vue3-template",
+  "name": "electron-vue3-boilerplate",
   "version": "1.0.0",
-  "description": "A Electron + Vue3 template.",
+  "description": "A Electron + Vue3 boilerplate.",
   "author": {
     "name": "winsoft666",
     "url": "https://github.com/winsoft666"
   },
-  "repository": "https://github.com/winsoft666/electron-vue3-template",
+  "repository": "https://github.com/winsoft666/electron-vue3-boilerplate",
   "main": "build/main/main.js",
   "scripts": {
-    "dev": "node scripts/dev-server.js",
+    "dev": "node scripts/dev-server.js development",
+    "test": "node scripts/dev-server.js test",
+    "production": "node scripts/dev-server.js production",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "new:page": "node scripts/create-page.js",

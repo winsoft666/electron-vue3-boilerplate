@@ -1,7 +1,7 @@
 import { BrowserWindow, IpcMainEvent, IpcMainInvokeEvent } from "electron";
 
 /**
- * 窗口基类，所有的窗口都继承自该类，如MainWindow、FramelessWindow
+ * 窗口基类，所有的窗口都继承自该类，如 PrimaryWindow、FramelessWindow
  * @class
  */
 abstract class WindowBase{

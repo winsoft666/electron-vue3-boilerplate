@@ -1,6 +1,6 @@
 <template>
   <div class="titlebar">
-    <span class="title">Frameless Window Sample</span>
+    <span class="title">无边框示例窗口</span>
     <div class="buttons">
       <div class="button" @click="onMinimizeWindow">
         <font-awesome-icon icon="fa-solid fa-minus" color="#9d9d9d" />

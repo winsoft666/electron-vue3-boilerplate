@@ -13,36 +13,42 @@
   <HelloWorld msg="Electron + Vue3 + Vite" />
 
   <a-collapse v-model:activeKey="activeKey" class="collapse">
-    <a-collapse-panel key="1" header="Utils">
+    <a-collapse-panel key="1" header="功能">
       <a-space>
-        <a-button @click="onShowFramelessWindow">
-          Frameless Window
-        </a-button>
-        <a-button @click="onOpenHomepage">
-          Homepage
-        </a-button>
-        <a-button @click="onOpenDevTools">
-          DevTools
+        <a-button @click="onShowAppEnv">
+          应用环境
         </a-button>
         <a-button @click="onGetAppVersion">
-          App Version
+          应用版本
+        </a-button>
+        <a-button @click="onShowOtherEnv">
+          其他环境变量
+        </a-button>
+        <a-button @click="onOpenHomepage">
+          打开主页
+        </a-button>
+        <a-button @click="onOpenDevTools">
+          调试工具
+        </a-button>
+        <a-button @click="onShowFramelessWindow">
+          无边框窗口
         </a-button>
         <a-button @click="onGetFileMd5">
-          File MD5
+          文件MD5
         </a-button>
       </a-space>
     </a-collapse-panel>
-    <a-collapse-panel key="2" header="App Configuration">
+    <a-collapse-panel key="2" header="应用配置">
       <a-space>
         <a-button @click="onClearAppConfiguration">
-          Clear App Configuration
+          清空应用配置
         </a-button>
         <a-button @click="onGetAppConfiguration">
-          Get App Configuration
+          获取应用配置
         </a-button>
       </a-space>
     </a-collapse-panel>
-    <a-collapse-panel key="3" header="File Download">
+    <a-collapse-panel key="3" header="文件下载">
       <a-form
         :model="fdState" 
         :label-col="{ span: 3 }" 
@@ -50,33 +56,33 @@
         autocomplete="off"
         @finish="onStartDownloadFile"
       >
-        <a-form-item label="Url" name="url" :rules="[{ required: true, message: 'Please input file download url!' }]">
+        <a-form-item label="下载链接" name="url" :rules="[{ required: true, message: 'Please input file download url!' }]">
           <a-input v-model:value="fdState.url" />
         </a-form-item>
-        <a-form-item label="Save Path" name="savePath" :rules="[{ required: true, message: 'Please input file save path!' }]">
+        <a-form-item label="保存路径" name="savePath" :rules="[{ required: true, message: 'Please input file save path!' }]">
           <a-input v-model:value="fdState.savePath" />
         </a-form-item>
-        <a-form-item label="File MD5" name="md5">
+        <a-form-item label="文件MD5" name="md5">
           <a-input v-model:value="fdState.md5" />
         </a-form-item>
         <a-form-item class="download-buttons">
           <a-button v-if="!fdState.downloading" type="primary" html-type="submit">
-            Download
+            下载
           </a-button>
           <a-button v-if="fdState.downloading" type="primary" @click="onCancelDownloadFile">
-            Cancel
+            取消
           </a-button>
           <a-progress style="margin-left: 20px;" type="circle" :size="28" :percent="fdState.percent" />
         </a-form-item>
       </a-form>
     </a-collapse-panel>
-    <a-collapse-panel key="4" header="Network Request">
+    <a-collapse-panel key="4" header="网络请求">
       <a-space>
         <a-button @click="onHttpGetInMainProcess">
-          HTTP Get in main process
+          主进程HTTP请求
         </a-button>
         <a-button @click="onHttpGetInRendererProcess">
-          HTTP Get in renderer process
+          渲染进程HTTP请求
         </a-button>
       </a-space>
     </a-collapse-panel>
@@ -87,6 +93,8 @@
     :confirm-loading="isExitingApp"
     :cancel-button-props="{ disabled: isExitingApp }"
     :closable="!isExitingApp"
+    ok-text="确定"
+    cancel-text="取消"
     @ok="onExitApp"
     @cancel="showExitAppMsgbox = false"
   >
@@ -94,26 +102,26 @@
       <font-awesome-icon
         icon="fa-solid fa-triangle-exclamation"
         color="#ff0000"
-      /> Warning
+      /> 警告
     </div>
-    <p>{{ isExitingApp ? "Exiting App..." : "Are you sure to exit app?" }}</p>
+    <p>{{ isExitingApp ? "正在退出客户端......" : "您确定要退出客户端软件吗？" }}</p>
   </a-modal>
 
   <a-modal
     :open="showClosePrimaryWinMsgbox"
-    title="Important Choices"
+    title="警告"
     @ok="onMinPrimaryWinToTray"
     @cancel="showClosePrimaryWinMsgbox = false"
   >
     <template #footer>
       <a-button key="minimize" type="primary" @click="onMinPrimaryWinToTray">
-        Minimize to Tray
+        最小化
       </a-button>
       <a-button key="exit-app" :loading="isExitingApp" @click="onExitApp">
-        Exit App
+        退出
       </a-button>
     </template>
-    <p>Exiting the software will make the function unavailable, it is recommended to minimize it to the system tray!</p>
+    <p>退出客户端软件将导致功能不可用，建议您最小化到系统托盘！</p>
   </a-modal>
 </template>
 
@@ -173,6 +181,16 @@ getElectronApi().onShowClosePrimaryWinMsgbox(() => {
 // 打印日志到文件
 log.info("Log from the renderer process(App.vue)!");
 
+// 显示当前客户端的环境（开发、测试、生产）
+function onShowAppEnv(){
+  message.success(`当前环境为：${import.meta.env.MODE}`);
+}
+
+// 演示如何获取其他环境变量
+function onShowOtherEnv(){
+  message.success(`BaseUrl: ${import.meta.env.VITE_BASE_URL}`);
+}
+
 function onShowFramelessWindow(){
   // 通知主进程显示无边框示例窗口
   getElectronApi().showFramelessSampleWindow();
@@ -180,16 +198,16 @@ function onShowFramelessWindow(){
 
 function onOpenHomepage(){
   // 调用utils模块的方法打开外链
-  utils.openExternalLink("https://github.com/winsoft666/electron-vue3-template");
+  utils.openExternalLink("https://github.com/winsoft666/electron-vue3-boilerplate");
 }
 
+// 打开当前窗口的调试工具
 function onOpenDevTools(){
-  // 打开当前窗口的调试工具
   utils.openDevTools();
 }
 
+// 获取应用版本号并显示
 function onGetAppVersion(){
-  // 获取应用版本号并显示
   message.success(utils.getAppVersion());
 }
 
@@ -216,7 +234,7 @@ async function onGetFileMd5(){
 function onClearAppConfiguration(){
   // 清空本地配置
   getElectronApi().clearAppConfiguration();
-  message.success("Clear successful!");
+  message.success("清空应用配置成功！");
 }
 
 function onGetAppConfiguration(){
@@ -247,11 +265,11 @@ async function onStartDownloadFile(){
   
   fdState.downloading = false;
   if(result.success){
-    message.success(`[${result.uuid}] Download Successful (size: ${result.fileSize})!`);
+    message.success(`[${result.uuid}] 文件下载成功 (大小: ${result.fileSize})!`);
   }else if(result.canceled){
-    message.warning(`[${result.uuid}] User Canceled!`);
+    message.warning(`[${result.uuid}] 用户取消！`);
   }else{
-    message.error(`[${result.uuid}] Download Failed: ${result.error}!`);
+    message.error(`[${result.uuid}] 下载失败: ${result.error}!`);
   }
 }
 
@@ -266,15 +284,15 @@ function onHttpGetInMainProcess(){
 }
 
 // 测试在渲染进程中使用axios进行HTTP请求
-// 这一步在开发环境会报跨域，打包或使用loadFile加载index.html后，就不会报错了
+// 这一步在非打包环境会报跨域错误，打包或使用loadFile加载index.html后，就不会报错了
 function onHttpGetInRendererProcess(){
   const url = "https://baidu.com";
   axiosInst.get(url)
     .then((rsp) => {
-      message.info(`Request ${url} in renderer process success! Status: ${rsp.status}`);
+      message.info(`在渲染进程请求 ${url} 成功！状态码：${rsp.status}`);
     })
     .catch((err) => {
-      message.error(`Request ${url} in renderer process failed! Message: ${err.message}`);
+      message.error(`在渲染进程请求 ${url} 失败！错误消息：${err.message}`);
     });
 }
 

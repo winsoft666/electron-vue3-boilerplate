@@ -4,7 +4,7 @@
 
 import path from "path";
 import { Menu, MenuItem, Tray } from "electron";
-import appState from "./app-state";
+import appState, { AppEnv } from "./app-state";
 
 // 创建系统托盘
 function CreateAppTray() : Tray{
@@ -21,7 +21,7 @@ function CreateAppTray() : Tray{
   // 创建托盘右键菜单
   const contextMenu = Menu.buildFromTemplate([
     {
-      label: "Open",
+      label: "打开",
       type: "normal",
       accelerator: "Alt+O",
       registerAccelerator: true,
@@ -30,7 +30,7 @@ function CreateAppTray() : Tray{
       },
     },
     {
-      label: "Exit App",
+      label: "退出",
       type: "normal",
       click: () => {
         if(appState.primaryWindow){
@@ -41,12 +41,12 @@ function CreateAppTray() : Tray{
     },
   ]);
 
-  // 在开发环境下，添加一个打开调试工具菜单，方便调试
-  if(process.env.NODE_ENV === "development"){
+  // 在非生产环境添加一个打开调试工具菜单，方便调试
+  if(appState.appEnv != AppEnv.Production){
     contextMenu.insert(
       0,
       new MenuItem({
-        label: "Open DevTools",
+        label: "打开DevTools",
         type: "normal",
         accelerator: "Alt+D",
         registerAccelerator: true,
@@ -58,8 +58,8 @@ function CreateAppTray() : Tray{
   }
 
   tray.setContextMenu(contextMenu);
-  tray.setToolTip("A Electron + Vue3 template");
-  tray.setTitle("electron-vue-template");
+  tray.setToolTip("A Electron + Vue3 boilerplate");
+  tray.setTitle("electron-vue3-boilerplate");
 
   return tray;
 }

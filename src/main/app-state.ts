@@ -12,32 +12,55 @@ import { Singleton } from "../lib/utils/shared";
 import fd from "../lib/file-download/main";
 import utils from "../lib/utils/main";
 
+// 应用环境（开发环境、测试环境、生产环境）
+enum AppEnv {
+  Development,
+  Test,
+  Production
+}
+
 /**
  * 单实例类
  * 全局存储应用程序的状态数据，包含窗口对象、托盘对象等
  * @class
  */
 class AppState extends Singleton{
+  constructor(){
+    super();
+    let envStr = "";
+    if(process.argv.length >= 2){
+      envStr = process.argv[2].toLowerCase();
+    }
+
+    if(envStr == "development"){
+      this.appEnv = AppEnv.Development;
+    }else if(envStr == "test"){
+      this.appEnv = AppEnv.Test;
+    }else if(envStr == "production"){
+      this.appEnv = AppEnv.Production;
+    }
+  }
+
   // 初始化应用程序，应用程序启动时会调用该方法
   public initialize(): boolean{
-    if(process.env.NODE_ENV === "development"){
-      const packageJSON = require(path.join(app.getAppPath(), "../../package.json"));
-      this.appVersion = packageJSON.version;
-
-      // In development mode, appPath is ./build/main
-      this._mainStaticPath = path.join(app.getAppPath(), "static");
-    }else{
+    if(app.isPackaged){
       const packageJSON = require(path.join(app.getAppPath(), "package.json"));
-      this.appVersion = packageJSON.version;
+      this._appVersion = packageJSON.version;
 
       this._mainStaticPath = path.join(app.getAppPath(), "build/main/static");
+    }else{
+      const packageJSON = require(path.join(app.getAppPath(), "../../package.json"));
+      this._appVersion = packageJSON.version;
+
+      // 在非打包环境, appPath为 ./build/main
+      this._mainStaticPath = path.join(app.getAppPath(), "static");
     }
 
     if(!this.initLogger()){
       return false;
     }
 
-    log.info(`Version: ${this.appVersion}`);
+    log.info(`Env: ${AppEnv[this.appEnv]}, Version: ${this._appVersion}`);
 
     if(!this.initConfigFile()){
       log.warn("Init config file failed");
@@ -60,17 +83,20 @@ class AppState extends Singleton{
     this._isInit = false;
   }
 
-  public isInit(): boolean{
+  public get isInit(){
     return this._isInit;
   }
 
-  // 主进程静态资源目录
+  public get appVersion(){
+    return this._appVersion;
+  }
+
   public get mainStaticPath(){
     return this._mainStaticPath;
   }
 
-  // 当前应用的版本号
-  public appVersion: string = "";
+  // 应用程序的环境（默认为生产环境）
+  public readonly appEnv: AppEnv = AppEnv.Production;
 
   // 配置文件读写
   public cfgStore: null | ElectronStore = null;
@@ -91,8 +117,13 @@ class AppState extends Singleton{
   // 当前应用程序仅允许运行一个实例
   public onlyAllowSingleInstance : boolean = true;
 
+  // ======== Protected 成员 ========
+  //
   // 应用程序是否已初始化
   protected _isInit: boolean = false;
+
+  // 当前应用的版本号
+  protected _appVersion: string = "";
 
   // 主进程静态资源目录的路径
   protected _mainStaticPath: string = "";
@@ -170,3 +201,4 @@ function getAppState(): AppState{
 const appState = getAppState();
 
 export default appState;
+export { AppEnv };

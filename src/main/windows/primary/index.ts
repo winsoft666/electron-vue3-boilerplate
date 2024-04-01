@@ -24,12 +24,12 @@ class PrimaryWindow extends WindowBase{
         e.preventDefault();
       }
     });
-  
-    if(process.env.NODE_ENV === "development"){
+
+    if(app.isPackaged){
+      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
+    }else{
       const rendererPort = process.argv[2];
       win.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
-    }else{
-      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
     }
   
     return win;
@@ -82,8 +82,8 @@ class PrimaryWindow extends WindowBase{
         appState.cfgStore?.set("TrayBalloonDisplayed", true);
         if(appState.tray){
           appState.tray.displayBalloon({
-            title: "electron-vue-template",
-            content: "The program has been minimized to the system tray.\n\nThis balloon will only be displayed once!"
+            title: "electron-vue-boilerplate",
+            content: "客户端已经最小化到系统托盘。\n\n该气泡消息只会显示一次!"
           });
         }
       }
@@ -100,13 +100,13 @@ class PrimaryWindow extends WindowBase{
       axiosInst.get(url)
         .then((rsp) => {
           dialog.showMessageBox(this._browserWindow!, {
-            message: `Request ${url} in main process success! Status: ${rsp.status}`,
+            message: `在主进程中请求 ${url} 成功！状态码：${rsp.status}`,
             type: "info"
           });
         })
         .catch((err) => {
           dialog.showMessageBox(this._browserWindow!, {
-            message: `Request ${url} in main process failed! Message: ${err.message}`,
+            message: `在主进程中请求 ${url} 失败！错误消息：${err.message}`,
             type: "error"
           });
         });

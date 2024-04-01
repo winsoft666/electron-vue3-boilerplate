@@ -18,11 +18,11 @@ class FramelessWindow extends WindowBase{
       parent: appState.primaryWindow?.browserWindow as BrowserWindow,
     });
 
-    if(process.env.NODE_ENV === "development"){
+    if(app.isPackaged){
+      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/frameless/index.html"));
+    }else{
       const rendererPort = process.argv[2];
       win.loadURL(`http://localhost:${rendererPort}/pages/frameless/index.html`);
-    }else{
-      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/frameless/index.html"));
     }
     
     return win;
