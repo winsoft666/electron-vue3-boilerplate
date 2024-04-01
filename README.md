@@ -71,6 +71,7 @@
 
 ### 2.2.1 Visual Studio Code
 推荐使用`Visual Studio Code`进行项目开发，并安装如下插件：
+
 - ESLint
 - Vue Language Features (Volar)
 
@@ -79,6 +80,8 @@
 ```bash
 yarn install
 ```
+
+> 国内用户建议将 yarn 源设置为国内源，避免安装依赖失败，设置方法可以参考：[《NPM和Yarn设置国内源》](https://jiangxueqiao.com/post/908211703.html)
 
 ### 2.2.3 开发 ⚒️
 
