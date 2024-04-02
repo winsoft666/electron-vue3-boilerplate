@@ -27,16 +27,16 @@
 - [7. 期待你的反馈 🥳](#7-期待你的反馈-)
 
 # 1. 写在前面
-已经有了那么多的Electron项目模板，为什么还要再造一个？是重复造轮子吗？
+已经有了那么多的 Electron 项目模板，为什么还要再造一个？是重复造轮子吗？
 
-我相信大多数人选择使用Electron开发客户端时，或多或少都看上了Web开发的高效率，但Web开发人员在客户端和系统编程方面的经验相对缺乏，又加上Electron和前端框架（如Vue）结合起来也不是那么的轻而易举，开发人员大多会选择基于模板来快速上手搭建Electron项目。
+我相信大多数人选择使用 Electron 开发客户端时，或多或少都看上了 Web 开发的高效率，但Web开发人员在客户端和系统编程方面的经验相对缺乏，又加上 Electron 和前端框架（如 Vue ）结合起来也不是那么的轻而易举，开发人员大多会选择基于模板来快速上手搭建Electron项目。
 
-目前，Electron的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)、[electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)等，这些模板有的功能过于完善，代码太复杂，远远超过了很多Electron客户端项目本身的代码量，需要花很多时间来熟悉模板，不适合新手快速上手和修改，一旦出现问题也难以维护；有的模板又年久失修，使用的技术早已被淘汰，也不适合用来开发线上产品，而且这些模板都有一个通病，都是在用Web开发的思维来做客户端开发，比如使用Vue单页面应用来开发客户端显然是不合理的。
+目前，Electron 的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)、[electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)等。在这些模板中，有的功能过于完善，代码太复杂，远远超过了很多 Electron 客户端项目本身的代码量，需要花很多时间来熟悉模板，不适合新手快速上手和修改，一旦出现问题也难以维护；有的模板又年久失修，使用的技术早已被淘汰，也不适合用来开发线上产品，而且这些模板都有一个通病，都是在用Web开发的思维来做客户端开发，比如使用 Vue 单页面应用来开发客户端显然是不合理的。
 
-基于上述原因，我开发了这个Electron项目模板，在开发过程中，我一直遵循稳定、易于维护的初衷。
+基于上述原因，我开发了这个 Electron 项目模板，在开发过程中，我一直遵循稳定、易于维护的初衷。
 
 # 2. electron-vue3-boilerplate
-基于**Vue3** + **Electron** + **TypeScript**的客户端程序模板，使用**Vite**和**Electron Forge**构建和打包。
+基于 **Vue3** + **Electron** + **TypeScript** 的客户端程序模板，使用 **Vite** 和 **Electron Forge** 构建和打包。
 
 真正做到开箱即用，面向跨平台客户端设计，产品级的项目模板。
 
@@ -45,22 +45,22 @@
 ## 2.1 特性
 
 - 使用[ViteJS](https://vitejs.dev)构建和驱动前端页面，支持热加载（HMR），使开发和调试变得更加高效 ⚡
-- 支持Vue3多页面，提供页面创建指令，适合客户端开发场景 💖
-- 支持Electron窗口创建指令，并且可隔离不同窗口的IPC事件 💖
-- 封装简化了IPC的调用方式，并提供了IPC函数快速创建指令，主进程与渲染进程的相互调用从未如此简单 👍
+- 支持 Vue3 多页面，提供页面创建指令，适合客户端开发场景 💖
+- 支持 Electron 窗口创建指令，并且可隔离不同窗口的IPC事件 💖
+- 封装简化了 IPC 的调用方式，并提供了 IPC 函数快速创建指令，主进程与渲染进程的相互调用从未如此简单 👍
 - 主进程和渲染进程支持热加载 ⚡
 - 精选依赖包，提升项目稳定性
 - 代码简洁，易掌控，可定制性强
 - 日志文件，主进程和渲染进程可以直接写文件日志
 - 配置文件
-- 主进程和渲染进程均支持axios HTTP请求
+- 主进程和渲染进程均支持 axios HTTP 请求
 - 文件下载（多文件同时下载、哈希校验、进度反馈等），渲染进程可直接异步调用 👍
 - 功能完善的无边框窗口
 - 托盘图标和右键菜单，窗口关闭时程序最小化到托盘
 - 客户端程序单实例
-- 基于ESLint的代码规范和自动格式化
-- 使用Electron官方推荐的[Electron Forge](https://www.electronforge.io/)进行客户端构建和打包
-- 支持NSIS安装包 😎
+- 基于 ESLint 的代码规范和自动格式化
+- 使用 Electron 官方推荐的[Electron Forge](https://www.electronforge.io/)进行客户端构建和打包
+- 支持 NSIS 安装包 😎
 - ......
 
 ## 2.2 快速开始 🌈
@@ -113,9 +113,9 @@ yarn run new:window # 创建新的Electron窗口
 ### 2.2.5 NSIS安装包 🪟
 > 这一步是可选的。
 > 
-> NSIS只支持生成Windows平台安装包，如果您不需要使用生成NSIS安装包，可以跳过该节。
+> NSIS 只支持生成 Windows 平台安装包，如果您不需要使用生成 NSIS 安装包，可以跳过该节。
 > 
-> 更多NSIS介绍，可以查看我的NSIS教程：[《打包狂魔之NSIS教程》](https://jiangxueqiao.com/post/4015642655.html)
+> 更多NSIS介绍，可以查看我的 NSIS 教程：[《打包狂魔之NSIS教程》](https://jiangxueqiao.com/post/4015642655.html)
 
 **首先需要将`setup\NSIS\nsis-3.08.zip`文件解压到当前目录，即将文件释放到nsis-3.08目录，解压后的nsis-3.08目录结构如下：**
 
@@ -149,9 +149,9 @@ NSIS安装包支持完全定制化，如需定制，可以修改`setup\NSIS\win-
 - screenshots      # 本文档中用到的截图
 - setup/            # 存储编译和构建相关文件
   - NSIS/                # NSIS安装包脚本
+    - install.ico        # NSIS安装包图标
+    - uninstall.ico      # NSIS卸载程序图标
   - exe.ico             # 构建后的可执行文件图标（非安装包图标）
-  - install.ico        # NSIS安装包图标
-  - uninstall.ico      # NSIS卸载程序图标
 - src/
   - lib/            # 公共库，为了方便修改，未做成独立的包
     - file-download/    # 文件下载库
@@ -191,7 +191,7 @@ const iconPath = path.join(appState.mainStaticPath, "tray.ico");
 ```
 
 ## 3.3 AppState对象
-为了方便在主进程中跨模块访问某些对象（如`primaryWindow`、`tray`、`cfgStore`等）和应用配置（如`onlyAllowSingleInstance`等），我们定义了单实例对象AppState来存储这些数据。
+为了方便在主进程中跨模块访问某些对象（如`primaryWindow`、`tray`、`cfgStore`等）和应用配置（如`onlyAllowSingleInstance`等），我们定义了单实例对象AppState 来存储这些数据。
 
 使用方法如下：
 
@@ -244,13 +244,13 @@ primaryWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/<PAGE-N
 ```
 
 ## 3.5 快速创建Electron窗口
-虽然直接构造Electron的BrowerWindow对象就可以创建新的Electron窗口，但为了方便代码管理和ipcMain消息隔离，本模板中的每个窗口都继承自`WindowBase`对象，每个窗口的相关代码位于`src\main\windows\`的不同子目录中，目录名为我们指定的窗口名称（小写）。
+虽然直接创建 Electron 窗口并非难事，直接创建一个 BrowerWindow 对象就可以创建一个新的 Electron 窗口，但为了方便代码管理和 ipcMain 消息的隔离，本模板中的每个窗口都继承自`WindowBase`对象，每个窗口的相关代码都位于`src\main\windows\`的不同子目录中，目录名为我们指定的窗口名称（小写）。
 
 ```bash
 yarn run new:window
 ```
 
-建议窗口名称和上一步创建的Vue页面名称保持一致，因为创建的子窗口默认会加载同名的子页面。
+建议窗口名称和上一步创建的 Vue 页面名称保持一致，因为创建的子窗口默认会加载同名的子页面。
 
 当然我们也可以手动修改代码使其访问其他的页面：
 
@@ -265,7 +265,7 @@ if(app.isPackaged){
 
 创建窗口后，需要在`registerIpcMainHandler`方法中注册该窗口的ipcMain事件及处理函数。
 
-每个窗口暴露到渲染进程的apiKey都不一样，如 primaryWindow：
+每个窗口暴露到渲染进程的 apiKey 都不一样，如 primaryWindow：
 
 ```javascript
 contextBridge.exposeInMainWorld("primaryWindowAPI", {
@@ -298,11 +298,11 @@ async function onGetFileMd5(){
 }
 ```
 
-上述代码通过调用Utils库的`showOpenDialog`、`getFileMd5`函数轻松实现了通知主进程选择文件、计算文件MD5并获取相应结果的操作，代码非常简洁。
+上述代码通过调用 Utils 库的`showOpenDialog`、`getFileMd5`函数轻松实现了通知主进程选择文件、计算文件 MD5 并获取相应结果的操作，代码非常简洁。
 
-但是Utils只预置了部分常用的功能，预置功能肯定无法满足我们产品开发的所有需求。在此情况下，我们可以向Utils库中添加自定义的功能函数，该如何添加了？
+但是 Utils 只预置了部分常用的功能，预置功能肯定无法满足我们产品开发的所有需求。在此情况下，我们可以向 Utils 库中添加自定义的功能函数，该如何添加了？
 
-不用担心，本模板已经提供了IPC函数快速创建指令：
+不用担心，本模板已经提供了 IPC 函数快速创建指令：
 
 ```bash
 yarn run new:ipc
@@ -318,20 +318,20 @@ yarn run new:ipc
         xxx-xxx-xxx
 函数类型:
         a = 异步调用, 不带返回值
-        ap = 异步调用, 带Promise类型的返回值
+        ap = 异步调用, 带 Promise 类型的返回值
         s = 同步调用, 带返回值
 输入指令:
 ```
 
 参数1（调用方向）表示函数调用方向：
-- rm 表示渲染进程调用主进程的函数，可以支持同步调用、异步调用，并且可以返回Promise结果。
+- rm 表示渲染进程调用主进程的函数，可以支持同步调用、异步调用，并且可以返回 Promise 结果。
 - mr 表示主进程调用渲染进程的函数，该方向只能是异步调用，而且不支持返回结果，会忽略第三个参数（函数类型）。
 
 参数2（函数名称），函数名称的单词间使用`-`分隔，如`GetFileSha256`需要指定为`get-file-sha256`。
 
 参数3（函数类型）：
 - a 表示不返回结果的异步函数
-- ap 表示返回Promise结果的异步函数
+- ap 表示返回 Promise 结果的异步函数
 - s 表示同步函数
 
 
@@ -368,9 +368,9 @@ import utils from "../../../lib/utils/renderer";
 const sha256 = await utils.getFileSha256("file-path.txt");
 ```
 
-IPC函数创建指令只会创建函数骨架，不会为我们实现具体的功能，我们还需要在主进程ipcMain处理函数中实现计算文件SHA256的具体功能。
+IPC函数创建指令只会创建函数骨架，不会为我们实现具体的功能，我们还需要在主进程ipcMain处理函数中实现计算文件 SHA256 的具体功能。
 
-自动生成的主进程ipcMain处理函数如下：
+自动生成的主进程 ipcMain 处理函数如下：
 
 ```javascript
 ipcMain.handle("electron-utils-get-file-sha256", async(event) => {
@@ -386,12 +386,12 @@ ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) 
 ```
 
 # 4. 代码规范
-本项目使用ESLint进行代码检查和格式化，没有使用Prettier进行代码格式化。
+本项目使用 ESLint 进行代码检查和格式化，没有使用 Prettier 进行代码格式化。
 
 原因大体如下：
-1. 需要额外的插件和配置来避免ESLint和Prettier的规则冲突。
+1. 需要额外的插件和配置来避免 ESLint 和 Prettier 的规则冲突。
 
-2. Prettier的`printWidth`配置项会损害代码和Git Diff的可读性。
+2. Prettier的`printWidth`配置项会损害代码和 Git Diff 的可读性。
 ![Why not use prettier](./screenshot/why-not-prettier-1.jpg)
 
 ![Why not use prettier](./screenshot/why-not-prettier-2.jpg)
@@ -408,7 +408,7 @@ ipcMain.handle("electron-utils-get-file-sha256", async(event, filePath: string) 
 对于作者自己写的库（如`file-download`等），统一以源码形式提供在`src\lib\`目录，方便模板使用者进行bug修复和功能扩充，在使用时直接采用相对路径进行导入即可。
 
 ## 5.2 dependencies和devDependencies的区别
-由于Electron Forge会将`dependencies`中的所有依赖项都进行打包，因此为了减少安装包的体积，我们只将主进程需要使用的依赖安装到`dependencies`项下，而其他的依赖均安装到`devDependencies`。
+由于 Electron Forge 会将`dependencies`中的所有依赖项都进行打包，因此为了减少安装包的体积，我们只将主进程需要使用的依赖安装到`dependencies`项下，而其他的依赖均安装到`devDependencies`。
 
 如将vue作为开发依赖进行安装：
 
@@ -418,10 +418,10 @@ yarn add -D vue
 
 ## 5.3 依赖包说明
 
-> 作为开发者，应知晓每个依赖包的用途，避免node_modules黑洞的产生。
+> 作为开发者，应知晓每个依赖包的用途，避免 node_modules 黑洞的产生。
 
 - unplugin-vue-components
-实现自动按需引入AntDesign-Vue组件。
+实现自动按需引入 AntDesign-Vue 组件。
 
 - electron-log
 提供本地日志文件的打印和输出。
@@ -430,10 +430,10 @@ yarn add -D vue
 提供本地配置文件的读取和写入功能。
 
 - @fortawesome-*
-提供对FontAwesome图标字体的支持。
+提供对 FontAwesome 图标字体的支持。
 
 - uuid
-使用uuid字符串，在file-download库中使用。
+生成 uuid 字符串，在 file-download 库中使用。
 
 - chalk
 用于在命令行终端输出带颜色样式的字符串，仅在`scripts\*.js`中使用。
@@ -442,10 +442,10 @@ yarn add -D vue
 轻量级的文件监控组件，用于实现热加载，仅在`scripts\*.js`中使用。
 
 - @electron-forge/*
-与Electron Forge构建和打包相关的依赖包，除了`@electron-forge/cli`是必须的，其他的可以根据`forge.config.js -> makers`的配置按需引用。
+与 Electron Forge 构建和打包相关的依赖包，除了`@electron-forge/cli`是必须的，其他的可以根据`forge.config.js -> makers`的配置按需引用。
 
 - axios
-异步HTTP网络请求组件，在主进程和渲染进程中使用。
+异步 HTTP 网络请求组件，在主进程和渲染进程中使用。
 
 # 6. 客户端版本号
 使用`package.json`文件的`version`字段标识客户端的版本号，在主进程内可以通过`appState.appVersion`属性获取。
@@ -461,6 +461,6 @@ console.log(utils.getAppVersion());
 ```
 
 # 7. 期待你的反馈 🥳
-个人能力有限，代码不免有错误和不足之处，欢迎提交issue和PR。
+个人能力有限，代码不免有错误和不足之处，欢迎提交 issue 和 PR 。
 
-如果这个项目对你有帮助，请点击右上角Star ⭐或Fork该项目，为项目增加一丝热度，让更多的人发现该项目。
+如果这个项目对你有帮助，请点击右上角 Star ⭐或 Fork 该项目，为项目增加一丝热度，让更多的人发现该项目。
