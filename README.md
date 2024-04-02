@@ -255,11 +255,11 @@ yarn run new:window
 当然我们也可以手动修改代码使其访问其他的页面：
 
 ```javascript
-if(process.env.NODE_ENV === "development"){
-  const rendererPort = process.argv[2];
-  primaryWindow.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
+if(app.isPackaged){
+  win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
 }else{
-  primaryWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
+  const rendererPort = process.argv[2];
+  win.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
 }
 ```
 
