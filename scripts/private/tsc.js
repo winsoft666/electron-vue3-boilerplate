@@ -1,4 +1,4 @@
-const ChildProcess = require("node:child_process");
+const ChildProcess = require("child_process");
 const Chalk = require("chalk");
 
 function compile(directory){

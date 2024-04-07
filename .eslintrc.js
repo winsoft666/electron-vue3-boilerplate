@@ -90,6 +90,8 @@ module.exports = {
     "@typescript-eslint/no-var-requires": "off",
     "@typescript-eslint/no-unused-vars": "warn",
     "@typescript-eslint/no-explicit-any": "error",
+    // 禁用组件名称必须多个单词的要求
+    "vue/multi-word-component-names": "off", 
     // vue单行语句中每行最多允许100个属性，多行属性中每行一个属性
     "vue/max-attributes-per-line": ["error", {
       "singleline": {

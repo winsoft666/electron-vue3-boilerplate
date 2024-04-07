@@ -16,5 +16,7 @@ declare module 'vue' {
     AModal: typeof import('ant-design-vue/es')['Modal']
     AProgress: typeof import('ant-design-vue/es')['Progress']
     ASpace: typeof import('ant-design-vue/es')['Space']
+    RouterLink: typeof import('vue-router')['RouterLink']
+    RouterView: typeof import('vue-router')['RouterView']
   }
 }

@@ -16,7 +16,7 @@ let envStr = process.argv[2];
 
 async function startRenderer(){
   viteServer = await vite.createServer({
-    configFile: path.join(__dirname, "..", "vite.config.js"),
+    configFile: path.join(__dirname, "../src/renderer/vite.config.js"),
     mode: envStr,
   });
 
@@ -78,7 +78,7 @@ function copyStaticFiles(){
 tsc不能复制编译后的JS静态文件，所以需要手动复制编译后的文件到build/main
 */
 function copyMainSubFiles(subPath){
-  fs.cpSync(path.join(__dirname, "..", "src", "main", subPath), path.join(__dirname, "..", "build", "main", subPath), { recursive: true });
+  fs.cpSync(path.join(__dirname, "../src/main", subPath), path.join(__dirname, "../build/main", subPath), { recursive: true });
 }
 
 function stop(){
@@ -95,9 +95,10 @@ async function start(){
   rendererPort = devServer.config.server.port;
 
   copyStaticFiles();
-  startElectron();
+  await startElectron();
   
-  const mainFolder = path.join(__dirname, "..", "src", "main");
+  const mainFolder = path.join(__dirname, "../src/main");
+  console.log(mainFolder);
   chokidar.watch(mainFolder, {
     cwd: mainFolder,
   })

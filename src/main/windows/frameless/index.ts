@@ -1,31 +1,23 @@
 import path from "path";
-import { BrowserWindow, app, ipcMain } from "electron";
+import { BrowserWindow, ipcMain } from "electron";
 import WindowBase from "../window-base";
 import appState from "../../app-state";
 
 class FramelessWindow extends WindowBase{
-  protected createWindow() : BrowserWindow | null{
-    const win = new BrowserWindow({
+  constructor(){
+    // 调用WindowBase构造函数创建窗口
+    super({
       width: 600,
       height: 360,
       frame: false,
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
-        nodeIntegration: false,
-        contextIsolation: true,
       },
       // 设置父窗口
       parent: appState.primaryWindow?.browserWindow as BrowserWindow,
     });
 
-    if(app.isPackaged){
-      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/frameless/index.html"));
-    }else{
-      const rendererPort = process.argv[2];
-      win.loadURL(`http://localhost:${rendererPort}/pages/frameless/index.html`);
-    }
-    
-    return win;
+    this.openRouter("/frameless-sample");
   }
 
   protected registerIpcMainHandler(): void{  

@@ -8,7 +8,7 @@
     "outDir": "../build",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
   },
   "exclude": ["renderer"]
 }

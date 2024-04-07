@@ -1,11 +1,11 @@
 import { contextBridge, ipcRenderer } from "electron";
 
 /*
-The preload for XXXWindow
+暴露XXXWindow窗口主进程的方法到XXXWindow窗口的渲染进程
 */
 contextBridge.exposeInMainWorld("XXXWindowAPI", {
-  // A simple sample
+  // 一个简单的示例
   sendMessage: (message) => ipcRenderer.send("send-message", message),
 
-  // Expose more api to renderer...
+  // 暴露更多的API到渲染进程...
 });

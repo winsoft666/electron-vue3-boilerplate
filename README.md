@@ -1,41 +1,14 @@
-- [1. 写在前面](#1-写在前面)
-- [2. electron-vue3-boilerplate](#2-electron-vue3-boilerplate)
-  - [2.1 特性](#21-特性)
-  - [2.2 快速开始 🌈](#22-快速开始-)
-    - [2.2.1 Visual Studio Code](#221-visual-studio-code)
-    - [2.2.2 安装依赖 ⏬](#222-安装依赖-)
-    - [2.2.3 开发 ⚒️](#223-开发-️)
-    - [2.2.4 其他命令](#224-其他命令)
-    - [2.2.5 NSIS安装包 🪟](#225-nsis安装包-)
-- [3. 项目介绍](#3-项目介绍)
-  - [3.1 工程结构 🌳](#31-工程结构-)
-  - [3.2 使用静态文件](#32-使用静态文件)
-      - [在主进程中引用静态文件](#在主进程中引用静态文件)
-  - [3.3 AppState对象](#33-appstate对象)
-    - [3.3.1 应用环境](#331-应用环境)
-    - [3.3.2 环境变量](#332-环境变量)
-  - [3.4 快速创建Vue页面](#34-快速创建vue页面)
-  - [3.5 快速创建Electron窗口](#35-快速创建electron窗口)
-  - [3.6 快速创建IPC函数](#36-快速创建ipc函数)
-    - [示例](#示例)
-- [4. 代码规范](#4-代码规范)
-- [5. 依赖包 🎈](#5-依赖包-)
-  - [5.1 基本原则](#51-基本原则)
-  - [5.2 dependencies和devDependencies的区别](#52-dependencies和devdependencies的区别)
-  - [5.3 依赖包说明](#53-依赖包说明)
-- [6. 客户端版本号](#6-客户端版本号)
-- [7. 期待你的反馈 🥳](#7-期待你的反馈-)
-
 # 1. 写在前面
 已经有了那么多的 Electron 项目模板，为什么还要再造一个？是重复造轮子吗？
 
 我相信大多数人选择使用 Electron 开发客户端时，或多或少都看上了 Web 开发的高效率，但Web开发人员在客户端和系统编程方面的经验相对缺乏，又加上 Electron 和前端框架（如 Vue ）结合起来也不是那么的轻而易举，开发人员大多会选择基于模板来快速上手搭建Electron项目。
 
-目前，Electron 的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)、[electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)等。在这些模板中，有的功能过于完善，代码太复杂，远远超过了很多 Electron 客户端项目本身的代码量，需要花很多时间来熟悉模板，不适合新手快速上手和修改，一旦出现问题也难以维护；有的模板又年久失修，使用的技术早已被淘汰，也不适合用来开发线上产品，而且这些模板都有一个通病，都是在用Web开发的思维来做客户端开发，比如使用 Vue 单页面应用来开发客户端显然是不合理的。
+目前，Electron 的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)、[electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)等。在这些模板中，有的功能过于完善，代码太复杂，远远超过了很多 Electron 客户端项目本身的代码量，需要花很多时间来熟悉模板，不适合新手快速上手和修改，一旦出现问题也难以维护；有的模板又年久失修，使用的技术早已被淘汰，也不适合用来开发线上产品，而且这些模板都有一个通病，都是在用Web开发的思维来开发客户端。
 
 基于上述原因，我开发了这个 Electron 项目模板，在开发过程中，我一直遵循稳定、易于维护的初衷。
 
 # 2. electron-vue3-boilerplate
+
 基于 **Vue3** + **Electron** + **TypeScript** 的客户端程序模板，使用 **Vite** 和 **Electron Forge** 构建和打包。
 
 真正做到开箱即用，面向跨平台客户端设计，产品级的项目模板。
@@ -44,15 +17,14 @@
 
 ## 2.1 特性
 
-- 使用[ViteJS](https://vitejs.dev)构建和驱动前端页面，支持热加载（HMR），使开发和调试变得更加高效 ⚡
-- 支持 Vue3 多页面，提供页面创建指令，适合客户端开发场景 💖
-- 支持 Electron 窗口创建指令，并且可隔离不同窗口的IPC事件 💖
-- 封装简化了 IPC 的调用方式，并提供了 IPC 函数快速创建指令，主进程与渲染进程的相互调用从未如此简单 👍
+- 使用 [ViteJS](https://vitejs.dev) 构建和驱动前端页面，支持热加载（HMR），使开发和调试变得更加高效 ⚡
+- 支持 Electron 窗口快捷创建指令，并且可隔离不同窗口的 IPC 事件 💖
+- 封装简化了 IPC 的调用方式，并提供了 IPC 函数快速创建指令，主进程与渲染进程的相互调用从未如此简单（见`utils`库） 👍
 - 主进程和渲染进程支持热加载 ⚡
 - 精选依赖包，提升项目稳定性
-- 代码简洁，易掌控，可定制性强
+- 代码简洁并附有完善地中文注释，易掌控，可定制性强
 - 日志文件，主进程和渲染进程可以直接写文件日志
-- 配置文件
+- 支持本地配置文件
 - 主进程和渲染进程均支持 axios HTTP 请求
 - 文件下载（多文件同时下载、哈希校验、进度反馈等），渲染进程可直接异步调用 👍
 - 功能完善的无边框窗口
@@ -60,6 +32,7 @@
 - 客户端程序单实例
 - 基于 ESLint 的代码规范和自动格式化
 - 使用 Electron 官方推荐的[Electron Forge](https://www.electronforge.io/)进行客户端构建和打包
+- 只打包必要的依赖组件，减少安装包体积，并精简 package.json 文件，防止信息泄露
 - 支持 NSIS 安装包 😎
 - ......
 
@@ -167,11 +140,12 @@ NSIS安装包支持完全定制化，如需定制，可以修改`setup\NSIS\win-
       - ...
   - renderer/      # 渲染进程的代码 (VueJS)
     - public           # 静态资源
-    - pages/           # 多页面目录 (强制约定：每个子目录代表一个页面)
-      - primary/          # 主窗口页面
-      - frameless/        # 无边框示例窗口的页面
-      - ...
+    - router           # 定义路由
     - typings/         # ts声明文件
+    - views/           # 视图
+      - primary.vue               # 主窗口
+      - frameless-sample.vue     # 无边框示例窗口
+      - ...
 ```
 
 ## 3.2 使用静态文件
@@ -224,43 +198,18 @@ import.meta.env.MODE
 VITE_BASE_URL=http://127.0.0.1/api/dev/base/url/
 ```
 
-## 3.4 快速创建Vue页面
-
-执行如下命令，输入页面名称后将自动在`renderer/pages`目录创建子页面，每个子页面的相关代码位于单独的目录中，目录名为我们指定的页面名称（小写）。
-
-```bash
-yarn run new:page
-```
-
-创建的子页面在代码中通过以下方式访问：
-
-```javascript
-// 非打包情况下
-const rendererPort = process.argv[2];
-primaryWindow.loadURL(`http://localhost:${rendererPort}/pages/<PAGE-NAME>/index.html`);
-
-// 打包情况下
-primaryWindow.loadFile(path.join(app.getAppPath(), "build/renderer/pages/<PAGE-NAME>/index.html"));
-```
-
-## 3.5 快速创建Electron窗口
-虽然直接创建 Electron 窗口并非难事，直接创建一个 BrowerWindow 对象就可以创建一个新的 Electron 窗口，但为了方便代码管理和 ipcMain 消息的隔离，本模板中的每个窗口都继承自`WindowBase`对象，每个窗口的相关代码都位于`src\main\windows\`的不同子目录中，目录名为我们指定的窗口名称（小写）。
+## 3.4 快速创建Electron窗口
+虽然直接创建 Electron 窗口并非难事，直接创建一个 BrowerWindow 对象就可以创建一个新的 Electron 窗口，但为了方便代码管理和 ipcMain 消息的隔离，本模板中的每个窗口都继承自`WindowBase`对象，每个窗口的相关代码都位于 `src\main\windows\` 的不同子目录中，目录名为我们指定的窗口名称（小写）。
 
 ```bash
 yarn run new:window
 ```
 
-建议窗口名称和上一步创建的 Vue 页面名称保持一致，因为创建的子窗口默认会加载同名的子页面。
-
-当然我们也可以手动修改代码使其访问其他的页面：
+需要手动修改窗口对应的路由路径：
 
 ```javascript
-if(app.isPackaged){
-  win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
-}else{
-  const rendererPort = process.argv[2];
-  win.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
-}
+this.openRouter("/ROUTER-PATH");
+                     ~~~~~~~~~~~
 ```
 
 创建窗口后，需要在`registerIpcMainHandler`方法中注册该窗口的ipcMain事件及处理函数。
@@ -275,7 +224,7 @@ contextBridge.exposeInMainWorld("primaryWindowAPI", {
 
 这样就不用担心多个窗口注册了同名的事件时，渲染进程发送该名称的事件到主进程，所有窗口对象都收到该事件通知。
 
-## 3.6 快速创建IPC函数
+## 3.5 快速创建IPC函数
 在`src\renderer\pages\primary\App.vue`中获取文件 MD5 的代码如下：
 
 ```javascript
@@ -363,7 +312,7 @@ public async getFileSha256(filePath: string) : string {
 在渲染进程中（如App.vue）中可以直接调用该函数：
 
 ```javascript
-import utils from "../../../lib/utils/renderer";
+import utils from "@utils/renderer";
 
 const sha256 = await utils.getFileSha256("file-path.txt");
 ```
@@ -455,7 +404,7 @@ yarn add -D vue
 在渲染进程可以直接使用`utils.getAppVersion()`获取版本号。
 
 ```javascript
-import utils from "../../../lib/utils/renderer";
+import utils from "@utils/renderer";
 
 console.log(utils.getAppVersion());
 ```

@@ -1,6 +1,37 @@
 /* eslint-disable */
-const fsPromises = require("fs/promises")
-const path = require("path")
+const fsPromises = require("fs/promises");
+const fs = require("fs");
+const path = require("path");
+
+async function prunePackageJson(buildPath) {
+  const packageDotJsonPath = path.join(buildPath, "package.json");
+  const content = await fsPromises.readFile(packageDotJsonPath);
+  const json = JSON.parse(content.toString());
+  Object.keys(json).forEach((key) => {
+      switch (key) {
+          case 'name': {
+              break;
+          }
+          case 'version': {
+              break;
+          }
+          case 'main': {
+              break;
+          }
+          case 'author': {
+              break;
+          }
+          case 'description': {
+              break;
+          }
+          default: {
+              delete json[key];
+              break;
+          }
+      }
+  });
+  await fsPromises.writeFile(packageDotJsonPath, JSON.stringify(json, null, "\t"));
+}
 
 module.exports = {
   packagerConfig: {
@@ -46,8 +77,11 @@ module.exports = {
   hooks: {
     // 在文件拷贝完成后触发
     packageAfterCopy: async(config, buildPath, electronVersion, platform, arch) => {
-      // 比如在拷贝完成后需要删除某个目录等
-      //await fsPromises.rmdir(path.join(buildPath, "src"), { recursive: true })
+      // 比如在拷贝完成后需要删除src目录
+      //await fsPromises.rmdir(path.join(buildPath, "src"), { recursive: true });
+
+      // 精简package.json，删除无需暴露的属性
+      await prunePackageJson(buildPath);
     },
   },
   rebuildConfig: {},

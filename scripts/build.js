@@ -7,14 +7,14 @@ const compileTs = require("./private/tsc");
 
 function buildRenderer(){
   return vite.build({
-    configFile: path.join(__dirname, "..", "vite.config.js"),
+    configFile: path.join(__dirname, "../src/renderer/vite.config.js"),
     base: "./",
     mode: "production",
   });
 }
 
 function buildMain(){
-  const mainPath = path.join(__dirname, "..", "src", "main");
+  const mainPath = path.join(__dirname, "../src/main");
   return compileTs(mainPath);
 }
 
@@ -27,10 +27,10 @@ function copyStaticFiles(){
 tsc不能复制编译后的JS静态文件，所以需要手动复制编译后的文件到build/main
 */
 function copyMainSubFiles(subPath){
-  return fsPromises.cp(path.join(__dirname, "..", "src", "main", subPath), path.join(__dirname, "..", "build", "main", subPath), { recursive: true });
+  return fsPromises.cp(path.join(__dirname, "../src/main", subPath), path.join(__dirname, "../build/main", subPath), { recursive: true });
 }
 
-fs.rmSync(path.join(__dirname, "..", "build"), {
+fs.rmSync(path.join(__dirname, "../build"), {
   recursive: true,
   force: true,
 });

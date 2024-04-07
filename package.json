@@ -55,6 +55,7 @@
     "unplugin-vue-components": "^0.26.0",
     "vite": "^4.5.0",
     "vue": "^3.4.15",
-    "vue-eslint-parser": "^9.4.2"
+    "vue-eslint-parser": "^9.4.2",
+    "vue-router": "^4.3.0"
   }
 }

@@ -71,6 +71,6 @@ interface ProgressCallback {
 export {
   CancelError,
   Options,
-  Result,
-  ProgressCallback,
+  type Result,
+  type ProgressCallback,
 };

@@ -1,38 +1,30 @@
-import path from "node:path";
-import { BrowserWindow, app, dialog, ipcMain } from "electron";
+import path from "path";
+import { app, dialog, ipcMain } from "electron";
 import appState from "../../app-state";
 import WindowBase from "../window-base";
 import FramelessWindow from "../frameless";
 import axiosInst from "../../../lib/axios-inst/main";
 
 class PrimaryWindow extends WindowBase{
-  protected createWindow() : BrowserWindow | null{
-    const win = new BrowserWindow({
+  constructor(){
+    // 调用WindowBase构造函数创建窗口
+    super({
       width: 800,
       height: 600,
       webPreferences: {
         preload: path.join(__dirname, "preload.js"),
-        nodeIntegration: false,
-        contextIsolation: true,
       },
     });
-  
+
     // 拦截close事件
-    win.on("close", (e) => {
+    this._browserWindow?.on("close", (e) => {
       if(!appState.willExitApp){
-        win.webContents.send("show-close-primary-win-msgbox");
+        this._browserWindow?.webContents.send("show-close-primary-win-msgbox");
         e.preventDefault();
       }
     });
 
-    if(app.isPackaged){
-      win.loadFile(path.join(app.getAppPath(), "build/renderer/pages/primary/index.html"));
-    }else{
-      const rendererPort = process.argv[2];
-      win.loadURL(`http://localhost:${rendererPort}/pages/primary/index.html`);
-    }
-  
-    return win;
+    this.openRouter("/primary");
   }
 
   protected registerIpcMainHandler(): void{
