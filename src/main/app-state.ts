@@ -112,7 +112,7 @@ class AppState extends Singleton{
 
   // 是否即将退出应用程序
   // 该变量用来拦截非用户主动触发的关闭消息，防止主窗口收到close事件时退出应用
-  public willExitApp: boolean = false;
+  public allowExitApp: boolean = false;
 
   // 当前应用程序仅允许运行一个实例
   public onlyAllowSingleInstance : boolean = true;

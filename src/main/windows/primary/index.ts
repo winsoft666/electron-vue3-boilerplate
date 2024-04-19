@@ -18,7 +18,7 @@ class PrimaryWindow extends WindowBase{
 
     // 拦截close事件
     this._browserWindow?.on("close", (e) => {
-      if(!appState.willExitApp){
+      if(!appState.allowExitApp){
         this._browserWindow?.webContents.send("show-close-primary-win-msgbox");
         e.preventDefault();
       }
@@ -75,7 +75,7 @@ class PrimaryWindow extends WindowBase{
         if(appState.tray){
           appState.tray.displayBalloon({
             title: "electron-vue-boilerplate",
-            content: "客户端已经最小化到系统托盘。\n\n该气泡消息只会显示一次!"
+            content: "客户端已经最小化到系统托盘。\n\n该气泡消息配置为只会显示一次!"
           });
         }
       }
@@ -84,7 +84,7 @@ class PrimaryWindow extends WindowBase{
     ipcMain.handle("async-exit-app", async(event) => {
       // 暂停1500毫秒，模拟退出程序时的清理操作
       await delay(1500);
-      appState.willExitApp = true;
+      appState.allowExitApp = true;
       app.quit();
     });
 

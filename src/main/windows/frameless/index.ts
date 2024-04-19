@@ -22,14 +22,10 @@ class FramelessWindow extends WindowBase{
 
   protected registerIpcMainHandler(): void{  
     ipcMain.on("minimize-window", (event) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
       this._browserWindow?.minimize();
     });
   
     ipcMain.on("restore-window", (event) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
       if(this.browserWindow){
         if(this.browserWindow.isMaximized())
           this.browserWindow.restore();
@@ -39,8 +35,6 @@ class FramelessWindow extends WindowBase{
     });
   
     ipcMain.on("close-window", (event) => {
-      if(!this.isIpcMainEventBelongMe(event))
-        return;
       this.browserWindow?.close();
     });
   }
