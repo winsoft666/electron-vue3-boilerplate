@@ -1,11 +1,11 @@
 # 1. 写在前面
 已经有了那么多的 Electron 项目模板，为什么还要再造一个？是重复造轮子吗？
 
-我相信大多数人选择使用 Electron 开发客户端时，或多或少都看上了 Web 开发的高效率，但Web开发人员在客户端和系统编程方面的经验相对缺乏，又加上 Electron 和前端框架（如 Vue ）结合起来也不是那么的轻而易举，开发人员大多会选择基于模板来快速上手搭建Electron项目。
+我相信大多数人在选择使用 Electron 开发客户端时，或多或少都看上了 Web 开发的高效率，但 Web 开发人员在客户端和系统编程方面的经验相对缺乏，又加上 Electron 和前端框架（如 Vue ）结合起来也不是那么的容易，因此为了节省时间，开发人员大多会选择基于模板来快速上手搭建Electron 项目。
 
-目前，Electron 的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)、[electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)等。在这些模板中，有的功能过于完善，代码太复杂，远远超过了很多 Electron 客户端项目本身的代码量，需要花很多时间来熟悉模板，不适合新手快速上手和修改，一旦出现问题也难以维护；有的模板又年久失修，使用的技术早已被淘汰，也不适合用来开发线上产品，而且这些模板都有一个通病，都是在用Web开发的思维来开发客户端。
+目前，Electron 的模板项目已经有很多，比较流行的有[electron-vite](https://github.com/alex8088/electron-vite)、[electron-vite-vue](https://github.com/electron-vite/electron-vite-vue)等。这些已有的模板中，有的功能过于完善，代码太复杂，远远超过了很多 Electron 客户端项目本身的代码量，需要花很多时间来熟悉模板，不适合新手快速上手和修改，一旦出现问题也难以维护；而有的模板又年久失修，使用的技术早已被淘汰，也不适合用来开发线上产品，而且这些模板都有一个通病，都是在用 Web 开发的思维来开发客户端，很难开发出纯正地道的客户端产品。
 
-基于上述原因，我开发了这个 Electron 项目模板，在开发过程中，我一直遵循稳定、易于维护的初衷。
+基于上述原因，我开发了这个 Electron 项目模板，在开发过程中，我也一直遵循稳定、易于维护的初衷。
 
 # 2. electron-vue3-boilerplate
 
