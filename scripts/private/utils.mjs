@@ -10,6 +10,6 @@ function ToCamelName(name){
   return result;
 }
 
-exports = { 
+export { 
   ToCamelName 
 };
