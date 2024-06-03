@@ -2,10 +2,14 @@
  * @file 实现创建Electron窗口的快捷指令
  */
 
-const chalk = require("chalk");
-const path = require("path");
-const fs = require("fs");
-const { ToCamelName } = require("./private/utils");
+import chalk from "chalk";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+import { ToCamelName } from "./private/utils.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const outputTips = (message) => console.log(chalk.blue(`${message}`));
 const outputSuccess = (message) => console.log(chalk.green(`${message}`));

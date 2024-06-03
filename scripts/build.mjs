@@ -1,13 +1,17 @@
-const path = require("node:path");
-const fs = require("node:fs");
-const fsPromises = require("node:fs/promises");
-const chalk = require("chalk");
-const vite = require("vite");
-const compileTs = require("./private/tsc");
+import path from "path";
+import fs from "fs";
+import { fileURLToPath } from "url";
+import fsPromises from "fs/promises";
+import chalk from "chalk";
+import * as vite from "vite";
+import { CompileTS } from "./private/tsc.mjs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 function buildRenderer(){
   return vite.build({
-    configFile: path.join(__dirname, "../src/renderer/vite.config.js"),
+    configFile: path.join(__dirname, "../src/renderer/vite.config.mjs"),
     base: "./",
     mode: "production",
   });
@@ -15,7 +19,7 @@ function buildRenderer(){
 
 function buildMain(){
   const mainPath = path.join(__dirname, "../src/main");
-  return compileTs(mainPath);
+  return CompileTS(mainPath);
 }
 
 function copyStaticFiles(){

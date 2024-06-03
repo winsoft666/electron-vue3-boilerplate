@@ -54,10 +54,6 @@ class PrimaryWindow extends WindowBase{
         win.show();
       }
     });
-
-    ipcMain.on("clear-app-configuration", (event) => {
-      appState.cfgStore?.clear();
-    });
     
     function delay(time){
       return new Promise(resolve => setTimeout(resolve, time));
@@ -69,15 +65,11 @@ class PrimaryWindow extends WindowBase{
 
       this.browserWindow?.hide();
 
-      // 托盘气泡消息只显示一次，用配置文件记录是否已经显示
-      if(!appState.cfgStore?.get("TrayBalloonDisplayed", false) as boolean){
-        appState.cfgStore?.set("TrayBalloonDisplayed", true);
-        if(appState.tray){
-          appState.tray.displayBalloon({
-            title: "electron-vue-boilerplate",
-            content: "客户端已经最小化到系统托盘。\n\n该气泡消息配置为只会显示一次!"
-          });
-        }
+      if(appState.tray){
+        appState.tray.displayBalloon({
+          title: "electron-vue-boilerplate",
+          content: "客户端已经最小化到系统托盘!"
+        });
       }
     });
     

@@ -7,7 +7,6 @@ import { Tray, app, dialog } from "electron";
 import PrimaryWindow from "./windows/primary";
 import FramelessWindow from "./windows/frameless";
 import log from "electron-log/main";
-import ElectronStore from "electron-store";
 import { Singleton } from "../lib/utils/shared";
 import fd from "../lib/file-download/main";
 import utils from "../lib/utils/main";
@@ -62,11 +61,6 @@ class AppState extends Singleton{
 
     log.info(`Env: ${AppEnv[this.appEnv]}, Version: ${this._appVersion}`);
 
-    if(!this.initConfigFile()){
-      log.warn("Init config file failed");
-      return false;
-    }
-
     // 初始化文件下载组件
     fd.initialize();
 
@@ -97,9 +91,6 @@ class AppState extends Singleton{
 
   // 应用程序的环境（默认为生产环境）
   public readonly appEnv: AppEnv = AppEnv.Production;
-
-  // 配置文件读写
-  public cfgStore: null | ElectronStore = null;
 
   // 主窗口对象
   public primaryWindow: null | PrimaryWindow = null;
@@ -179,17 +170,6 @@ class AppState extends Singleton{
           });
       },
     });
-    return true;
-  }
-
-  // 初始化配置文件
-  protected initConfigFile() : boolean{
-    this.cfgStore = new ElectronStore({
-      name: "AppConfig",
-      fileExtension: "json",
-    });
-    ElectronStore.initRenderer();
-    console.log(`Config file path: ${this.cfgStore.path}`);
     return true;
   }
 }

@@ -3,9 +3,13 @@
  */
 
 /* eslint-disable */
-const chalk = require("chalk");
-const path = require("path");
-const fs = require("fs");
+import chalk from "chalk";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const outputTips = (message) => console.log(chalk.blue(`${message}`));
 const outputSuccess = (message) => console.log(chalk.green(`${message}`));

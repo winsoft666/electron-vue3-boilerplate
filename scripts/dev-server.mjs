@@ -1,12 +1,13 @@
-const childProcess = require("child_process");
-const path = require("path");
-const fs = require("fs");
-const { EOL } = require("os");
-const vite = require("vite");
-const chalk = require("chalk");
-const chokidar = require("chokidar");
-const electron = require("electron");
-const compileTs = require("./private/tsc");
+import childProcess from "child_process";
+import path from "path";
+import { fileURLToPath } from "url";
+import fs from "fs";
+import { EOL } from "os";
+import * as vite from "vite";
+import chalk from "chalk";
+import chokidar from "chokidar";
+import electron from "electron";
+import { CompileTS } from "./private/tsc.mjs";
 
 let viteServer = null;
 let electronProcess = null;
@@ -14,9 +15,12 @@ let electronProcessLocker = false;
 let rendererPort = 0;
 let envStr = process.argv[2];
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 async function startRenderer(){
   viteServer = await vite.createServer({
-    configFile: path.join(__dirname, "../src/renderer/vite.config.js"),
+    configFile: path.join(__dirname, "../src/renderer/vite.config.mjs"),
     mode: envStr,
   });
 
@@ -28,9 +32,10 @@ async function startElectron(){
     // single instance lock
     return;
   }
-
+  
   try {
-    await compileTs(path.join(__dirname, "..", "src"));
+    const tsDir = path.join(__dirname, "..", "src");
+    await CompileTS(tsDir);
   } catch {
     console.log(chalk.redBright("Could not start Electron because of the above typescript error(s)."));
     electronProcessLocker = false;

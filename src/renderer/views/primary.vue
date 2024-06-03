@@ -38,16 +38,6 @@
         </a-button>
       </a-space>
     </a-collapse-panel>
-    <a-collapse-panel key="2" header="应用配置">
-      <a-space>
-        <a-button @click="onClearAppConfiguration">
-          清空应用配置
-        </a-button>
-        <a-button @click="onGetAppConfiguration">
-          获取应用配置
-        </a-button>
-      </a-space>
-    </a-collapse-panel>
     <a-collapse-panel key="3" header="文件下载">
       <a-form
         :model="fdState" 
@@ -229,16 +219,6 @@ async function onGetFileMd5(){
         message.error(GetErrorMessage(e));
       });
   }
-}
-  
-function onClearAppConfiguration(){
-  // 清空本地配置
-  getElectronApi().clearAppConfiguration();
-  message.success("清空应用配置成功！");
-}
-  
-function onGetAppConfiguration(){
-    
 }
   
 // 开始下载文件
