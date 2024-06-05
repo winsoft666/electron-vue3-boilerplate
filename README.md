@@ -377,9 +377,6 @@ yarn add -D vue
 - electron-log
 提供本地日志文件的打印和输出。
 
-- electron-store
-提供本地配置文件的读取和写入功能。
-
 - @fortawesome-*
 提供对 FontAwesome 图标字体的支持。
 
