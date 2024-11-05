@@ -87,7 +87,7 @@ yarn run new:window # 创建新的Electron窗口
 > 
 > NSIS 只支持生成 Windows 平台安装包，如果您不需要使用生成 NSIS 安装包，可以跳过该节。
 > 
-> 更多NSIS介绍，可以查看我的 NSIS 教程：[《打包狂魔之NSIS教程》](https://jiangxueqiao.com/post/4015642655.html)
+> 更多NSIS介绍，可以查看我的 NSIS 教程：[《打包狂魔之NSIS教程》](https://blog.csdn.net/china_jeffery/category_9271543.html)
 
 **首先需要将`setup\NSIS\nsis-3.08.zip`文件解压到当前目录，即将文件释放到 nsis-3.08 目录，解压后的 nsis-3.08 目录结构如下：**
 
