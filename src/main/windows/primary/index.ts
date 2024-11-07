@@ -19,7 +19,18 @@ class PrimaryWindow extends WindowBase{
     // 拦截close事件
     this._browserWindow?.on("close", (e) => {
       if(!appState.allowExitApp){
-        this._browserWindow?.webContents.send("show-close-primary-win-msgbox");
+        const win = this._browserWindow;
+        if(win) {
+          if(win.isVisible()) {
+            if(win.isMinimized()) {
+              win.restore();
+            }
+          }
+          else {
+            win.show();
+          }
+          win.webContents.send("show-close-primary-win-msgbox");
+        }
         e.preventDefault();
       }
     });
@@ -63,7 +74,12 @@ class PrimaryWindow extends WindowBase{
       if(!this.isIpcMainEventBelongMe(event))
         return;
 
-      this.browserWindow?.hide();
+      if(process.platform == 'win32') {
+        this.browserWindow?.hide();
+      }
+      else { // macos or other
+        this.browserWindow?.minimize();
+      }
 
       if(appState.tray){
         appState.tray.displayBalloon({

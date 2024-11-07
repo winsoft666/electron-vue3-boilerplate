@@ -26,16 +26,34 @@ function CreateAppTray() : Tray{
       accelerator: "Alt+O",
       registerAccelerator: true,
       click: () => {
-        appState.primaryWindow?.browserWindow?.show();
+        const win = appState.primaryWindow?.browserWindow;
+        if(win) {
+          if(win.isVisible()) {
+            if(win.isMinimized()) {
+              win.restore();
+            }
+          }
+          else {
+            win.show();
+          }
+        }
       },
     },
     {
       label: "退出",
       type: "normal",
       click: () => {
-        if(appState.primaryWindow){
-          appState.primaryWindow.browserWindow?.show();
-          appState.primaryWindow.browserWindow?.webContents.send("show-exit-app-msgbox");
+        const win = appState.primaryWindow?.browserWindow;
+        if(win) {
+          if(win.isVisible()) {
+            if(win.isMinimized()) {
+              win.restore();
+            }
+          }
+          else {
+            win.show();
+          }
+          win.webContents.send("show-exit-app-msgbox");
         }
       },
     },

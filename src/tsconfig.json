@@ -9,6 +9,13 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "moduleResolution": "node",
+    "baseUrl": "./",
+    "paths": {
+      "@utils/*": ["src/lib/utils/*"],
+      "@lib/*": ["src/lib/*"],
+      "@file-download/*": ["src/file-download/*"]
+    }
   },
   "exclude": ["renderer"]
 }

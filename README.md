@@ -46,7 +46,7 @@
 推荐使用 `Visual Studio Code` 进行项目开发，并安装如下插件：
 
 - ESLint
-- Vue Language Features (Volar)
+- Vue - Official
 
 ### 2.2.2 安装依赖 ⏬
 
