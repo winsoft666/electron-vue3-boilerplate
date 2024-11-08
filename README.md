@@ -55,6 +55,12 @@ yarn install
 ```
 
 > 国内用户可以将 yarn 源设置为国内源，避免因网络问题导致安装依赖失败，设置方法可以参考：[《NPM和Yarn设置国内源》](https://jiangxueqiao.com/post/908211703.html)
+>
+> 在执行 build 命令打包时，electron-forge 会下载一些依赖组件，国内用户可能因网络问题下载失败。可以使用全局代理，并在终端中通过如下命令设置环境变量（命令中的IP和端口根据实际情况进行修改）：
+> 
+> set HTTP_PROXY=http://127.0.0.1:7890
+> 
+> set HTTPS_PROXY=http://127.0.0.1:7890
 
 ### 2.2.3 开发 ⚒️
 
