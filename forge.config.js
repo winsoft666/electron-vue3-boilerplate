@@ -2,6 +2,8 @@
 const fsPromises = require("fs/promises");
 const fs = require("fs");
 const path = require("path");
+// +++ 新增依赖 +++
+const JavaScriptObfuscator = require("javascript-obfuscator");
 
 async function prunePackageJson(buildPath) {
   const packageDotJsonPath = path.join(buildPath, "package.json");
@@ -31,6 +33,44 @@ async function prunePackageJson(buildPath) {
       }
   });
   await fsPromises.writeFile(packageDotJsonPath, JSON.stringify(json, null, "\t"));
+}
+
+// +++ 新增混淆函数 +++
+async function obfuscateMainProcess(buildPath) {
+  console.log('[混淆调试] 开始处理目录:', buildPath); // +++ 新增日志 +++
+  try {
+    // 匹配主进程 JS 文件（根据你的入口文件调整模式）
+    const dirs = await fsPromises.readdir(path.join(buildPath, 'build'), { recursive: true })
+    const files = dirs.filter(item => item.endsWith('.js'))
+    console.log(files, 'filesfilesfiles');
+    // 混淆配置（根据需求调整）
+    const obfuscationOptions = {
+      compact: true,
+      controlFlowFlattening: true,
+      controlFlowFlatteningThreshold: 0.75,
+      numbersToExpressions: true,
+      simplify: true,
+      stringArrayShuffle: true,
+      splitStrings: true,
+      stringArrayThreshold: 0.75,
+      reservedNames: [
+        'electron', 'require', 'module', 'exports',
+        'BrowserWindow', 'app'  // 保留 Electron 关键 API
+      ],
+      renameGlobals: false
+    };
+
+    // 批量混淆文件
+    for (const file of files) {
+      const filePath = path.join(buildPath, 'build', file);
+
+      const code = await fsPromises.readFile(filePath, "utf8");
+      const obfuscatedCode = JavaScriptObfuscator.obfuscate(code, obfuscationOptions).getObfuscatedCode();
+      await fsPromises.writeFile(filePath, obfuscatedCode);
+    }
+  } catch (error) {
+    throw new Error(`混淆失败: ${error.message}`);
+  }
 }
 
 module.exports = {
@@ -80,6 +120,8 @@ module.exports = {
       // 比如在拷贝完成后需要删除src目录
       //await fsPromises.rmdir(path.join(buildPath, "src"), { recursive: true });
 
+      // 加密生产代码，不影响 build 目录下代码
+      await obfuscateMainProcess(buildPath)
       // 精简package.json，删除无需暴露的属性
       await prunePackageJson(buildPath);
     },
